@@ -1,0 +1,66 @@
+---
+title: 06 Asia
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+---
+
+## Libraries
+```{r}
+#| results: false
+#| code-fold: true
+library(sf)
+library(tmap)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+```
+
+## Data wrangling
+```{r}
+#| results: false
+#| code-fold: true
+focus <- "Asia"
+lon0 <- 100
+lat0 <- 45
+proj <- str_glue("+proj=ortho lon_0={lon0} lat_0={lat0}")
+
+data("World")
+world <- World %>%
+  st_make_valid() %>%
+  select(continent)
+
+world_o <- world %>%
+  st_transform(proj) %>%
+  st_make_valid() %>%
+  filter(!st_is_empty(.)) %>%
+  group_by(continent) %>%
+  summarise() 
+
+continent <- world %>%
+  filter(continent == focus)
+```
+
+## `tmap`
+```{r}
+tm_shape(world_o) +
+  tm_fill() + 
+  tm_shape(continent) +
+  tm_fill(fill = "red") +
+  tm_layout(frame = FALSE)
+```
+
+## `ggplot2`
+```{r}
+ggplot(world_o) +
+  geom_sf(linewidth = 0) +
+  geom_sf(
+    data = continent, 
+    fill = "red", 
+    linewidth = 0) +
+  theme_void()
+```

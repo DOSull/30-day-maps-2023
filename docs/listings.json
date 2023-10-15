@@ -1,0 +1,13 @@
+[
+  {
+    "listing": "/maps/index.html",
+    "items": [
+      "/maps/01-points.html",
+      "/maps/02-lines.html",
+      "/maps/03-polygons.html",
+      "/maps/04-bad-map.html",
+      "/maps/06-asia.html",
+      "/maps/08-africa.html"
+    ]
+  }
+]

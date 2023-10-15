@@ -1,0 +1,57 @@
+---
+title: 02 Lines
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+---
+
+## Libraries
+```{r}
+#| results: false
+#| code-fold: true
+library(sf)
+library(tmap)
+library(dplyr)
+library(ggplot2)
+```
+
+## Data wrangling
+```{r}
+#| results: false
+#| code-fold: true
+nz <- st_read("data/nz.gpkg") %>%
+  st_cast("MULTILINESTRING") %>%
+  mutate(What = "Shore",
+         What = as.factor(What))
+```
+
+## `tmap`
+Some of this code is a workaround for an [issue I reported](https://github.com/r-tmap/tmap/issues/797).
+```{r}
+tm_shape(nz, bbox = nz %>% st_union() %>% st_buffer(500)) + 
+  tm_lines(
+    col = "blue",
+    lwd = 0.5) + 
+  tm_add_legend(
+    type = "lines",
+    col = c("blue"),
+    labels = c("Shore"),
+    title = "What") +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = FALSE,
+    legend.outside = TRUE)
+```
+
+## `ggplot2`
+```{r}
+ggplot(nz) +
+  geom_sf(aes(colour = What), linewidth = 0.25) +
+  scale_colour_manual(values = c("blue")) +
+  theme_void()
+```
+

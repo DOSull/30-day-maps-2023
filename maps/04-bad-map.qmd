@@ -1,0 +1,71 @@
+---
+title: 04 Bad Map
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+---
+
+## Libraries
+```{r}
+#| results: false
+#| code-fold: true
+library(sf)
+library(tmap)
+library(dplyr)
+library(ggplot2)
+```
+
+## Data wrangling
+```{r}
+#| results: false
+#| code-fold: true
+sh1 <- st_read("data/sh1.gpkg") %>%
+  st_transform(4326) %>%
+  select(geom) %>%
+  mutate(Mode = "Road")
+interislander <- st_read("data/interislander.gpkg") %>%
+  st_transform(4326) %>%
+  select(geom) %>%
+  mutate(Mode = "Boat")
+combined <- sh1 %>%
+  bind_rows(interislander) %>%
+  mutate(Mode = as.factor(Mode))
+```
+
+## `tmap`
+```{r}
+tm_shape(combined) +
+  tm_lines(
+    col = "Mode",
+    col.scale = tm_scale_categorical(
+      values = c("red", "blue"),
+      levels = c("Road", "Boat")),
+    lty = "Mode",
+    lty.scale = tm_scale_categorical(
+      values = c("solid", "dashed"),
+      levels = c("Road", "Boat")),
+    lty.legend = tm_legend_combine("col"),
+    lwd = 0.5) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = FALSE,
+    legend.outside = TRUE) +
+  tm_compass()
+```
+
+## `ggplot2`
+Here we need an additional package. `ggspatial` can do it and seems preferable the not-very-configurable `ggsn`. The configurability of `ggspatial` seems a bit over the top for a simple map like this. On the other hand its default north arrow is very on brand for the themes "Bad Map"!
+```{r}
+library(ggspatial)
+
+ggplot(combined) +
+  geom_sf(aes(colour = Mode, linetype = Mode), linewidth = 0.2) +
+  scale_colour_manual(values = c("blue", "red")) +
+  scale_linetype_manual(values = c("dotted", "solid")) +
+  annotation_north_arrow(location = "br") + 
+  theme_void()
+```

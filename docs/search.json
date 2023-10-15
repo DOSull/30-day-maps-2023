@@ -1,0 +1,191 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I decided to give this a go as a learning exercise. I’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead. So… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each."
+  },
+  {
+    "objectID": "maps/04-bad-map.html",
+    "href": "maps/04-bad-map.html",
+    "title": "04 Bad Map",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/04-bad-map.html#data-wrangling",
+    "href": "maps/04-bad-map.html#data-wrangling",
+    "title": "04 Bad Map",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nsh1 <- st_read(\"data/sh1.gpkg\") %>%\n  st_transform(4326) %>%\n  select(geom) %>%\n  mutate(Mode = \"Road\")\ninterislander <- st_read(\"data/interislander.gpkg\") %>%\n  st_transform(4326) %>%\n  select(geom) %>%\n  mutate(Mode = \"Boat\")\ncombined <- sh1 %>%\n  bind_rows(interislander) %>%\n  mutate(Mode = as.factor(Mode))"
+  },
+  {
+    "objectID": "maps/04-bad-map.html#tmap",
+    "href": "maps/04-bad-map.html#tmap",
+    "title": "04 Bad Map",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(combined) +\n  tm_lines(\n    col = \"Mode\",\n    col.scale = tm_scale_categorical(\n      values = c(\"red\", \"blue\"),\n      levels = c(\"Road\", \"Boat\")),\n    lty = \"Mode\",\n    lty.scale = tm_scale_categorical(\n      values = c(\"solid\", \"dashed\"),\n      levels = c(\"Road\", \"Boat\")),\n    lty.legend = tm_legend_combine(\"col\"),\n    lwd = 0.5) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE) +\n  tm_compass()"
+  },
+  {
+    "objectID": "maps/04-bad-map.html#ggplot2",
+    "href": "maps/04-bad-map.html#ggplot2",
+    "title": "04 Bad Map",
+    "section": "ggplot2",
+    "text": "ggplot2\nHere we need an additional package. ggspatial can do it and seems preferable the not-very-configurable ggsn. The configurability of ggspatial seems a bit over the top for a simple map like this. On the other hand its default north arrow is very on brand for the themes “Bad Map”!\n\nlibrary(ggspatial)\n\nggplot(combined) +\n  geom_sf(aes(colour = Mode, linetype = Mode), linewidth = 0.2) +\n  scale_colour_manual(values = c(\"blue\", \"red\")) +\n  scale_linetype_manual(values = c(\"dotted\", \"solid\")) +\n  annotation_north_arrow(location = \"br\") + \n  theme_void()"
+  },
+  {
+    "objectID": "maps/02-lines.html",
+    "href": "maps/02-lines.html",
+    "title": "02 Lines",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/02-lines.html#data-wrangling",
+    "href": "maps/02-lines.html#data-wrangling",
+    "title": "02 Lines",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nnz <- st_read(\"data/nz.gpkg\") %>%\n  st_cast(\"MULTILINESTRING\") %>%\n  mutate(What = \"Shore\",\n         What = as.factor(What))"
+  },
+  {
+    "objectID": "maps/02-lines.html#tmap",
+    "href": "maps/02-lines.html#tmap",
+    "title": "02 Lines",
+    "section": "tmap",
+    "text": "tmap\nSome of this code is a workaround for an issue I reported.\n\ntm_shape(nz, bbox = nz %>% st_union() %>% st_buffer(500)) + \n  tm_lines(\n    col = \"blue\",\n    lwd = 0.5) + \n  tm_add_legend(\n    type = \"lines\",\n    col = c(\"blue\"),\n    labels = c(\"Shore\"),\n    title = \"What\") +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
+  },
+  {
+    "objectID": "maps/02-lines.html#ggplot2",
+    "href": "maps/02-lines.html#ggplot2",
+    "title": "02 Lines",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(nz) +\n  geom_sf(aes(colour = What), linewidth = 0.25) +\n  scale_colour_manual(values = c(\"blue\")) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/01-points.html",
+    "href": "maps/01-points.html",
+    "title": "01 Points",
+    "section": "",
+    "text": "The first three themes (points, lines, areas) all work with the same data. I’m making a meta-point about the somewhat arbitrary nature of geometries in spatial data (a polygon is after all conceputalised as a point set)."
+  },
+  {
+    "objectID": "maps/01-points.html#libraries",
+    "href": "maps/01-points.html#libraries",
+    "title": "01 Points",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/01-points.html#data-wrangling",
+    "href": "maps/01-points.html#data-wrangling",
+    "title": "01 Points",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nw <- 500\n\nnz <- st_read(\"data/nz.gpkg\") %>%\n  mutate(Land = TRUE)\n\nbb <- nz %>% \n  st_bbox() %>%\n  st_as_sfc() %>%\n  st_as_sf(crs = st_crs(nz)) %>%\n  st_buffer(w, nQuadSegs = 1) \n\nshore <- nz %>% \n  st_cast(\"MULTILINESTRING\") %>%\n  st_cast(\"LINESTRING\") %>%\n  st_buffer(w) %>%\n  st_as_sfc() %>%\n  st_as_sf(crs = st_crs(nz)) %>%\n  mutate(Shore = TRUE)\n\nland <- nz %>%\n  st_union() %>%\n  st_buffer(w)\n\nwater <- bb %>%\n  st_difference(land) %>%\n  mutate(Water = TRUE)\n\npts <- bb %>%\n  st_sample(250000) %>%\n  st_sf() %>%\n  st_as_sf(crs = st_crs(nz)) %>%\n  st_join(water) %>%\n  st_join(nz) %>%\n  st_join(shore) %>%\n  mutate(Water = replace_na(Water, FALSE),\n         Land  = replace_na(Land, FALSE),\n         Shore = replace_na(Shore, FALSE),\n         What = NA) %>%\n  slice(sample(1:n()))\n\npts[pts$Water, \"What\"] <- \"Water\"\npts[pts$Land, \"What\"] <- \"Land\"\npts[pts$Shore, \"What\"] <- \"Shore\"\n\npts <- pts %>%\n  mutate(What = as.factor(What)) %>%\n  filter(!is.na(What))"
+  },
+  {
+    "objectID": "maps/01-points.html#tmap",
+    "href": "maps/01-points.html#tmap",
+    "title": "01 Points",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(pts) + \n  tm_bubbles(\n    fill = \"What\",\n    fill.scale = tm_scale_categorical(\n      values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\"),\n      levels = c(\"Land\", \"Shore\", \"Water\")), \n    size = 0.2,\n    lwd = 0) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
+  },
+  {
+    "objectID": "maps/01-points.html#ggplot2",
+    "href": "maps/01-points.html#ggplot2",
+    "title": "01 Points",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(pts) +\n  geom_sf(aes(colour = What), size = 0.2) +\n  scale_colour_manual(values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\")) + \n  theme_void()"
+  },
+  {
+    "objectID": "maps/index.html",
+    "href": "maps/index.html",
+    "title": "30 Day Map Challenge 2023",
+    "section": "",
+    "text": "I decided to give this a go as a learning exercise. I’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead. So… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "maps/06-asia.html",
+    "href": "maps/06-asia.html",
+    "title": "06 Asia",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/06-asia.html#data-wrangling",
+    "href": "maps/06-asia.html#data-wrangling",
+    "title": "06 Asia",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nfocus <- \"Asia\"\nlon0 <- 100\nlat0 <- 45\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\ndata(\"World\")\nworld <- World %>%\n  st_make_valid() %>%\n  select(continent)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(continent) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(continent == focus)"
+  },
+  {
+    "objectID": "maps/06-asia.html#tmap",
+    "href": "maps/06-asia.html#tmap",
+    "title": "06 Asia",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/06-asia.html#ggplot2",
+    "href": "maps/06-asia.html#ggplot2",
+    "title": "06 Asia",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/08-africa.html",
+    "href": "maps/08-africa.html",
+    "title": "08 Africa",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/08-africa.html#data-wrangling",
+    "href": "maps/08-africa.html#data-wrangling",
+    "title": "08 Africa",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nfocus <- \"Africa\"\nlon0 <- 21\nlat0 <- 0\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\ndata(\"World\")\nworld <- World %>%\n  st_make_valid() %>%\n  select(continent)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(continent) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(continent == focus)"
+  },
+  {
+    "objectID": "maps/08-africa.html#tmap",
+    "href": "maps/08-africa.html#tmap",
+    "title": "08 Africa",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/08-africa.html#ggplot2",
+    "href": "maps/08-africa.html#ggplot2",
+    "title": "08 Africa",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/03-polygons.html",
+    "href": "maps/03-polygons.html",
+    "title": "03 Polygons",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/03-polygons.html#data-wrangling",
+    "href": "maps/03-polygons.html#data-wrangling",
+    "title": "03 Polygons",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nnz <- st_read(\"data/nz.gpkg\") %>%\n  st_union() %>%\n  st_as_sf() %>%\n  mutate(What = \"Land\")\n\nnot_nz <- nz %>% \n  st_union() %>%\n  st_buffer(500) %>%\n  st_bbox() %>%\n  st_as_sfc() %>%\n  st_as_sf() %>%\n  st_difference(nz) %>%\n  mutate(What = \"Water\")\n\nnz_not_nz <- nz %>%\n  bind_rows(not_nz) %>%\n  mutate(What = as.factor(What))"
+  },
+  {
+    "objectID": "maps/03-polygons.html#tmap",
+    "href": "maps/03-polygons.html#tmap",
+    "title": "03 Polygons",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(nz_not_nz) + \n  tm_fill(\n    fill = \"What\", \n    fill.scale = tm_scale_categorical(\n      values = c(\"#33aa66\", \"#bbddff\"),\n      levels = c(\"Land\", \"Water\"))) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
+  },
+  {
+    "objectID": "maps/03-polygons.html#ggplot2",
+    "href": "maps/03-polygons.html#ggplot2",
+    "title": "03 Polygons",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(nz_not_nz) +\n  geom_sf(aes(fill = What), linewidth = 0) +\n  scale_fill_manual(values = c(\"#33aa66\", \"#bbddff\")) +\n  theme_void()"
+  }
+]

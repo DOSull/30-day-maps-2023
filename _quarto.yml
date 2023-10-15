@@ -1,0 +1,20 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "30 Day Map Challenge 2023"
+  navbar:
+    left:
+      - href: maps/index.qmd
+        text: Home
+
+format:
+  html:
+    theme: simplex
+    toc: true
+    css: styles.css
+    df-print: kable
+
+
+

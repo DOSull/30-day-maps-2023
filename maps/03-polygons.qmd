@@ -1,0 +1,65 @@
+---
+title: 03 Polygons
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+---
+
+## Libraries
+```{r}
+#| results: false
+#| code-fold: true
+library(sf)
+library(tmap)
+library(dplyr)
+library(ggplot2)
+```
+
+## Data wrangling
+```{r}
+#| results: false
+#| code-fold: true
+nz <- st_read("data/nz.gpkg") %>%
+  st_union() %>%
+  st_as_sf() %>%
+  mutate(What = "Land")
+
+not_nz <- nz %>% 
+  st_union() %>%
+  st_buffer(500) %>%
+  st_bbox() %>%
+  st_as_sfc() %>%
+  st_as_sf() %>%
+  st_difference(nz) %>%
+  mutate(What = "Water")
+
+nz_not_nz <- nz %>%
+  bind_rows(not_nz) %>%
+  mutate(What = as.factor(What))
+```
+
+## `tmap`
+```{r}
+tm_shape(nz_not_nz) + 
+  tm_fill(
+    fill = "What", 
+    fill.scale = tm_scale_categorical(
+      values = c("#33aa66", "#bbddff"),
+      levels = c("Land", "Water"))) +
+  tm_layout(
+    frame = FALSE,
+    legend.frame = FALSE,
+    legend.outside = TRUE)
+```
+
+## `ggplot2`
+```{r}
+ggplot(nz_not_nz) +
+  geom_sf(aes(fill = What), linewidth = 0) +
+  scale_fill_manual(values = c("#33aa66", "#bbddff")) +
+  theme_void()
+```

@@ -44,3 +44,8 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+_freeze/
+*/*cache*/
+maps/*files/
+maps/data/
