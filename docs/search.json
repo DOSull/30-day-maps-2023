@@ -98,11 +98,95 @@
     "text": "ggplot2\n\nggplot(pts) +\n  geom_sf(aes(colour = What), size = 0.2) +\n  scale_colour_manual(values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\")) + \n  theme_void()"
   },
   {
+    "objectID": "maps/16-europe.html",
+    "href": "maps/16-europe.html",
+    "title": "16 Europe",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/16-europe.html#data-wrangling",
+    "href": "maps/16-europe.html#data-wrangling",
+    "title": "16 Europe",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nfocus <- \"Europe\"\nlon0 <- 30\nlat0 <- 60\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
+  },
+  {
+    "objectID": "maps/16-europe.html#tmap",
+    "href": "maps/16-europe.html#tmap",
+    "title": "16 Europe",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/16-europe.html#ggplot2",
+    "href": "maps/16-europe.html#ggplot2",
+    "title": "16 Europe",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/10-north-america.html",
+    "href": "maps/10-north-america.html",
+    "title": "10 North America",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/10-north-america.html#data-wrangling",
+    "href": "maps/10-north-america.html#data-wrangling",
+    "title": "10 North America",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nfocus <- \"North America\"\nlon0 <- -105\nlat0 <- 45\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
+  },
+  {
+    "objectID": "maps/10-north-america.html#tmap",
+    "href": "maps/10-north-america.html#tmap",
+    "title": "10 North America",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/10-north-america.html#ggplot2",
+    "href": "maps/10-north-america.html#ggplot2",
+    "title": "10 North America",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/12-south-america.html",
+    "href": "maps/12-south-america.html",
+    "title": "12 South America",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/12-south-america.html#data-wrangling",
+    "href": "maps/12-south-america.html#data-wrangling",
+    "title": "12 South America",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nfocus <- \"South America\"\nlon0 <- -62\nlat0 <- -21\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
+  },
+  {
+    "objectID": "maps/12-south-america.html#tmap",
+    "href": "maps/12-south-america.html#tmap",
+    "title": "12 South America",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/12-south-america.html#ggplot2",
+    "href": "maps/12-south-america.html#ggplot2",
+    "title": "12 South America",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
     "objectID": "maps/index.html",
     "href": "maps/index.html",
     "title": "30 Day Map Challenge 2023",
     "section": "",
-    "text": "I decided to give this a go as a learning exercise. I’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead. So… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "I decided to give this a go as a learning exercise. I’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead. So… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n16 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "maps/06-asia.html",
@@ -116,7 +200,7 @@
     "href": "maps/06-asia.html#data-wrangling",
     "title": "06 Asia",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus <- \"Asia\"\nlon0 <- 100\nlat0 <- 45\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\ndata(\"World\")\nworld <- World %>%\n  st_make_valid() %>%\n  select(continent)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(continent) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(continent == focus)"
+    "text": "Data wrangling\n\n\nCode\nfocus <- \"Asia\"\nlon0 <- 100\nlat0 <- 45\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
   },
   {
     "objectID": "maps/06-asia.html#tmap",
@@ -144,7 +228,7 @@
     "href": "maps/08-africa.html#data-wrangling",
     "title": "08 Africa",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus <- \"Africa\"\nlon0 <- 21\nlat0 <- 0\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\ndata(\"World\")\nworld <- World %>%\n  st_make_valid() %>%\n  select(continent)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(continent) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(continent == focus)"
+    "text": "Data wrangling\n\n\nCode\nfocus <- \"Africa\"\nlon0 <- 20\nlat0 <- 0\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
   },
   {
     "objectID": "maps/08-africa.html#tmap",
@@ -157,6 +241,62 @@
     "objectID": "maps/08-africa.html#ggplot2",
     "href": "maps/08-africa.html#ggplot2",
     "title": "08 Africa",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/25-antarctica.html",
+    "href": "maps/25-antarctica.html",
+    "title": "25 Antarctica",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/25-antarctica.html#data-wrangling",
+    "href": "maps/25-antarctica.html#data-wrangling",
+    "title": "25 Antarctica",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nfocus <- \"Antarctica\"\nlon0 <- 0\nlat0 <- -90\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
+  },
+  {
+    "objectID": "maps/25-antarctica.html#tmap",
+    "href": "maps/25-antarctica.html#tmap",
+    "title": "25 Antarctica",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/25-antarctica.html#ggplot2",
+    "href": "maps/25-antarctica.html#ggplot2",
+    "title": "25 Antarctica",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/14-oceania.html",
+    "href": "maps/14-oceania.html",
+    "title": "14 Oceania",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/14-oceania.html#data-wrangling",
+    "href": "maps/14-oceania.html#data-wrangling",
+    "title": "14 Oceania",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nfocus <- \"Oceania\"\nlon0 <- 170\nlat0 <- -10\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
+  },
+  {
+    "objectID": "maps/14-oceania.html#tmap",
+    "href": "maps/14-oceania.html#tmap",
+    "title": "14 Oceania",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/14-oceania.html#ggplot2",
+    "href": "maps/14-oceania.html#ggplot2",
+    "title": "14 Oceania",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },

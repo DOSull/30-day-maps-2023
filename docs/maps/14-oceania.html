@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>30 Day Map Challenge 2023 - 08 Africa</title>
+<title>30 Day Map Challenge 2023 - 14 Oceania</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -173,7 +173,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">08 Africa</h1>
+<h1 class="title">14 Oceania</h1>
 </div>
 
 
@@ -190,7 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="libraries" class="level2">
 <h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
-<div class="cell" data-hash="08-africa_cache/html/unnamed-chunk-1_7293ef25386bb2f1ccc498e3a74fcbf5">
+<div class="cell" data-hash="14-oceania_cache/html/unnamed-chunk-1_a7b8901f37129ab4a0d613818e2e730e">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
@@ -203,16 +203,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="data-wrangling" class="level2">
 <h2 class="anchored" data-anchor-id="data-wrangling">Data wrangling</h2>
-<div class="cell" data-hash="08-africa_cache/html/unnamed-chunk-2_45455635916ff186c4b51d109d3b32e7">
+<div class="cell" data-hash="14-oceania_cache/html/unnamed-chunk-2_7daa207e9e40f70520215d2a91fd9d32">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>focus <span class="ot">&lt;-</span> <span class="st">"Africa"</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>lon0 <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>lat0 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>focus <span class="ot">&lt;-</span> <span class="st">"Oceania"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>lon0 <span class="ot">&lt;-</span> <span class="dv">170</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>lat0 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">10</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>proj <span class="ot">&lt;-</span> <span class="fu">str_glue</span>(<span class="st">"+proj=ortho lon_0={lon0} lat_0={lat0}"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-hash="08-africa_cache/html/unnamed-chunk-3_07d06beaedc7abfb82bb22466556481e">
+<div class="cell" data-hash="14-oceania_cache/html/unnamed-chunk-3_2a2137d68bbe5cfe74052bbcc616f824">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/world.gpkg"</span>) <span class="sc">%&gt;%</span></span>
@@ -233,20 +233,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="tmap" class="level2">
 <h2 class="anchored" data-anchor-id="tmap"><code>tmap</code></h2>
-<div class="cell" data-hash="08-africa_cache/html/unnamed-chunk-4_1ecdbf5e0d9438cb28c3f55f253dffe3">
+<div class="cell" data-hash="14-oceania_cache/html/unnamed-chunk-4_665e013e605a4d484369d8a19bab76b0">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(world_o) <span class="sc">+</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>() <span class="sc">+</span> </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(continent) <span class="sc">+</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">fill =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">frame =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="08-africa_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="14-oceania_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
 <section id="ggplot2" class="level2">
 <h2 class="anchored" data-anchor-id="ggplot2"><code>ggplot2</code></h2>
-<div class="cell" data-hash="08-africa_cache/html/unnamed-chunk-5_c127293ae3240790cf1ffbfcf44e5b51">
+<div class="cell" data-hash="14-oceania_cache/html/unnamed-chunk-5_44710e3eec3c6e3b8260eb5268c2c71a">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(world_o) <span class="sc">+</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">linewidth =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(</span>
@@ -255,7 +255,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="08-africa_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="14-oceania_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 

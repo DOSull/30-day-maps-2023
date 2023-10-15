@@ -1,5 +1,5 @@
 ---
-title: 06 Asia
+title: 10 North America
 execute: 
   cache: true
   freeze: auto
@@ -24,8 +24,8 @@ library(ggplot2)
 ```{r}
 #| results: false
 #| code-fold: true
-focus <- "Asia"
-lon0 <- 100
+focus <- "North America"
+lon0 <- -105
 lat0 <- 45
 proj <- str_glue("+proj=ortho lon_0={lon0} lat_0={lat0}")
 ```

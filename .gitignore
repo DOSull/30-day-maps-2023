@@ -49,3 +49,5 @@ _freeze/
 */*cache*/
 maps/*files/
 maps/data/
+
+/.quarto/

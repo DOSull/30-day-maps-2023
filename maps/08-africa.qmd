@@ -25,24 +25,27 @@ library(ggplot2)
 #| results: false
 #| code-fold: true
 focus <- "Africa"
-lon0 <- 21
+lon0 <- 20
 lat0 <- 0
 proj <- str_glue("+proj=ortho lon_0={lon0} lat_0={lat0}")
+```
 
-data("World")
-world <- World %>%
+```{r}
+#| results: false
+#| code-fold: true
+world <- st_read("data/world.gpkg") %>%
   st_make_valid() %>%
-  select(continent)
+  select(CONTINENT)
 
 world_o <- world %>%
   st_transform(proj) %>%
   st_make_valid() %>%
   filter(!st_is_empty(.)) %>%
-  group_by(continent) %>%
+  group_by(CONTINENT) %>%
   summarise() 
 
 continent <- world %>%
-  filter(continent == focus)
+  filter(CONTINENT == focus)
 ```
 
 ## `tmap`
