@@ -32,7 +32,7 @@
     "href": "maps/04-bad-map.html#ggplot2",
     "title": "04 Bad Map",
     "section": "ggplot2",
-    "text": "ggplot2\nHere we need an additional package. ggspatial can do it and seems preferable the not-very-configurable ggsn. The configurability of ggspatial seems a bit over the top for a simple map like this. On the other hand its default north arrow is very on brand for the themes “Bad Map”!\n\nlibrary(ggspatial)\n\nggplot(combined) +\n  geom_sf(aes(colour = Mode, linetype = Mode), linewidth = 0.2) +\n  scale_colour_manual(values = c(\"blue\", \"red\")) +\n  scale_linetype_manual(values = c(\"dotted\", \"solid\")) +\n  annotation_north_arrow(location = \"br\") + \n  theme_void()"
+    "text": "ggplot2\nHere we need an additional package. ggspatial can do it and seems preferable to the not-very-configurable ggsn. The configurability of ggspatial seems a bit over the top for a simple map like this. On the other hand its default north arrow is very on brand for the themes “Bad Map”!\n\nlibrary(ggspatial)\n\nggplot(combined) +\n  geom_sf(aes(colour = Mode, linetype = Mode), linewidth = 0.2) +\n  scale_colour_manual(values = c(\"blue\", \"red\")) +\n  scale_linetype_manual(values = c(\"dotted\", \"solid\")) +\n  annotation_north_arrow(location = \"br\") + \n  theme_void()"
   },
   {
     "objectID": "maps/02-lines.html",
@@ -186,7 +186,42 @@
     "href": "maps/index.html",
     "title": "30 Day Map Challenge 2023",
     "section": "",
-    "text": "I decided to give this a go as a learning exercise. I’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead. So… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n16 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "I decided to give this a go as a learning exercise. I’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead. So… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n09 Hexes\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n16 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n22 North is Not Up\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "maps/09-hexes.html",
+    "href": "maps/09-hexes.html",
+    "title": "09 Hexes",
+    "section": "",
+    "text": "Wishing to use a static web basemap increased the degree of difficulty here.\nHaving said that, tmap’s built in tm_basemap() function seems promising and intuitive.\nA bit of hunting around suggests that the ggspatial package’s annotation_map_tile() function is the best for basemaps in ggplot2."
+  },
+  {
+    "objectID": "maps/09-hexes.html#libraries",
+    "href": "maps/09-hexes.html#libraries",
+    "title": "09 Hexes",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(dplyr)\nlibrary(h3forr)\nlibrary(tmap)\nlibrary(sf)\nlibrary(ggplot2)\nlibrary(stringr)"
+  },
+  {
+    "objectID": "maps/09-hexes.html#data-wrangling",
+    "href": "maps/09-hexes.html#data-wrangling",
+    "title": "09 Hexes",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nsquare <- c(1.74e6 + 1e4 * c(0, 0, 1, 1, 0), \n            5.42e6 + 1e4 * c(0, 1, 1, 0, 0)) %>%\n  matrix(ncol = 2) %>%\n  list() %>%\n  st_polygon() %>%\n  st_sfc() %>%\n  st_sf(crs = 2193) %>%\n  st_transform(4326)\n\nget_hexes <- function(poly, resolution, distance) {\n  poly %>% \n    st_buffer(distance) %>%\n    polyfill(res = resolution) %>% \n    h3_to_geo_boundary() %>% \n    geo_boundary_to_sf()\n}\n\nh3_5 <- get_hexes(square, 5, 5000) %>% \n  st_cast(\"LINESTRING\")\nh3_6 <- get_hexes(square, 6, 2500) %>% \n  st_cast(\"LINESTRING\")\nh3_7 <- get_hexes(square, 7, 1500) %>% \n  st_cast(\"LINESTRING\")\nh3_8 <- get_hexes(square, 8, 1000) %>% \n  st_cast(\"LINESTRING\")\nh3_9 <- get_hexes(square, 9, 750) %>% \n  st_cast(\"LINESTRING\")\nh3_10 <- get_hexes(square, 10, 500) %>% \n  st_cast(\"LINESTRING\")\n\nbb <- h3_10 %>% \n  st_union() %>%\n  st_bbox()\n\ncredit <- maptiles::get_credit(\"OpenStreetMap\")"
+  },
+  {
+    "objectID": "maps/09-hexes.html#tmap",
+    "href": "maps/09-hexes.html#tmap",
+    "title": "09 Hexes",
+    "section": "tmap",
+    "text": "tmap\ntmap v4 has a built-in web basemap function. The raster downscaling kicks in to make the image a bit unsatisfactory, but I assume that option will be tweakable in due course.\n\ntm_basemap(server = \"OpenStreetMap\", zoom = 12) +\n  tm_shape(h3_5) + \n  tm_lines(lwd = 3.5) +\n  tm_shape(h3_6) + \n  tm_lines(lwd = 2.5) +\n  tm_shape(h3_7) + \n  tm_lines(lwd = 1.5) +\n  tm_shape(h3_8) + \n  tm_lines(lwd = 1) +\n  tm_shape(h3_9) + \n  tm_lines(lwd = 0.7) +\n  tm_shape(h3_10, is.main = TRUE) + \n  tm_lines(lwd = 0.5) +\n  tm_credits(\n    credit,\n    position = tm_pos_out(pos.h = \"RIGHT\", pos.v = \"TOP\",\n                          cell.h = \"center\", cell.v = \"bottom\")) + \n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/09-hexes.html#ggplot2",
+    "href": "maps/09-hexes.html#ggplot2",
+    "title": "09 Hexes",
+    "section": "ggplot2",
+    "text": "ggplot2\nggspatial seems the best option for a static background basemap.\n\nlibrary(ggspatial)\n\nggplot(square, aes(colour = \"#00000000\")) +\n  annotation_map_tile(zoomin = 1) + \n  geom_sf(data = h3_5, linewidth = 1, colour = \"black\") +\n  geom_sf(data = h3_6, linewidth = 0.75, colour = \"black\") +\n  geom_sf(data = h3_7, linewidth = 0.6, colour = \"black\") +\n  geom_sf(data = h3_8, linewidth = 0.45, colour = \"black\") +\n  geom_sf(data = h3_9, linewidth = 0.35, colour = \"black\") +\n  geom_sf(data = h3_10, linewidth = 0.25, colour = \"black\") +\n  xlim(bb[1], bb[3]) +\n  ylim(bb[2], bb[4]) +\n  theme_void()"
   },
   {
     "objectID": "maps/06-asia.html",
@@ -277,28 +312,63 @@
     "href": "maps/07-navigation.html",
     "title": "07 Navigation",
     "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(geosphere)\nlibrary(ggplot2)\nlibrary(stringr)\n\nsource(\"utils.R\")"
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(geosphere)\nlibrary(ggplot2)\nlibrary(stringr)\n\nsource(\"~/Documents/code/30-day-maps-2023/maps/utils.R\")"
   },
   {
     "objectID": "maps/07-navigation.html#data-wrangling",
     "href": "maps/07-navigation.html#data-wrangling",
     "title": "07 Navigation",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nstart_lat <- -41.3\nstart_lon <- 174.75\nend_lat <- 45\northo_proj <- str_glue(\"+proj=ortho +lat_0={start_lat} +lon_0={174.75}\")\nbearing <- -88.5\nstep_length <- 5e4\nlast_pt <- c(start_lon, start_lat)\nlox <- list()\ntransect <- last_pt\ni <- 1\nwhile (last_pt[2] < end_lat) {\n  next_pt <- destPointRhumb(last_pt, bearing, step_length)\n  if (next_pt[1] > last_pt[1]) {\n    lox[[i]] <- transect\n    i <- i + 1\n    transect <- c(next_pt)\n  } else {\n    transect <- c(transect, next_pt)\n  }\n  last_pt <- next_pt\n}\nlox[[i]] <- transect\n\nlox_sf <- lox %>%\n  lapply(unlist) %>%\n  lapply(matrix, ncol = 2, byrow = TRUE) %>%\n  st_multilinestring() %>%\n  st_sfc() %>%\n  st_sf(crs = 4326) %>%\n  st_cast(\"LINESTRING\") %>%\n  st_cast(\"POINT\")\n\ndata(\"World\")\nworld <- World %>%\n  st_cast(\"POLYGON\") %>%\n  st_transform(ortho_proj) %>%\n  dplyr::filter(!(st_is_empty(geometry)))\n\ngraticule <- c(get_meridians(), get_parallels()) %>%\n  st_sfc(crs = 4326) %>%\n  st_transform(ortho_proj)"
+    "text": "Data wrangling\n\n\nCode\nstart_lat <- -41.3\nstart_lon <- 174.75\nend_lat <- 45\northo_proj <- str_glue(\"+proj=ortho +lat_0={start_lat} +lon_0={174.75}\")\nbearing <- -88.5\nstep_length <- 5e4\nlast_pt <- c(start_lon, start_lat)\nlox <- list()\ntransect <- last_pt\ni <- 1\nwhile (last_pt[2] < end_lat) {\n  next_pt <- destPointRhumb(last_pt, bearing, step_length)\n  if (next_pt[1] > last_pt[1]) {\n    lox[[i]] <- transect\n    i <- i + 1\n    transect <- c(next_pt)\n  } else {\n    transect <- c(transect, next_pt)\n  }\n  last_pt <- next_pt\n}\nlox[[i]] <- transect\n\nlox_sf <- lox %>%\n  lapply(unlist) %>%\n  lapply(matrix, ncol = 2, byrow = TRUE) %>%\n  st_multilinestring() %>%\n  st_sfc() %>%\n  st_sf(crs = 4326) %>%\n  st_cast(\"LINESTRING\") %>%\n  st_cast(\"POINT\")\n\ndata(\"World\")\nworld <- World %>%\n  st_cast(\"POLYGON\") %>%\n  st_transform(ortho_proj) %>%\n  dplyr::filter(!(st_is_empty(geometry)))\n\ngraticule <- get_graticule(centre = c(start_lon, start_lat)) %>%\n  st_transform(ortho_proj)"
   },
   {
     "objectID": "maps/07-navigation.html#tmap",
     "href": "maps/07-navigation.html#tmap",
     "title": "07 Navigation",
     "section": "tmap",
-    "text": "tmap\n\ntm_shape(world, bbox = lox_sf) +\n  tm_fill(fill = \"#cccccc\", lwd = 0) +\n  tm_shape(graticule) +\n  tm_lines(col = \"grey\", lwd = 0.5) +\n  tm_shape(lox_sf) +\n  tm_dots(fill = \"firebrick\", size = 0.001) +\n  # tm_title(\"    Go (just north of) west! See also Day 22\") +\n  tm_layout(frame = FALSE)"
+    "text": "tmap\nAt time of writing there is a bug in tm_title so no title on this map. See this issue.\nNote that I hand made the graticule using code from a sourced R file which trims the graticule to only extend across the mapped area. Neither tmap nor ggplot2 successfully applied the graticule in this projection without errors using their native functionality.\n\ntm_shape(world) +\n  tm_fill(fill = \"#cccccc\", lwd = 0) +\n  tm_shape(graticule, is.main = TRUE) +\n  tm_lines(col = \"grey\", lwd = 0.5) +\n  tm_shape(lox_sf) +\n  tm_dots(fill = \"firebrick\", size = 0.001) +\n  # tm_title(\"    Go (just north of) west! See also Day 22\") +\n  tm_layout(frame = FALSE)"
   },
   {
     "objectID": "maps/07-navigation.html#ggplot2",
     "href": "maps/07-navigation.html#ggplot2",
     "title": "07 Navigation",
     "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(world) +\n  geom_sf(fill = \"#cccccc\", linewidth = 0) +\n  geom_sf(data = graticule, colour = \"grey\", linewidth = 0.2) +\n  geom_sf(data = lox_sf, colour = \"firebrick\", size = 0.01) +\n  ggtitle(\"Go (just north of) west! See also Day 22\") +\n  theme_minimal()"
+    "text": "ggplot2\n\nggplot(world) +\n  geom_sf(fill = \"#cccccc\", linewidth = 0) +\n  geom_sf(data = graticule, colour = \"grey\", linewidth = 0.2) +\n  geom_sf(data = lox_sf, colour = \"firebrick\", size = 0.01) +\n  ggtitle(\"Go (just north of) west! See also Day 22\") +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/22-north-not-up.html",
+    "href": "maps/22-north-not-up.html",
+    "title": "22 North is Not Up",
+    "section": "",
+    "text": "See also Antarctica."
+  },
+  {
+    "objectID": "maps/22-north-not-up.html#libraries",
+    "href": "maps/22-north-not-up.html#libraries",
+    "title": "22 North is Not Up",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\nsource(\"~/Documents/code/30-day-maps-2023/maps/utils.R\")"
+  },
+  {
+    "objectID": "maps/22-north-not-up.html#data-wrangling",
+    "href": "maps/22-north-not-up.html#data-wrangling",
+    "title": "22 North is Not Up",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nfocus <- \"Antarctica\"\nlon0 <- 0\nlat0 <- -90\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT) %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)\n\ngraticule <- get_graticule(spacing = 15)"
+  },
+  {
+    "objectID": "maps/22-north-not-up.html#tmap",
+    "href": "maps/22-north-not-up.html#tmap",
+    "title": "22 North is Not Up",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(world) +\n  tm_fill() + \n  tm_shape(graticule) +\n  tm_lines(col = \"lightgrey\", lwd = 0.5) +\n  tm_compass() +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/22-north-not-up.html#ggplot2",
+    "href": "maps/22-north-not-up.html#ggplot2",
+    "title": "22 North is Not Up",
+    "section": "ggplot2",
+    "text": "ggplot2\nWe need ggspatial for a north arrow here.\n\nlibrary(ggspatial)\n\nggplot(world) +\n  geom_sf(linewidth = 0) +\n  geom_sf(data = graticule, col = \"lightgrey\", linewidth = 0.25) +\n  annotation_north_arrow(location = \"br\") + \n  theme_void()"
   },
   {
     "objectID": "maps/14-oceania.html",

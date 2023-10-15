@@ -11,7 +11,7 @@ website:
 
 format:
   html:
-    theme: simplex
+    theme: sketchy
     toc: true
     css: styles.css
     df-print: kable

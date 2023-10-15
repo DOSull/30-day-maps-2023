@@ -20,7 +20,7 @@ library(geosphere)
 library(ggplot2)
 library(stringr)
 
-source("utils.R")
+source("~/Documents/code/30-day-maps-2023/maps/utils.R")
 ```
 
 ## Data wrangling
@@ -65,16 +65,19 @@ world <- World %>%
   st_transform(ortho_proj) %>%
   dplyr::filter(!(st_is_empty(geometry)))
 
-graticule <- c(get_meridians(), get_parallels()) %>%
-  st_sfc(crs = 4326) %>%
+graticule <- get_graticule(centre = c(start_lon, start_lat)) %>%
   st_transform(ortho_proj)
 ```
 
 ## `tmap`
+At time of writing there is a bug in `tm_title` so no title on this map. See [this issue](https://github.com/r-tmap/tmap/issues/796).
+
+Note that I hand made the graticule using code from a sourced *R* file which trims the graticule to only extend across the mapped area. Neither `tmap` nor `ggplot2` successfully applied the graticule in this projection without errors using their native functionality.
+
 ```{r}
-tm_shape(world, bbox = lox_sf) +
+tm_shape(world) +
   tm_fill(fill = "#cccccc", lwd = 0) +
-  tm_shape(graticule) +
+  tm_shape(graticule, is.main = TRUE) +
   tm_lines(col = "grey", lwd = 0.5) +
   tm_shape(lox_sf) +
   tm_dots(fill = "firebrick", size = 0.001) +
@@ -89,5 +92,5 @@ ggplot(world) +
   geom_sf(data = graticule, colour = "grey", linewidth = 0.2) +
   geom_sf(data = lox_sf, colour = "firebrick", size = 0.01) +
   ggtitle("Go (just north of) west! See also Day 22") +
-  theme_minimal()
+  theme_void()
 ```

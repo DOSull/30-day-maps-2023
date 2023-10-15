@@ -1,0 +1,75 @@
+---
+title: 22 North is Not Up
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+---
+
+See also [Antarctica](25-antarctica.qmd).
+
+## Libraries
+```{r}
+#| results: false
+#| code-fold: true
+library(sf)
+library(tmap)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+
+source("~/Documents/code/30-day-maps-2023/maps/utils.R")
+```
+
+## Data wrangling
+```{r}
+#| results: false
+#| code-fold: true
+focus <- "Antarctica"
+lon0 <- 0
+lat0 <- -90
+proj <- str_glue("+proj=ortho lon_0={lon0} lat_0={lat0}")
+```
+
+```{r}
+#| results: false
+#| code-fold: true
+world <- st_read("data/world.gpkg") %>%
+  st_make_valid() %>%
+  select(CONTINENT) %>%
+  st_transform(proj) %>%
+  st_make_valid() %>%
+  filter(!st_is_empty(.)) %>%
+  group_by(CONTINENT) %>%
+  summarise() 
+
+continent <- world %>%
+  filter(CONTINENT == focus)
+
+graticule <- get_graticule(spacing = 15)
+```
+
+## `tmap`
+```{r}
+tm_shape(world) +
+  tm_fill() + 
+  tm_shape(graticule) +
+  tm_lines(col = "lightgrey", lwd = 0.5) +
+  tm_compass() +
+  tm_layout(frame = FALSE)
+```
+
+## `ggplot2`
+We need [`ggspatial`](https://paleolimbot.github.io/ggspatial/) for a north arrow here.
+```{r}
+library(ggspatial)
+
+ggplot(world) +
+  geom_sf(linewidth = 0) +
+  geom_sf(data = graticule, col = "lightgrey", linewidth = 0.25) +
+  annotation_north_arrow(location = "br") + 
+  theme_void()
+```
