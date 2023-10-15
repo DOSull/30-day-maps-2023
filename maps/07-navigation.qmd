@@ -9,6 +9,8 @@ knitr:
     message: false
 ---
 
+A map that helps you to navigate.
+
 ## Libraries
 ```{r}
 #| results: false
@@ -91,6 +93,6 @@ ggplot(world) +
   geom_sf(fill = "#cccccc", linewidth = 0) +
   geom_sf(data = graticule, colour = "grey", linewidth = 0.2) +
   geom_sf(data = lox_sf, colour = "firebrick", size = 0.01) +
-  ggtitle("Go (just north of) west! See also Day 22") +
+  ggtitle("Go west(ish). See also Day 22") +
   theme_void()
 ```

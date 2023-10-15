@@ -19,6 +19,7 @@ library(dplyr)
 library(stringr)
 library(ggplot2)
 ```
+Largest of the continents.
 
 ## Data wrangling
 ```{r}

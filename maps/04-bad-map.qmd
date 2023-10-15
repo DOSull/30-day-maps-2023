@@ -9,6 +9,8 @@ knitr:
     message: false
 ---
 
+Let's get this over with.
+
 ## Libraries
 ```{r}
 #| results: false

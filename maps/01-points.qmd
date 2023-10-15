@@ -9,6 +9,8 @@ knitr:
     message: false
 ---
 
+A map with points.
+
 The first three themes (points, lines, areas) all work with the same data. I'm making a meta-point about the somewhat arbitrary nature of geometries in spatial data (a polygon is after all conceputalised as a *point set*).
 
 ## Libraries

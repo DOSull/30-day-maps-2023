@@ -1,5 +1,5 @@
 ---
-title: 16 Europe
+title: 14 Oceania
 execute: 
   cache: true
   freeze: auto
@@ -8,6 +8,8 @@ knitr:
     warning: false
     message: false
 ---
+
+Region made up of thousands of islands throughout the Central and South Pacific.
 
 ## Libraries
 ```{r}
@@ -24,9 +26,9 @@ library(ggplot2)
 ```{r}
 #| results: false
 #| code-fold: true
-focus <- "Europe"
-lon0 <- 30
-lat0 <- 60
+focus <- "Oceania"
+lon0 <- 170
+lat0 <- -10
 proj <- str_glue("+proj=ortho lon_0={lon0} lat_0={lat0}")
 ```
 

@@ -7,11 +7,25 @@
     "text": "I decided to give this a go as a learning exercise. I’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead. So… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each."
   },
   {
+    "objectID": "30days.html",
+    "href": "30days.html",
+    "title": "30 Day Map Challenge 2023",
+    "section": "",
+    "text": "Day\nTheme\nDetails\nIdea\n\n\n\n\n1\nPoints\nA map with points\nLand\n\n\n2\nLines\nA map with lines\nCoast\n\n\n3\nPolygons\nA map with polygons\nLand\n\n\n4\nA bad map\nLet’s get this over with\nSH1\n\n\n5\nAnalog Map\nNon-digital maps\n\n\n\n6\nAsia\nLargest of the continents\nLocator\n\n\n7\nNavigation\nA map that helps you to navigate\n\n\n\n8\nAfrica\nSecond-largest and second-most populous continent\nLocator\n\n\n9\nHexagons\n6 sides, 6 angles, and 6 vertices\n\n\n\n10\nNorth America\nNorthern part of the American continent\nLocator\n\n\n11\nRetro\nA blast from the past\n\n\n\n12\nSouth America\nSouthern part of the American continent\nLocator\n\n\n13\nChoropleth\nClassic thematic map: a choropleth\n\n\n\n14\nEurope\nThe westernmost peninsulas of Eurasia\nLocator\n\n\n15\nOpenStreetMap\nThe greatest of the datasets. Remember to give credit.\n\n\n\n16\nOceania\nRegion made up of thousands of islands throughout the Central and South Pacific\nLocator\n\n\n17\nFlow\nFlow of transport, people\n\n\n\n18\nAtmosphere\nConditions of the atmosphere can be either weather or climate\n\n\n\n19\n5-minute map\nSpend no more than 5 minutes to prepare this map\n\n\n\n20\nOutdoors\nMap of mountains, trails, or something completely different\n\n\n\n21\nRaster\nPixels, please\n\n\n\n22\nNorth is not always up\n⬆️\nMissing meridian\n\n\n23\n3D\nThe third dimension\n\n\n\n24\nBlack & white\nOnly two colors allowed\n\n\n\n25\nAntarctica\nA cold continent that can’t be reached with Web Mercator\nLocator\n\n\n26\nMinimal\nLess is more\n\n\n\n27\nDot\nDot density, a single dot in space or something different\n\n\n\n28\nIs this a chart or a map?\nIn thematic maps, you can’t always tell. Try to stretch the limits\n\n\n\n29\nPopulation\nA classic theme for a map\n\n\n\n30\n“My favorite..”\nYou choose!"
+  },
+  {
     "objectID": "maps/04-bad-map.html",
     "href": "maps/04-bad-map.html",
     "title": "04 Bad Map",
     "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+    "text": "Let’s get this over with."
+  },
+  {
+    "objectID": "maps/04-bad-map.html#libraries",
+    "href": "maps/04-bad-map.html#libraries",
+    "title": "04 Bad Map",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
   },
   {
     "objectID": "maps/04-bad-map.html#data-wrangling",
@@ -39,7 +53,14 @@
     "href": "maps/02-lines.html",
     "title": "02 Lines",
     "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+    "text": "A map with lines."
+  },
+  {
+    "objectID": "maps/02-lines.html#libraries",
+    "href": "maps/02-lines.html#libraries",
+    "title": "02 Lines",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
   },
   {
     "objectID": "maps/02-lines.html#data-wrangling",
@@ -67,7 +88,7 @@
     "href": "maps/01-points.html",
     "title": "01 Points",
     "section": "",
-    "text": "The first three themes (points, lines, areas) all work with the same data. I’m making a meta-point about the somewhat arbitrary nature of geometries in spatial data (a polygon is after all conceputalised as a point set)."
+    "text": "A map with points.\nThe first three themes (points, lines, areas) all work with the same data. I’m making a meta-point about the somewhat arbitrary nature of geometries in spatial data (a polygon is after all conceputalised as a point set)."
   },
   {
     "objectID": "maps/01-points.html#libraries",
@@ -98,30 +119,37 @@
     "text": "ggplot2\n\nggplot(pts) +\n  geom_sf(aes(colour = What), size = 0.2) +\n  scale_colour_manual(values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\")) + \n  theme_void()"
   },
   {
-    "objectID": "maps/16-europe.html",
-    "href": "maps/16-europe.html",
-    "title": "16 Europe",
+    "objectID": "maps/16-oceania.html",
+    "href": "maps/16-oceania.html",
+    "title": "14 Oceania",
     "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+    "text": "Region made up of thousands of islands throughout the Central and South Pacific."
   },
   {
-    "objectID": "maps/16-europe.html#data-wrangling",
-    "href": "maps/16-europe.html#data-wrangling",
-    "title": "16 Europe",
+    "objectID": "maps/16-oceania.html#libraries",
+    "href": "maps/16-oceania.html#libraries",
+    "title": "14 Oceania",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/16-oceania.html#data-wrangling",
+    "href": "maps/16-oceania.html#data-wrangling",
+    "title": "14 Oceania",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus <- \"Europe\"\nlon0 <- 30\nlat0 <- 60\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
+    "text": "Data wrangling\n\n\nCode\nfocus <- \"Oceania\"\nlon0 <- 170\nlat0 <- -10\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
   },
   {
-    "objectID": "maps/16-europe.html#tmap",
-    "href": "maps/16-europe.html#tmap",
-    "title": "16 Europe",
+    "objectID": "maps/16-oceania.html#tmap",
+    "href": "maps/16-oceania.html#tmap",
+    "title": "14 Oceania",
     "section": "tmap",
     "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
   },
   {
-    "objectID": "maps/16-europe.html#ggplot2",
-    "href": "maps/16-europe.html#ggplot2",
-    "title": "16 Europe",
+    "objectID": "maps/16-oceania.html#ggplot2",
+    "href": "maps/16-oceania.html#ggplot2",
+    "title": "14 Oceania",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },
@@ -130,7 +158,14 @@
     "href": "maps/10-north-america.html",
     "title": "10 North America",
     "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+    "text": "Northern part of the American continent."
+  },
+  {
+    "objectID": "maps/10-north-america.html#libraries",
+    "href": "maps/10-north-america.html#libraries",
+    "title": "10 North America",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
   },
   {
     "objectID": "maps/10-north-america.html#data-wrangling",
@@ -158,7 +193,14 @@
     "href": "maps/12-south-america.html",
     "title": "12 South America",
     "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+    "text": "Southern part of the American continent."
+  },
+  {
+    "objectID": "maps/12-south-america.html#libraries",
+    "href": "maps/12-south-america.html#libraries",
+    "title": "12 South America",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
   },
   {
     "objectID": "maps/12-south-america.html#data-wrangling",
@@ -186,40 +228,40 @@
     "href": "maps/index.html",
     "title": "30 Day Map Challenge 2023",
     "section": "",
-    "text": "I decided to give this a go as a learning exercise. I’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead. So… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n09 Hexes\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n16 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n22 North is Not Up\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "I decided to give this a go as a learning exercise. I’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead. So… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n09 Hexagons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n22 North is Not Up\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "maps/09-hexes.html",
     "href": "maps/09-hexes.html",
-    "title": "09 Hexes",
+    "title": "09 Hexagons",
     "section": "",
-    "text": "Wishing to use a static web basemap increased the degree of difficulty here.\nHaving said that, tmap’s built in tm_basemap() function seems promising and intuitive.\nA bit of hunting around suggests that the ggspatial package’s annotation_map_tile() function is the best for basemaps in ggplot2."
+    "text": "6 sides, 6 angles, and 6 vertices.\nWishing to use a static web basemap increased the degree of difficulty here.\nHaving said that, tmap’s built in tm_basemap() function seems promising and intuitive.\nA bit of hunting around suggests that the ggspatial package’s annotation_map_tile() function is the best for basemaps in ggplot2."
   },
   {
     "objectID": "maps/09-hexes.html#libraries",
     "href": "maps/09-hexes.html#libraries",
-    "title": "09 Hexes",
+    "title": "09 Hexagons",
     "section": "Libraries",
     "text": "Libraries\n\n\nCode\nlibrary(dplyr)\nlibrary(h3forr)\nlibrary(tmap)\nlibrary(sf)\nlibrary(ggplot2)\nlibrary(stringr)"
   },
   {
     "objectID": "maps/09-hexes.html#data-wrangling",
     "href": "maps/09-hexes.html#data-wrangling",
-    "title": "09 Hexes",
+    "title": "09 Hexagons",
     "section": "Data wrangling",
     "text": "Data wrangling\n\n\nCode\nsquare <- c(1.74e6 + 1e4 * c(0, 0, 1, 1, 0), \n            5.42e6 + 1e4 * c(0, 1, 1, 0, 0)) %>%\n  matrix(ncol = 2) %>%\n  list() %>%\n  st_polygon() %>%\n  st_sfc() %>%\n  st_sf(crs = 2193) %>%\n  st_transform(4326)\n\nget_hexes <- function(poly, resolution, distance) {\n  poly %>% \n    st_buffer(distance) %>%\n    polyfill(res = resolution) %>% \n    h3_to_geo_boundary() %>% \n    geo_boundary_to_sf()\n}\n\nh3_5 <- get_hexes(square, 5, 5000) %>% \n  st_cast(\"LINESTRING\")\nh3_6 <- get_hexes(square, 6, 2500) %>% \n  st_cast(\"LINESTRING\")\nh3_7 <- get_hexes(square, 7, 1500) %>% \n  st_cast(\"LINESTRING\")\nh3_8 <- get_hexes(square, 8, 1000) %>% \n  st_cast(\"LINESTRING\")\nh3_9 <- get_hexes(square, 9, 750) %>% \n  st_cast(\"LINESTRING\")\nh3_10 <- get_hexes(square, 10, 500) %>% \n  st_cast(\"LINESTRING\")\n\nbb <- h3_10 %>% \n  st_union() %>%\n  st_bbox()\n\ncredit <- maptiles::get_credit(\"OpenStreetMap\")"
   },
   {
     "objectID": "maps/09-hexes.html#tmap",
     "href": "maps/09-hexes.html#tmap",
-    "title": "09 Hexes",
+    "title": "09 Hexagons",
     "section": "tmap",
     "text": "tmap\ntmap v4 has a built-in web basemap function. The raster downscaling kicks in to make the image a bit unsatisfactory, but I assume that option will be tweakable in due course.\n\ntm_basemap(server = \"OpenStreetMap\", zoom = 12) +\n  tm_shape(h3_5) + \n  tm_lines(lwd = 3.5) +\n  tm_shape(h3_6) + \n  tm_lines(lwd = 2.5) +\n  tm_shape(h3_7) + \n  tm_lines(lwd = 1.5) +\n  tm_shape(h3_8) + \n  tm_lines(lwd = 1) +\n  tm_shape(h3_9) + \n  tm_lines(lwd = 0.7) +\n  tm_shape(h3_10, is.main = TRUE) + \n  tm_lines(lwd = 0.5) +\n  tm_credits(\n    credit,\n    position = tm_pos_out(pos.h = \"RIGHT\", pos.v = \"TOP\",\n                          cell.h = \"center\", cell.v = \"bottom\")) + \n  tm_layout(frame = FALSE)"
   },
   {
     "objectID": "maps/09-hexes.html#ggplot2",
     "href": "maps/09-hexes.html#ggplot2",
-    "title": "09 Hexes",
+    "title": "09 Hexagons",
     "section": "ggplot2",
     "text": "ggplot2\nggspatial seems the best option for a static background basemap.\n\nlibrary(ggspatial)\n\nggplot(square, aes(colour = \"#00000000\")) +\n  annotation_map_tile(zoomin = 1) + \n  geom_sf(data = h3_5, linewidth = 1, colour = \"black\") +\n  geom_sf(data = h3_6, linewidth = 0.75, colour = \"black\") +\n  geom_sf(data = h3_7, linewidth = 0.6, colour = \"black\") +\n  geom_sf(data = h3_8, linewidth = 0.45, colour = \"black\") +\n  geom_sf(data = h3_9, linewidth = 0.35, colour = \"black\") +\n  geom_sf(data = h3_10, linewidth = 0.25, colour = \"black\") +\n  xlim(bb[1], bb[3]) +\n  ylim(bb[2], bb[4]) +\n  theme_void()"
   },
@@ -228,7 +270,7 @@
     "href": "maps/06-asia.html",
     "title": "06 Asia",
     "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\n\nLargest of the continents."
   },
   {
     "objectID": "maps/06-asia.html#data-wrangling",
@@ -256,7 +298,14 @@
     "href": "maps/08-africa.html",
     "title": "08 Africa",
     "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+    "text": "Second-largest and second-most populous continent."
+  },
+  {
+    "objectID": "maps/08-africa.html#libraries",
+    "href": "maps/08-africa.html#libraries",
+    "title": "08 Africa",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
   },
   {
     "objectID": "maps/08-africa.html#data-wrangling",
@@ -284,7 +333,14 @@
     "href": "maps/25-antarctica.html",
     "title": "25 Antarctica",
     "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+    "text": "A cold continent that can’t be reached with Web Mercator."
+  },
+  {
+    "objectID": "maps/25-antarctica.html#libraries",
+    "href": "maps/25-antarctica.html#libraries",
+    "title": "25 Antarctica",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
   },
   {
     "objectID": "maps/25-antarctica.html#data-wrangling",
@@ -308,11 +364,53 @@
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },
   {
+    "objectID": "maps/14-europe.html",
+    "href": "maps/14-europe.html",
+    "title": "14 Europe",
+    "section": "",
+    "text": "The westernmost peninsulas of Eurasia."
+  },
+  {
+    "objectID": "maps/14-europe.html#libraries",
+    "href": "maps/14-europe.html#libraries",
+    "title": "14 Europe",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/14-europe.html#data-wrangling",
+    "href": "maps/14-europe.html#data-wrangling",
+    "title": "14 Europe",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nfocus <- \"Europe\"\nlon0 <- 30\nlat0 <- 60\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
+  },
+  {
+    "objectID": "maps/14-europe.html#tmap",
+    "href": "maps/14-europe.html#tmap",
+    "title": "14 Europe",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/14-europe.html#ggplot2",
+    "href": "maps/14-europe.html#ggplot2",
+    "title": "14 Europe",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
     "objectID": "maps/07-navigation.html",
     "href": "maps/07-navigation.html",
     "title": "07 Navigation",
     "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(geosphere)\nlibrary(ggplot2)\nlibrary(stringr)\n\nsource(\"~/Documents/code/30-day-maps-2023/maps/utils.R\")"
+    "text": "A map that helps you to navigate."
+  },
+  {
+    "objectID": "maps/07-navigation.html#libraries",
+    "href": "maps/07-navigation.html#libraries",
+    "title": "07 Navigation",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(geosphere)\nlibrary(ggplot2)\nlibrary(stringr)\n\nsource(\"~/Documents/code/30-day-maps-2023/maps/utils.R\")"
   },
   {
     "objectID": "maps/07-navigation.html#data-wrangling",
@@ -333,14 +431,14 @@
     "href": "maps/07-navigation.html#ggplot2",
     "title": "07 Navigation",
     "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(world) +\n  geom_sf(fill = \"#cccccc\", linewidth = 0) +\n  geom_sf(data = graticule, colour = \"grey\", linewidth = 0.2) +\n  geom_sf(data = lox_sf, colour = \"firebrick\", size = 0.01) +\n  ggtitle(\"Go (just north of) west! See also Day 22\") +\n  theme_void()"
+    "text": "ggplot2\n\nggplot(world) +\n  geom_sf(fill = \"#cccccc\", linewidth = 0) +\n  geom_sf(data = graticule, colour = \"grey\", linewidth = 0.2) +\n  geom_sf(data = lox_sf, colour = \"firebrick\", size = 0.01) +\n  ggtitle(\"Go west(ish). See also Day 22\") +\n  theme_void()"
   },
   {
     "objectID": "maps/22-north-not-up.html",
     "href": "maps/22-north-not-up.html",
     "title": "22 North is Not Up",
     "section": "",
-    "text": "See also Antarctica."
+    "text": "↑"
   },
   {
     "objectID": "maps/22-north-not-up.html#libraries",
@@ -371,39 +469,18 @@
     "text": "ggplot2\nWe need ggspatial for a north arrow here.\n\nlibrary(ggspatial)\n\nggplot(world) +\n  geom_sf(linewidth = 0) +\n  geom_sf(data = graticule, col = \"lightgrey\", linewidth = 0.25) +\n  annotation_north_arrow(location = \"br\") + \n  theme_void()"
   },
   {
-    "objectID": "maps/14-oceania.html",
-    "href": "maps/14-oceania.html",
-    "title": "14 Oceania",
-    "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
-  },
-  {
-    "objectID": "maps/14-oceania.html#data-wrangling",
-    "href": "maps/14-oceania.html#data-wrangling",
-    "title": "14 Oceania",
-    "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus <- \"Oceania\"\nlon0 <- 170\nlat0 <- -10\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
-  },
-  {
-    "objectID": "maps/14-oceania.html#tmap",
-    "href": "maps/14-oceania.html#tmap",
-    "title": "14 Oceania",
-    "section": "tmap",
-    "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
-  },
-  {
-    "objectID": "maps/14-oceania.html#ggplot2",
-    "href": "maps/14-oceania.html#ggplot2",
-    "title": "14 Oceania",
-    "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
-  },
-  {
     "objectID": "maps/03-polygons.html",
     "href": "maps/03-polygons.html",
     "title": "03 Polygons",
     "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+    "text": "A map with polygons."
+  },
+  {
+    "objectID": "maps/03-polygons.html#libraries",
+    "href": "maps/03-polygons.html#libraries",
+    "title": "03 Polygons",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
   },
   {
     "objectID": "maps/03-polygons.html#data-wrangling",

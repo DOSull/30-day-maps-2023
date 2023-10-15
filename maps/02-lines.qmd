@@ -9,6 +9,8 @@ knitr:
     message: false
 ---
 
+A map with lines.
+
 ## Libraries
 ```{r}
 #| results: false

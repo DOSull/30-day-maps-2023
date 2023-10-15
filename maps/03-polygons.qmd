@@ -9,6 +9,8 @@ knitr:
     message: false
 ---
 
+A map with polygons.
+
 ## Libraries
 ```{r}
 #| results: false

@@ -9,6 +9,8 @@ knitr:
     message: false
 ---
 
+A cold continent that can't be reached with Web Mercator.
+
 ## Libraries
 ```{r}
 #| results: false

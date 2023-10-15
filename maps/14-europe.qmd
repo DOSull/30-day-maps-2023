@@ -1,5 +1,5 @@
 ---
-title: 14 Oceania
+title: 14 Europe
 execute: 
   cache: true
   freeze: auto
@@ -8,6 +8,8 @@ knitr:
     warning: false
     message: false
 ---
+
+The westernmost peninsulas of Eurasia.
 
 ## Libraries
 ```{r}
@@ -24,9 +26,9 @@ library(ggplot2)
 ```{r}
 #| results: false
 #| code-fold: true
-focus <- "Oceania"
-lon0 <- 170
-lat0 <- -10
+focus <- "Europe"
+lon0 <- 30
+lat0 <- 60
 proj <- str_glue("+proj=ortho lon_0={lon0} lat_0={lat0}")
 ```
 

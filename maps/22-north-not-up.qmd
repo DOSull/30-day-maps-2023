@@ -9,7 +9,7 @@ knitr:
     message: false
 ---
 
-See also [Antarctica](25-antarctica.qmd).
+&uarr;
 
 ## Libraries
 ```{r}

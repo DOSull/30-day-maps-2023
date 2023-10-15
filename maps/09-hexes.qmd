@@ -1,5 +1,5 @@
 ---
-title: 09 Hexes
+title: 09 Hexagons
 execute: 
   cache: true
   freeze: auto
@@ -8,6 +8,8 @@ knitr:
     warning: false
     message: false
 ---
+
+6 sides, 6 angles, and 6 vertices.
 
 Wishing to use a static web basemap increased the degree of difficulty here. 
 
