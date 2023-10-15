@@ -1,19 +1,5 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "I decided to give this a go as a learning exercise. I’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead. So… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each."
-  },
-  {
-    "objectID": "30days.html",
-    "href": "30days.html",
-    "title": "30 Day Map Challenge 2023",
-    "section": "",
-    "text": "Day\nTheme\nDetails\nIdea\n\n\n\n\n1\nPoints\nA map with points\nLand\n\n\n2\nLines\nA map with lines\nCoast\n\n\n3\nPolygons\nA map with polygons\nLand\n\n\n4\nA bad map\nLet’s get this over with\nSH1\n\n\n5\nAnalog Map\nNon-digital maps\n\n\n\n6\nAsia\nLargest of the continents\nLocator\n\n\n7\nNavigation\nA map that helps you to navigate\n\n\n\n8\nAfrica\nSecond-largest and second-most populous continent\nLocator\n\n\n9\nHexagons\n6 sides, 6 angles, and 6 vertices\n\n\n\n10\nNorth America\nNorthern part of the American continent\nLocator\n\n\n11\nRetro\nA blast from the past\n\n\n\n12\nSouth America\nSouthern part of the American continent\nLocator\n\n\n13\nChoropleth\nClassic thematic map: a choropleth\n\n\n\n14\nEurope\nThe westernmost peninsulas of Eurasia\nLocator\n\n\n15\nOpenStreetMap\nThe greatest of the datasets. Remember to give credit.\n\n\n\n16\nOceania\nRegion made up of thousands of islands throughout the Central and South Pacific\nLocator\n\n\n17\nFlow\nFlow of transport, people\n\n\n\n18\nAtmosphere\nConditions of the atmosphere can be either weather or climate\n\n\n\n19\n5-minute map\nSpend no more than 5 minutes to prepare this map\n\n\n\n20\nOutdoors\nMap of mountains, trails, or something completely different\n\n\n\n21\nRaster\nPixels, please\n\n\n\n22\nNorth is not always up\n⬆️\nMissing meridian\n\n\n23\n3D\nThe third dimension\n\n\n\n24\nBlack & white\nOnly two colors allowed\n\n\n\n25\nAntarctica\nA cold continent that can’t be reached with Web Mercator\nLocator\n\n\n26\nMinimal\nLess is more\n\n\n\n27\nDot\nDot density, a single dot in space or something different\n\n\n\n28\nIs this a chart or a map?\nIn thematic maps, you can’t always tell. Try to stretch the limits\n\n\n\n29\nPopulation\nA classic theme for a map\n\n\n\n30\n“My favorite..”\nYou choose!"
-  },
-  {
     "objectID": "maps/04-bad-map.html",
     "href": "maps/04-bad-map.html",
     "title": "04 Bad Map",
@@ -109,14 +95,14 @@
     "href": "maps/01-points.html#tmap",
     "title": "01 Points",
     "section": "tmap",
-    "text": "tmap\n\ntm_shape(pts) + \n  tm_bubbles(\n    fill = \"What\",\n    fill.scale = tm_scale_categorical(\n      values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\"),\n      levels = c(\"Land\", \"Shore\", \"Water\")), \n    size = 0.2,\n    lwd = 0) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
+    "text": "tmap\n\ntm_shape(pts) + \n  tm_dots(\n    fill = \"What\",\n    fill.scale = tm_scale_categorical(\n      values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\"),\n      levels = c(\"Land\", \"Shore\", \"Water\")), \n    size = 0.05) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
   },
   {
     "objectID": "maps/01-points.html#ggplot2",
     "href": "maps/01-points.html#ggplot2",
     "title": "01 Points",
     "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(pts) +\n  geom_sf(aes(colour = What), size = 0.2) +\n  scale_colour_manual(values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\")) + \n  theme_void()"
+    "text": "ggplot2\n\nggplot(pts) +\n  geom_sf(aes(colour = What), size = 0.025) +\n  scale_colour_manual(values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\")) + \n  theme_void()"
   },
   {
     "objectID": "maps/16-oceania.html",
@@ -222,13 +208,6 @@
     "title": "12 South America",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
-  },
-  {
-    "objectID": "maps/index.html",
-    "href": "maps/index.html",
-    "title": "30 Day Map Challenge 2023",
-    "section": "",
-    "text": "I decided to give this a go as a learning exercise. I’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead. So… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n09 Hexagons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n22 North is Not Up\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "maps/09-hexes.html",
@@ -502,5 +481,12 @@
     "title": "03 Polygons",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(nz_not_nz) +\n  geom_sf(aes(fill = What), linewidth = 0) +\n  scale_fill_manual(values = c(\"#33aa66\", \"#bbddff\")) +\n  theme_void()"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "So what’s this all about then?",
+    "section": "",
+    "text": "I decided to give the 30 Day Map Challenge a go as a learning exercise. My efforts are certainly not an exercise in flashy or impressive cartographic design.\nI’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead.\nSo… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n09 Hexagons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n22 North is Not Up\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   }
 ]

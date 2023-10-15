@@ -79,13 +79,12 @@ pts <- pts %>%
 ## `tmap`
 ```{r}
 tm_shape(pts) + 
-  tm_bubbles(
+  tm_dots(
     fill = "What",
     fill.scale = tm_scale_categorical(
       values = c("#33aa6660", "#0000ff60", "#bbddff60"),
       levels = c("Land", "Shore", "Water")), 
-    size = 0.2,
-    lwd = 0) +
+    size = 0.05) +
   tm_layout(
     frame = FALSE,
     legend.frame = FALSE,
@@ -95,8 +94,7 @@ tm_shape(pts) +
 ## `ggplot2`
 ```{r}
 ggplot(pts) +
-  geom_sf(aes(colour = What), size = 0.2) +
+  geom_sf(aes(colour = What), size = 0.025) +
   scale_colour_manual(values = c("#33aa6660", "#0000ff60", "#bbddff60")) + 
   theme_void()
 ```
-

@@ -1,0 +1,12 @@
+---
+title: "So what's this all about then?"
+listing: 
+  type: grid
+  contents: maps/
+---
+
+I decided to give the [30 Day Map Challenge](https://30daymapchallenge.com/) a go as a learning exercise. My efforts are certainly not an exercise in flashy or impressive cartographic design.
+
+I've been teaching with `tmap` for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to `ggplot2`, which I have often considered instead. 
+
+So... I thought I'd try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.
