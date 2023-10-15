@@ -186,7 +186,7 @@
     "href": "maps/index.html",
     "title": "30 Day Map Challenge 2023",
     "section": "",
-    "text": "I decided to give this a go as a learning exercise. I’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead. So… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n16 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "I decided to give this a go as a learning exercise. I’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead. So… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n16 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "maps/06-asia.html",
@@ -271,6 +271,34 @@
     "title": "25 Antarctica",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/07-navigation.html",
+    "href": "maps/07-navigation.html",
+    "title": "07 Navigation",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(geosphere)\nlibrary(ggplot2)\nlibrary(stringr)\n\nsource(\"utils.R\")"
+  },
+  {
+    "objectID": "maps/07-navigation.html#data-wrangling",
+    "href": "maps/07-navigation.html#data-wrangling",
+    "title": "07 Navigation",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nstart_lat <- -41.3\nstart_lon <- 174.75\nend_lat <- 45\northo_proj <- str_glue(\"+proj=ortho +lat_0={start_lat} +lon_0={174.75}\")\nbearing <- -88.5\nstep_length <- 5e4\nlast_pt <- c(start_lon, start_lat)\nlox <- list()\ntransect <- last_pt\ni <- 1\nwhile (last_pt[2] < end_lat) {\n  next_pt <- destPointRhumb(last_pt, bearing, step_length)\n  if (next_pt[1] > last_pt[1]) {\n    lox[[i]] <- transect\n    i <- i + 1\n    transect <- c(next_pt)\n  } else {\n    transect <- c(transect, next_pt)\n  }\n  last_pt <- next_pt\n}\nlox[[i]] <- transect\n\nlox_sf <- lox %>%\n  lapply(unlist) %>%\n  lapply(matrix, ncol = 2, byrow = TRUE) %>%\n  st_multilinestring() %>%\n  st_sfc() %>%\n  st_sf(crs = 4326) %>%\n  st_cast(\"LINESTRING\") %>%\n  st_cast(\"POINT\")\n\ndata(\"World\")\nworld <- World %>%\n  st_cast(\"POLYGON\") %>%\n  st_transform(ortho_proj) %>%\n  dplyr::filter(!(st_is_empty(geometry)))\n\ngraticule <- c(get_meridians(), get_parallels()) %>%\n  st_sfc(crs = 4326) %>%\n  st_transform(ortho_proj)"
+  },
+  {
+    "objectID": "maps/07-navigation.html#tmap",
+    "href": "maps/07-navigation.html#tmap",
+    "title": "07 Navigation",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(world, bbox = lox_sf) +\n  tm_fill(fill = \"#cccccc\", lwd = 0) +\n  tm_shape(graticule) +\n  tm_lines(col = \"grey\", lwd = 0.5) +\n  tm_shape(lox_sf) +\n  tm_dots(fill = \"firebrick\", size = 0.001) +\n  # tm_title(\"    Go (just north of) west! See also Day 22\") +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/07-navigation.html#ggplot2",
+    "href": "maps/07-navigation.html#ggplot2",
+    "title": "07 Navigation",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(world) +\n  geom_sf(fill = \"#cccccc\", linewidth = 0) +\n  geom_sf(data = graticule, colour = \"grey\", linewidth = 0.2) +\n  geom_sf(data = lox_sf, colour = \"firebrick\", size = 0.01) +\n  ggtitle(\"Go (just north of) west! See also Day 22\") +\n  theme_minimal()"
   },
   {
     "objectID": "maps/14-oceania.html",
