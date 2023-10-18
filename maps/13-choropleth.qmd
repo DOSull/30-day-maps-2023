@@ -32,6 +32,16 @@ ak <- st_read("data/ak-demographics-2018.gpkg") %>%
 ```
 
 ## `tmap`
+The idea behind the `tmap` v4 semantics makes complete sense, but it is quite verbose. The example below in v3 would be
+
+```
+tm_shape(ak) +
+  tm_polygons(col = "maori", n = 9, palette = "YlGnBu", 
+              style = "quantile", title = "% Māori")
+```
+
+It is nice to have the additional control that the separate specification of the `.scale` and `.legend` parameters provide, but the downside is a lot of additional typing. On the other, hand, if you like typing, take a look at what's involved in making a similar map using `ggplot2`.
+
 ```{r}
 tm_shape(ak) + 
   tm_polygons(
@@ -52,6 +62,8 @@ tm_shape(ak) +
 ```
 
 ## `ggplot2`
+Here we have to do all the classification work and use the `scale_fill_fermenter()` function to get the same effect. We can use `classInt::classIntervals()` to do this. Even then we have to make up the legend labels manually. An added challenge caused by placing the legend below the map area is that we have to extend the plot area to accommodate it, using `coord_sf(...ylim=...)`.
+
 ```{r}
 library(classInt)
 
