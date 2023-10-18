@@ -413,6 +413,41 @@
     "text": "ggplot2\n\nggplot(world) +\n  geom_sf(fill = \"#cccccc\", linewidth = 0) +\n  geom_sf(data = graticule, colour = \"grey\", linewidth = 0.2) +\n  geom_sf(data = lox_sf, colour = \"firebrick\", size = 0.01) +\n  ggtitle(\"Go west(ish). See also Day 22\") +\n  theme_void()"
   },
   {
+    "objectID": "maps/13-choropleth.html",
+    "href": "maps/13-choropleth.html",
+    "title": "13 Choropleth",
+    "section": "",
+    "text": "Classic thematic map: a choropleth.\nThis one is where tmap comes into its own, although v4 in increasing the available options requires more code to make the same map compared to v3. ggplot2 by contrast is allergic to making classic classified choropleth maps, so much so that it’s hard to imagine using it in any kind of introductory teaching setting."
+  },
+  {
+    "objectID": "maps/13-choropleth.html#libraries",
+    "href": "maps/13-choropleth.html#libraries",
+    "title": "13 Choropleth",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/13-choropleth.html#data-wrangling",
+    "href": "maps/13-choropleth.html#data-wrangling",
+    "title": "13 Choropleth",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nak <- st_read(\"data/ak-demographics-2018.gpkg\") %>% \n  slice(-1) # remove Gulf Islands"
+  },
+  {
+    "objectID": "maps/13-choropleth.html#tmap",
+    "href": "maps/13-choropleth.html#tmap",
+    "title": "13 Choropleth",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(ak) + \n  tm_polygons(\n    fill = \"maori\",\n    fill.scale = tm_scale_intervals(\n      n = 9, values = \"YlGnBu\", \n      style = \"quantile\"),\n    fill.legend = tm_legend(\n      orientation = \"landscape\",\n      title = \"% Māori\"),\n    col = \"grey\",\n    lwd = 0.35\n  ) +\n  tm_layout(\n    frame = FALSE, legend.outside = TRUE,\n    legend.outside.position = \"bottom\",\n    legend.frame = FALSE)"
+  },
+  {
+    "objectID": "maps/13-choropleth.html#ggplot2",
+    "href": "maps/13-choropleth.html#ggplot2",
+    "title": "13 Choropleth",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nlibrary(classInt)\n\nintervals <- classIntervals(ak$maori, 9, \"quantile\", digits = 1)\nbrks <- round(intervals$brks, 1)\nlbls = paste0(brks[-10], rep(\" to \", 9), brks[-1])\nbb <- st_bbox(ak)\n\nggplot(ak) + \n  geom_sf(aes(fill = maori), colour = \"grey\", linewidth = 0.2) +\n  scale_fill_fermenter(\n    palette = \"YlGnBu\",\n    direction = 1,\n    breaks = brks[-10],\n    labels = lbls,\n    name = \"% Māori\",\n    guide = guide_legend(\n      keywidth = unit(15, units = \"mm\"),\n      keyheight = unit(3, units = \"mm\"),\n      label.position = \"bottom\",\n      title.position = \"top\",\n      nrow = 1)) +\n  coord_sf(ylim = c(bb[2] - 10000, bb[4]), clip = \"off\") +\n  theme_void() +\n  theme(legend.position = c(0.5, 0.1))"
+  },
+  {
     "objectID": "maps/22-north-not-up.html",
     "href": "maps/22-north-not-up.html",
     "title": "22 North is Not Up",
@@ -487,6 +522,6 @@
     "href": "index.html",
     "title": "So what’s this all about then?",
     "section": "",
-    "text": "I decided to give the 30 Day Map Challenge a go as a learning exercise. My efforts are certainly not an exercise in flashy or impressive cartographic design.\nI’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead.\nSo… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n09 Hexagons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n22 North is Not Up\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "I decided to give the 30 Day Map Challenge a go as a learning exercise. My efforts are certainly not an exercise in flashy or impressive cartographic design.\nI’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead.\nSo… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n09 Hexagons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n13 Choropleth\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n22 North is Not Up\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   }
 ]
