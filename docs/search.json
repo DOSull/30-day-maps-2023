@@ -1,176 +1,148 @@
 [
   {
-    "objectID": "maps/04-bad-map.html",
-    "href": "maps/04-bad-map.html",
-    "title": "04 Bad Map",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "So what’s this all about then?",
     "section": "",
-    "text": "Let’s get this over with."
+    "text": "I decided to give the 30 Day Map Challenge a go as a learning exercise. My efforts are certainly not an exercise in flashy or impressive cartographic design.\nI’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead.\nSo… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n09 Hexagons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n13 Choropleth\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n22 North is Not Up\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "maps/04-bad-map.html#libraries",
-    "href": "maps/04-bad-map.html#libraries",
-    "title": "04 Bad Map",
+    "objectID": "maps/22-north-not-up.html",
+    "href": "maps/22-north-not-up.html",
+    "title": "22 North is Not Up",
+    "section": "",
+    "text": "↑"
+  },
+  {
+    "objectID": "maps/22-north-not-up.html#libraries",
+    "href": "maps/22-north-not-up.html#libraries",
+    "title": "22 North is Not Up",
     "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\nsource(\"~/Documents/code/30-day-maps-2023/maps/utils.R\")"
   },
   {
-    "objectID": "maps/04-bad-map.html#data-wrangling",
-    "href": "maps/04-bad-map.html#data-wrangling",
-    "title": "04 Bad Map",
+    "objectID": "maps/22-north-not-up.html#data-wrangling",
+    "href": "maps/22-north-not-up.html#data-wrangling",
+    "title": "22 North is Not Up",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nsh1 <- st_read(\"data/sh1.gpkg\") %>%\n  st_transform(4326) %>%\n  select(geom) %>%\n  mutate(Mode = \"Road\")\ninterislander <- st_read(\"data/interislander.gpkg\") %>%\n  st_transform(4326) %>%\n  select(geom) %>%\n  mutate(Mode = \"Boat\")\ncombined <- sh1 %>%\n  bind_rows(interislander) %>%\n  mutate(Mode = as.factor(Mode))"
+    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Antarctica\"\nlon0 &lt;- 0\nlat0 &lt;- -90\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld &lt;- st_read(\"data/world.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT) %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)\n\ngraticule &lt;- get_graticule(spacing = 15)"
   },
   {
-    "objectID": "maps/04-bad-map.html#tmap",
-    "href": "maps/04-bad-map.html#tmap",
-    "title": "04 Bad Map",
+    "objectID": "maps/22-north-not-up.html#tmap",
+    "href": "maps/22-north-not-up.html#tmap",
+    "title": "22 North is Not Up",
     "section": "tmap",
-    "text": "tmap\n\ntm_shape(combined) +\n  tm_lines(\n    col = \"Mode\",\n    col.scale = tm_scale_categorical(\n      values = c(\"red\", \"blue\"),\n      levels = c(\"Road\", \"Boat\")),\n    lty = \"Mode\",\n    lty.scale = tm_scale_categorical(\n      values = c(\"solid\", \"dashed\"),\n      levels = c(\"Road\", \"Boat\")),\n    lty.legend = tm_legend_combine(\"col\"),\n    lwd = 0.5) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE) +\n  tm_compass()"
+    "text": "tmap\n\ntm_shape(world) +\n  tm_fill() + \n  tm_shape(graticule) +\n  tm_lines(col = \"lightgrey\", lwd = 0.5) +\n  tm_compass() +\n  tm_layout(frame = FALSE)"
   },
   {
-    "objectID": "maps/04-bad-map.html#ggplot2",
-    "href": "maps/04-bad-map.html#ggplot2",
-    "title": "04 Bad Map",
+    "objectID": "maps/22-north-not-up.html#ggplot2",
+    "href": "maps/22-north-not-up.html#ggplot2",
+    "title": "22 North is Not Up",
     "section": "ggplot2",
-    "text": "ggplot2\nHere we need an additional package. ggspatial can do it and seems preferable to the not-very-configurable ggsn. The configurability of ggspatial seems a bit over the top for a simple map like this. On the other hand its default north arrow is very on brand for the themes “Bad Map”!\n\nlibrary(ggspatial)\n\nggplot(combined) +\n  geom_sf(aes(colour = Mode, linetype = Mode), linewidth = 0.2) +\n  scale_colour_manual(values = c(\"blue\", \"red\")) +\n  scale_linetype_manual(values = c(\"dotted\", \"solid\")) +\n  annotation_north_arrow(location = \"br\") + \n  theme_void()"
+    "text": "ggplot2\nWe need ggspatial for a north arrow here.\n\nlibrary(ggspatial)\n\nggplot(world) +\n  geom_sf(linewidth = 0) +\n  geom_sf(data = graticule, col = \"lightgrey\", linewidth = 0.25) +\n  annotation_north_arrow(location = \"br\") + \n  theme_void()"
   },
   {
-    "objectID": "maps/02-lines.html",
-    "href": "maps/02-lines.html",
-    "title": "02 Lines",
+    "objectID": "maps/07-navigation.html",
+    "href": "maps/07-navigation.html",
+    "title": "07 Navigation",
     "section": "",
-    "text": "A map with lines."
+    "text": "A map that helps you to navigate."
   },
   {
-    "objectID": "maps/02-lines.html#libraries",
-    "href": "maps/02-lines.html#libraries",
-    "title": "02 Lines",
+    "objectID": "maps/07-navigation.html#libraries",
+    "href": "maps/07-navigation.html#libraries",
+    "title": "07 Navigation",
     "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(geosphere)\nlibrary(ggplot2)\nlibrary(stringr)\n\nsource(\"~/Documents/code/30-day-maps-2023/maps/utils.R\")"
   },
   {
-    "objectID": "maps/02-lines.html#data-wrangling",
-    "href": "maps/02-lines.html#data-wrangling",
-    "title": "02 Lines",
+    "objectID": "maps/07-navigation.html#data-wrangling",
+    "href": "maps/07-navigation.html#data-wrangling",
+    "title": "07 Navigation",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nnz <- st_read(\"data/nz.gpkg\") %>%\n  st_cast(\"MULTILINESTRING\") %>%\n  mutate(What = \"Shore\",\n         What = as.factor(What))"
+    "text": "Data wrangling\n\n\nCode\nstart_lat &lt;- -41.3\nstart_lon &lt;- 174.75\nend_lat &lt;- 45\northo_proj &lt;- str_glue(\"+proj=ortho +lat_0={start_lat} +lon_0={174.75}\")\nbearing &lt;- -88.5\nstep_length &lt;- 5e4\nlast_pt &lt;- c(start_lon, start_lat)\nlox &lt;- list()\ntransect &lt;- last_pt\ni &lt;- 1\nwhile (last_pt[2] &lt; end_lat) {\n  next_pt &lt;- destPointRhumb(last_pt, bearing, step_length)\n  if (next_pt[1] &gt; last_pt[1]) {\n    lox[[i]] &lt;- transect\n    i &lt;- i + 1\n    transect &lt;- c(next_pt)\n  } else {\n    transect &lt;- c(transect, next_pt)\n  }\n  last_pt &lt;- next_pt\n}\nlox[[i]] &lt;- transect\n\nlox_sf &lt;- lox %&gt;%\n  lapply(unlist) %&gt;%\n  lapply(matrix, ncol = 2, byrow = TRUE) %&gt;%\n  st_multilinestring() %&gt;%\n  st_sfc() %&gt;%\n  st_sf(crs = 4326) %&gt;%\n  st_cast(\"LINESTRING\") %&gt;%\n  st_cast(\"POINT\")\n\ndata(\"World\")\nworld &lt;- World %&gt;%\n  st_cast(\"POLYGON\") %&gt;%\n  st_transform(ortho_proj) %&gt;%\n  dplyr::filter(!(st_is_empty(geometry)))\n\ngraticule &lt;- get_graticule(centre = c(start_lon, start_lat)) %&gt;%\n  st_transform(ortho_proj)"
   },
   {
-    "objectID": "maps/02-lines.html#tmap",
-    "href": "maps/02-lines.html#tmap",
-    "title": "02 Lines",
+    "objectID": "maps/07-navigation.html#tmap",
+    "href": "maps/07-navigation.html#tmap",
+    "title": "07 Navigation",
     "section": "tmap",
-    "text": "tmap\nSome of this code is a workaround for an issue I reported.\n\ntm_shape(nz, bbox = nz %>% st_union() %>% st_buffer(500)) + \n  tm_lines(\n    col = \"blue\",\n    lwd = 0.5) + \n  tm_add_legend(\n    type = \"lines\",\n    col = c(\"blue\"),\n    labels = c(\"Shore\"),\n    title = \"What\") +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
+    "text": "tmap\nAt time of writing there is a bug in tm_title so no title on this map. See this issue.\nNote that I hand made the graticule using code from a sourced R file which trims the graticule to only extend across the mapped area. Neither tmap nor ggplot2 successfully applied the graticule in this projection without errors using their native functionality.\n\ntm_shape(world) +\n  tm_fill(fill = \"#cccccc\", lwd = 0) +\n  tm_shape(graticule, is.main = TRUE) +\n  tm_lines(col = \"grey\", lwd = 0.5) +\n  tm_shape(lox_sf) +\n  tm_dots(fill = \"firebrick\", size = 0.001) +\n  tm_title(\"    Go west(ish) west! See also Day 22\") +\n  tm_layout(frame = FALSE)"
   },
   {
-    "objectID": "maps/02-lines.html#ggplot2",
-    "href": "maps/02-lines.html#ggplot2",
-    "title": "02 Lines",
+    "objectID": "maps/07-navigation.html#ggplot2",
+    "href": "maps/07-navigation.html#ggplot2",
+    "title": "07 Navigation",
     "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(nz) +\n  geom_sf(aes(colour = What), linewidth = 0.25) +\n  scale_colour_manual(values = c(\"blue\")) +\n  theme_void()"
+    "text": "ggplot2\n\nggplot(world) +\n  geom_sf(fill = \"#cccccc\", linewidth = 0) +\n  geom_sf(data = graticule, colour = \"grey\", linewidth = 0.2) +\n  geom_sf(data = lox_sf, colour = \"firebrick\", size = 0.01) +\n  ggtitle(\"Go west(ish). See also Day 22\") +\n  theme_void()"
   },
   {
-    "objectID": "maps/01-points.html",
-    "href": "maps/01-points.html",
-    "title": "01 Points",
+    "objectID": "maps/25-antarctica.html",
+    "href": "maps/25-antarctica.html",
+    "title": "25 Antarctica",
     "section": "",
-    "text": "A map with points.\nThe first three themes (points, lines, areas) all work with the same data. I’m making a meta-point about the somewhat arbitrary nature of geometries in spatial data (a polygon is after all conceputalised as a point set)."
+    "text": "A cold continent that can’t be reached with Web Mercator."
   },
   {
-    "objectID": "maps/01-points.html#libraries",
-    "href": "maps/01-points.html#libraries",
-    "title": "01 Points",
-    "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
-  },
-  {
-    "objectID": "maps/01-points.html#data-wrangling",
-    "href": "maps/01-points.html#data-wrangling",
-    "title": "01 Points",
-    "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nw <- 500\n\nnz <- st_read(\"data/nz.gpkg\") %>%\n  mutate(Land = TRUE)\n\nbb <- nz %>% \n  st_bbox() %>%\n  st_as_sfc() %>%\n  st_as_sf(crs = st_crs(nz)) %>%\n  st_buffer(w, nQuadSegs = 1) \n\nshore <- nz %>% \n  st_cast(\"MULTILINESTRING\") %>%\n  st_cast(\"LINESTRING\") %>%\n  st_buffer(w) %>%\n  st_as_sfc() %>%\n  st_as_sf(crs = st_crs(nz)) %>%\n  mutate(Shore = TRUE)\n\nland <- nz %>%\n  st_union() %>%\n  st_buffer(w)\n\nwater <- bb %>%\n  st_difference(land) %>%\n  mutate(Water = TRUE)\n\npts <- bb %>%\n  st_sample(250000) %>%\n  st_sf() %>%\n  st_as_sf(crs = st_crs(nz)) %>%\n  st_join(water) %>%\n  st_join(nz) %>%\n  st_join(shore) %>%\n  mutate(Water = replace_na(Water, FALSE),\n         Land  = replace_na(Land, FALSE),\n         Shore = replace_na(Shore, FALSE),\n         What = NA) %>%\n  slice(sample(1:n()))\n\npts[pts$Water, \"What\"] <- \"Water\"\npts[pts$Land, \"What\"] <- \"Land\"\npts[pts$Shore, \"What\"] <- \"Shore\"\n\npts <- pts %>%\n  mutate(What = as.factor(What)) %>%\n  filter(!is.na(What))"
-  },
-  {
-    "objectID": "maps/01-points.html#tmap",
-    "href": "maps/01-points.html#tmap",
-    "title": "01 Points",
-    "section": "tmap",
-    "text": "tmap\n\ntm_shape(pts) + \n  tm_dots(\n    fill = \"What\",\n    fill.scale = tm_scale_categorical(\n      values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\"),\n      levels = c(\"Land\", \"Shore\", \"Water\")), \n    size = 0.05) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
-  },
-  {
-    "objectID": "maps/01-points.html#ggplot2",
-    "href": "maps/01-points.html#ggplot2",
-    "title": "01 Points",
-    "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(pts) +\n  geom_sf(aes(colour = What), size = 0.025) +\n  scale_colour_manual(values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\")) + \n  theme_void()"
-  },
-  {
-    "objectID": "maps/16-oceania.html",
-    "href": "maps/16-oceania.html",
-    "title": "14 Oceania",
-    "section": "",
-    "text": "Region made up of thousands of islands throughout the Central and South Pacific."
-  },
-  {
-    "objectID": "maps/16-oceania.html#libraries",
-    "href": "maps/16-oceania.html#libraries",
-    "title": "14 Oceania",
+    "objectID": "maps/25-antarctica.html#libraries",
+    "href": "maps/25-antarctica.html#libraries",
+    "title": "25 Antarctica",
     "section": "Libraries",
     "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
   },
   {
-    "objectID": "maps/16-oceania.html#data-wrangling",
-    "href": "maps/16-oceania.html#data-wrangling",
-    "title": "14 Oceania",
+    "objectID": "maps/25-antarctica.html#data-wrangling",
+    "href": "maps/25-antarctica.html#data-wrangling",
+    "title": "25 Antarctica",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus <- \"Oceania\"\nlon0 <- 170\nlat0 <- -10\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
+    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Antarctica\"\nlon0 &lt;- 0\nlat0 &lt;- -90\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld &lt;- st_read(\"data/world.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
   },
   {
-    "objectID": "maps/16-oceania.html#tmap",
-    "href": "maps/16-oceania.html#tmap",
-    "title": "14 Oceania",
+    "objectID": "maps/25-antarctica.html#tmap",
+    "href": "maps/25-antarctica.html#tmap",
+    "title": "25 Antarctica",
     "section": "tmap",
     "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
   },
   {
-    "objectID": "maps/16-oceania.html#ggplot2",
-    "href": "maps/16-oceania.html#ggplot2",
-    "title": "14 Oceania",
+    "objectID": "maps/25-antarctica.html#ggplot2",
+    "href": "maps/25-antarctica.html#ggplot2",
+    "title": "25 Antarctica",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },
   {
-    "objectID": "maps/10-north-america.html",
-    "href": "maps/10-north-america.html",
-    "title": "10 North America",
+    "objectID": "maps/06-asia.html",
+    "href": "maps/06-asia.html",
+    "title": "06 Asia",
     "section": "",
-    "text": "Northern part of the American continent."
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\n\nLargest of the continents."
   },
   {
-    "objectID": "maps/10-north-america.html#libraries",
-    "href": "maps/10-north-america.html#libraries",
-    "title": "10 North America",
-    "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+    "objectID": "maps/06-asia.html#libraries",
+    "href": "maps/06-asia.html#libraries",
+    "title": "06 Asia",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\n\nLargest of the continents."
   },
   {
-    "objectID": "maps/10-north-america.html#data-wrangling",
-    "href": "maps/10-north-america.html#data-wrangling",
-    "title": "10 North America",
+    "objectID": "maps/06-asia.html#data-wrangling",
+    "href": "maps/06-asia.html#data-wrangling",
+    "title": "06 Asia",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus <- \"North America\"\nlon0 <- -105\nlat0 <- 45\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
+    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Asia\"\nlon0 &lt;- 100\nlat0 &lt;- 45\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld &lt;- st_read(\"data/world.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
   },
   {
-    "objectID": "maps/10-north-america.html#tmap",
-    "href": "maps/10-north-america.html#tmap",
-    "title": "10 North America",
+    "objectID": "maps/06-asia.html#tmap",
+    "href": "maps/06-asia.html#tmap",
+    "title": "06 Asia",
     "section": "tmap",
     "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
   },
   {
-    "objectID": "maps/10-north-america.html#ggplot2",
-    "href": "maps/10-north-america.html#ggplot2",
-    "title": "10 North America",
+    "objectID": "maps/06-asia.html#ggplot2",
+    "href": "maps/06-asia.html#ggplot2",
+    "title": "06 Asia",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },
@@ -193,7 +165,7 @@
     "href": "maps/12-south-america.html#data-wrangling",
     "title": "12 South America",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus <- \"South America\"\nlon0 <- -62\nlat0 <- -21\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
+    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"South America\"\nlon0 &lt;- -62\nlat0 &lt;- -21\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld &lt;- st_read(\"data/world.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
   },
   {
     "objectID": "maps/12-south-america.html#tmap",
@@ -206,6 +178,181 @@
     "objectID": "maps/12-south-america.html#ggplot2",
     "href": "maps/12-south-america.html#ggplot2",
     "title": "12 South America",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/16-oceania.html",
+    "href": "maps/16-oceania.html",
+    "title": "14 Oceania",
+    "section": "",
+    "text": "Region made up of thousands of islands throughout the Central and South Pacific."
+  },
+  {
+    "objectID": "maps/16-oceania.html#libraries",
+    "href": "maps/16-oceania.html#libraries",
+    "title": "14 Oceania",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/16-oceania.html#data-wrangling",
+    "href": "maps/16-oceania.html#data-wrangling",
+    "title": "14 Oceania",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Oceania\"\nlon0 &lt;- 170\nlat0 &lt;- -10\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld &lt;- st_read(\"data/world.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
+  },
+  {
+    "objectID": "maps/16-oceania.html#tmap",
+    "href": "maps/16-oceania.html#tmap",
+    "title": "14 Oceania",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/16-oceania.html#ggplot2",
+    "href": "maps/16-oceania.html#ggplot2",
+    "title": "14 Oceania",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/02-lines.html",
+    "href": "maps/02-lines.html",
+    "title": "02 Lines",
+    "section": "",
+    "text": "A map with lines."
+  },
+  {
+    "objectID": "maps/02-lines.html#libraries",
+    "href": "maps/02-lines.html#libraries",
+    "title": "02 Lines",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/02-lines.html#data-wrangling",
+    "href": "maps/02-lines.html#data-wrangling",
+    "title": "02 Lines",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  st_cast(\"MULTILINESTRING\") %&gt;%\n  mutate(What = \"Shore\",\n         What = as.factor(What))"
+  },
+  {
+    "objectID": "maps/02-lines.html#tmap",
+    "href": "maps/02-lines.html#tmap",
+    "title": "02 Lines",
+    "section": "tmap",
+    "text": "tmap\nSome of this code is a workaround for an issue I reported.\n\ntm_shape(nz, bbox = nz %&gt;% st_union() %&gt;% st_buffer(500)) + \n  tm_lines(\n    col = \"blue\",\n    lwd = 0.5) + \n  tm_add_legend(\n    type = \"lines\",\n    col = c(\"blue\"),\n    labels = c(\"Shore\"),\n    title = \"What\") +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
+  },
+  {
+    "objectID": "maps/02-lines.html#ggplot2",
+    "href": "maps/02-lines.html#ggplot2",
+    "title": "02 Lines",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(nz) +\n  geom_sf(aes(colour = What), linewidth = 0.25) +\n  scale_colour_manual(values = c(\"blue\")) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/04-bad-map.html",
+    "href": "maps/04-bad-map.html",
+    "title": "04 Bad Map",
+    "section": "",
+    "text": "Let’s get this over with."
+  },
+  {
+    "objectID": "maps/04-bad-map.html#libraries",
+    "href": "maps/04-bad-map.html#libraries",
+    "title": "04 Bad Map",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/04-bad-map.html#data-wrangling",
+    "href": "maps/04-bad-map.html#data-wrangling",
+    "title": "04 Bad Map",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nsh1 &lt;- st_read(\"data/sh1.gpkg\") %&gt;%\n  st_transform(4326) %&gt;%\n  select(geom) %&gt;%\n  mutate(Mode = \"Road\")\ninterislander &lt;- st_read(\"data/interislander.gpkg\") %&gt;%\n  st_transform(4326) %&gt;%\n  select(geom) %&gt;%\n  mutate(Mode = \"Boat\")\ncombined &lt;- sh1 %&gt;%\n  bind_rows(interislander) %&gt;%\n  mutate(Mode = as.factor(Mode))"
+  },
+  {
+    "objectID": "maps/04-bad-map.html#tmap",
+    "href": "maps/04-bad-map.html#tmap",
+    "title": "04 Bad Map",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(combined) +\n  tm_lines(\n    col = \"Mode\",\n    col.scale = tm_scale_categorical(\n      values = c(\"red\", \"blue\"),\n      levels = c(\"Road\", \"Boat\")),\n    lty = \"Mode\",\n    lty.scale = tm_scale_categorical(\n      values = c(\"solid\", \"dashed\"),\n      levels = c(\"Road\", \"Boat\")),\n    lty.legend = tm_legend_combine(\"col\"),\n    lwd = 0.5) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE) +\n  tm_compass()"
+  },
+  {
+    "objectID": "maps/04-bad-map.html#ggplot2",
+    "href": "maps/04-bad-map.html#ggplot2",
+    "title": "04 Bad Map",
+    "section": "ggplot2",
+    "text": "ggplot2\nHere we need an additional package. ggspatial can do it and seems preferable to the not-very-configurable ggsn. The configurability of ggspatial seems a bit over the top for a simple map like this. On the other hand its default north arrow is very on brand for the themes “Bad Map”!\n\nlibrary(ggspatial)\n\nggplot(combined) +\n  geom_sf(aes(colour = Mode, linetype = Mode), linewidth = 0.2) +\n  scale_colour_manual(values = c(\"blue\", \"red\")) +\n  scale_linetype_manual(values = c(\"dotted\", \"solid\")) +\n  annotation_north_arrow(location = \"br\") + \n  theme_void()"
+  },
+  {
+    "objectID": "maps/01-points.html",
+    "href": "maps/01-points.html",
+    "title": "01 Points",
+    "section": "",
+    "text": "A map with points.\nThe first three themes (points, lines, areas) all work with the same data. I’m making a meta-point about the somewhat arbitrary nature of geometries in spatial data (a polygon is after all conceputalised as a point set)."
+  },
+  {
+    "objectID": "maps/01-points.html#libraries",
+    "href": "maps/01-points.html#libraries",
+    "title": "01 Points",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/01-points.html#data-wrangling",
+    "href": "maps/01-points.html#data-wrangling",
+    "title": "01 Points",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nw &lt;- 500\n\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  mutate(Land = TRUE)\n\nbb &lt;- nz %&gt;% \n  st_bbox() %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_buffer(w, nQuadSegs = 1) \n\nshore &lt;- nz %&gt;% \n  st_cast(\"MULTILINESTRING\") %&gt;%\n  st_cast(\"LINESTRING\") %&gt;%\n  st_buffer(w) %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  mutate(Shore = TRUE)\n\nland &lt;- nz %&gt;%\n  st_union() %&gt;%\n  st_buffer(w)\n\nwater &lt;- bb %&gt;%\n  st_difference(land) %&gt;%\n  mutate(Water = TRUE)\n\npts &lt;- bb %&gt;%\n  st_sample(250000) %&gt;%\n  st_sf() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_join(water) %&gt;%\n  st_join(nz) %&gt;%\n  st_join(shore) %&gt;%\n  mutate(Water = replace_na(Water, FALSE),\n         Land  = replace_na(Land, FALSE),\n         Shore = replace_na(Shore, FALSE),\n         What = NA) %&gt;%\n  slice(sample(1:n()))\n\npts[pts$Water, \"What\"] &lt;- \"Water\"\npts[pts$Land, \"What\"] &lt;- \"Land\"\npts[pts$Shore, \"What\"] &lt;- \"Shore\"\n\npts &lt;- pts %&gt;%\n  mutate(What = as.factor(What)) %&gt;%\n  filter(!is.na(What))"
+  },
+  {
+    "objectID": "maps/01-points.html#tmap",
+    "href": "maps/01-points.html#tmap",
+    "title": "01 Points",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(pts) + \n  tm_dots(\n    fill = \"What\",\n    fill.scale = tm_scale_categorical(\n      values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\"),\n      levels = c(\"Land\", \"Shore\", \"Water\")), \n    size = 0.05) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
+  },
+  {
+    "objectID": "maps/01-points.html#ggplot2",
+    "href": "maps/01-points.html#ggplot2",
+    "title": "01 Points",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(pts) +\n  geom_sf(aes(colour = What), size = 0.025) +\n  scale_colour_manual(values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\")) + \n  theme_void()"
+  },
+  {
+    "objectID": "maps/10-north-america.html",
+    "href": "maps/10-north-america.html",
+    "title": "10 North America",
+    "section": "",
+    "text": "Northern part of the American continent."
+  },
+  {
+    "objectID": "maps/10-north-america.html#libraries",
+    "href": "maps/10-north-america.html#libraries",
+    "title": "10 North America",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/10-north-america.html#data-wrangling",
+    "href": "maps/10-north-america.html#data-wrangling",
+    "title": "10 North America",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"North America\"\nlon0 &lt;- -105\nlat0 &lt;- 45\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld &lt;- st_read(\"data/world.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
+  },
+  {
+    "objectID": "maps/10-north-america.html#tmap",
+    "href": "maps/10-north-america.html#tmap",
+    "title": "10 North America",
+    "section": "tmap",
+    "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/10-north-america.html#ggplot2",
+    "href": "maps/10-north-america.html#ggplot2",
+    "title": "10 North America",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },
@@ -228,7 +375,7 @@
     "href": "maps/09-hexes.html#data-wrangling",
     "title": "09 Hexagons",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nsquare <- c(1.74e6 + 1e4 * c(0, 0, 1, 1, 0), \n            5.42e6 + 1e4 * c(0, 1, 1, 0, 0)) %>%\n  matrix(ncol = 2) %>%\n  list() %>%\n  st_polygon() %>%\n  st_sfc() %>%\n  st_sf(crs = 2193) %>%\n  st_transform(4326)\n\nget_hexes <- function(poly, resolution, distance) {\n  poly %>% \n    st_buffer(distance) %>%\n    polyfill(res = resolution) %>% \n    h3_to_geo_boundary() %>% \n    geo_boundary_to_sf()\n}\n\nh3_5 <- get_hexes(square, 5, 5000) %>% \n  st_cast(\"LINESTRING\")\nh3_6 <- get_hexes(square, 6, 2500) %>% \n  st_cast(\"LINESTRING\")\nh3_7 <- get_hexes(square, 7, 1500) %>% \n  st_cast(\"LINESTRING\")\nh3_8 <- get_hexes(square, 8, 1000) %>% \n  st_cast(\"LINESTRING\")\nh3_9 <- get_hexes(square, 9, 750) %>% \n  st_cast(\"LINESTRING\")\nh3_10 <- get_hexes(square, 10, 500) %>% \n  st_cast(\"LINESTRING\")\n\nbb <- h3_10 %>% \n  st_union() %>%\n  st_bbox()\n\ncredit <- maptiles::get_credit(\"OpenStreetMap\")"
+    "text": "Data wrangling\n\n\nCode\nsquare &lt;- c(1.74e6 + 1e4 * c(0, 0, 1, 1, 0), \n            5.42e6 + 1e4 * c(0, 1, 1, 0, 0)) %&gt;%\n  matrix(ncol = 2) %&gt;%\n  list() %&gt;%\n  st_polygon() %&gt;%\n  st_sfc() %&gt;%\n  st_sf(crs = 2193) %&gt;%\n  st_transform(4326)\n\nget_hexes &lt;- function(poly, resolution, distance) {\n  poly %&gt;% \n    st_buffer(distance) %&gt;%\n    polyfill(res = resolution) %&gt;% \n    h3_to_geo_boundary() %&gt;% \n    geo_boundary_to_sf()\n}\n\nh3_5 &lt;- get_hexes(square, 5, 5000) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_6 &lt;- get_hexes(square, 6, 2500) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_7 &lt;- get_hexes(square, 7, 1500) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_8 &lt;- get_hexes(square, 8, 1000) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_9 &lt;- get_hexes(square, 9, 750) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_10 &lt;- get_hexes(square, 10, 500) %&gt;% \n  st_cast(\"LINESTRING\")\n\nbb &lt;- h3_10 %&gt;% \n  st_union() %&gt;%\n  st_bbox()\n\ncredit &lt;- maptiles::get_credit(\"OpenStreetMap\")"
   },
   {
     "objectID": "maps/09-hexes.html#tmap",
@@ -243,34 +390,6 @@
     "title": "09 Hexagons",
     "section": "ggplot2",
     "text": "ggplot2\nggspatial seems the best option for a static background basemap.\n\nlibrary(ggspatial)\n\nggplot(square, aes(colour = \"#00000000\")) +\n  annotation_map_tile(zoomin = 1) + \n  geom_sf(data = h3_5, linewidth = 1, colour = \"black\") +\n  geom_sf(data = h3_6, linewidth = 0.75, colour = \"black\") +\n  geom_sf(data = h3_7, linewidth = 0.6, colour = \"black\") +\n  geom_sf(data = h3_8, linewidth = 0.45, colour = \"black\") +\n  geom_sf(data = h3_9, linewidth = 0.35, colour = \"black\") +\n  geom_sf(data = h3_10, linewidth = 0.25, colour = \"black\") +\n  xlim(bb[1], bb[3]) +\n  ylim(bb[2], bb[4]) +\n  theme_void()"
-  },
-  {
-    "objectID": "maps/06-asia.html",
-    "href": "maps/06-asia.html",
-    "title": "06 Asia",
-    "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\n\nLargest of the continents."
-  },
-  {
-    "objectID": "maps/06-asia.html#data-wrangling",
-    "href": "maps/06-asia.html#data-wrangling",
-    "title": "06 Asia",
-    "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus <- \"Asia\"\nlon0 <- 100\nlat0 <- 45\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
-  },
-  {
-    "objectID": "maps/06-asia.html#tmap",
-    "href": "maps/06-asia.html#tmap",
-    "title": "06 Asia",
-    "section": "tmap",
-    "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
-  },
-  {
-    "objectID": "maps/06-asia.html#ggplot2",
-    "href": "maps/06-asia.html#ggplot2",
-    "title": "06 Asia",
-    "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },
   {
     "objectID": "maps/08-africa.html",
@@ -291,7 +410,7 @@
     "href": "maps/08-africa.html#data-wrangling",
     "title": "08 Africa",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus <- \"Africa\"\nlon0 <- 20\nlat0 <- 0\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
+    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Africa\"\nlon0 &lt;- 20\nlat0 &lt;- 0\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld &lt;- st_read(\"data/world.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
   },
   {
     "objectID": "maps/08-africa.html#tmap",
@@ -304,41 +423,6 @@
     "objectID": "maps/08-africa.html#ggplot2",
     "href": "maps/08-africa.html#ggplot2",
     "title": "08 Africa",
-    "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
-  },
-  {
-    "objectID": "maps/25-antarctica.html",
-    "href": "maps/25-antarctica.html",
-    "title": "25 Antarctica",
-    "section": "",
-    "text": "A cold continent that can’t be reached with Web Mercator."
-  },
-  {
-    "objectID": "maps/25-antarctica.html#libraries",
-    "href": "maps/25-antarctica.html#libraries",
-    "title": "25 Antarctica",
-    "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
-  },
-  {
-    "objectID": "maps/25-antarctica.html#data-wrangling",
-    "href": "maps/25-antarctica.html#data-wrangling",
-    "title": "25 Antarctica",
-    "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus <- \"Antarctica\"\nlon0 <- 0\nlat0 <- -90\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
-  },
-  {
-    "objectID": "maps/25-antarctica.html#tmap",
-    "href": "maps/25-antarctica.html#tmap",
-    "title": "25 Antarctica",
-    "section": "tmap",
-    "text": "tmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
-  },
-  {
-    "objectID": "maps/25-antarctica.html#ggplot2",
-    "href": "maps/25-antarctica.html#ggplot2",
-    "title": "25 Antarctica",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },
@@ -361,7 +445,7 @@
     "href": "maps/14-europe.html#data-wrangling",
     "title": "14 Europe",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus <- \"Europe\"\nlon0 <- 30\nlat0 <- 60\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT)\n\nworld_o <- world %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)"
+    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Europe\"\nlon0 &lt;- 30\nlat0 &lt;- 60\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld &lt;- st_read(\"data/world.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
   },
   {
     "objectID": "maps/14-europe.html#tmap",
@@ -376,41 +460,6 @@
     "title": "14 Europe",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
-  },
-  {
-    "objectID": "maps/07-navigation.html",
-    "href": "maps/07-navigation.html",
-    "title": "07 Navigation",
-    "section": "",
-    "text": "A map that helps you to navigate."
-  },
-  {
-    "objectID": "maps/07-navigation.html#libraries",
-    "href": "maps/07-navigation.html#libraries",
-    "title": "07 Navigation",
-    "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(geosphere)\nlibrary(ggplot2)\nlibrary(stringr)\n\nsource(\"~/Documents/code/30-day-maps-2023/maps/utils.R\")"
-  },
-  {
-    "objectID": "maps/07-navigation.html#data-wrangling",
-    "href": "maps/07-navigation.html#data-wrangling",
-    "title": "07 Navigation",
-    "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nstart_lat <- -41.3\nstart_lon <- 174.75\nend_lat <- 45\northo_proj <- str_glue(\"+proj=ortho +lat_0={start_lat} +lon_0={174.75}\")\nbearing <- -88.5\nstep_length <- 5e4\nlast_pt <- c(start_lon, start_lat)\nlox <- list()\ntransect <- last_pt\ni <- 1\nwhile (last_pt[2] < end_lat) {\n  next_pt <- destPointRhumb(last_pt, bearing, step_length)\n  if (next_pt[1] > last_pt[1]) {\n    lox[[i]] <- transect\n    i <- i + 1\n    transect <- c(next_pt)\n  } else {\n    transect <- c(transect, next_pt)\n  }\n  last_pt <- next_pt\n}\nlox[[i]] <- transect\n\nlox_sf <- lox %>%\n  lapply(unlist) %>%\n  lapply(matrix, ncol = 2, byrow = TRUE) %>%\n  st_multilinestring() %>%\n  st_sfc() %>%\n  st_sf(crs = 4326) %>%\n  st_cast(\"LINESTRING\") %>%\n  st_cast(\"POINT\")\n\ndata(\"World\")\nworld <- World %>%\n  st_cast(\"POLYGON\") %>%\n  st_transform(ortho_proj) %>%\n  dplyr::filter(!(st_is_empty(geometry)))\n\ngraticule <- get_graticule(centre = c(start_lon, start_lat)) %>%\n  st_transform(ortho_proj)"
-  },
-  {
-    "objectID": "maps/07-navigation.html#tmap",
-    "href": "maps/07-navigation.html#tmap",
-    "title": "07 Navigation",
-    "section": "tmap",
-    "text": "tmap\nAt time of writing there is a bug in tm_title so no title on this map. See this issue.\nNote that I hand made the graticule using code from a sourced R file which trims the graticule to only extend across the mapped area. Neither tmap nor ggplot2 successfully applied the graticule in this projection without errors using their native functionality.\n\ntm_shape(world) +\n  tm_fill(fill = \"#cccccc\", lwd = 0) +\n  tm_shape(graticule, is.main = TRUE) +\n  tm_lines(col = \"grey\", lwd = 0.5) +\n  tm_shape(lox_sf) +\n  tm_dots(fill = \"firebrick\", size = 0.001) +\n  # tm_title(\"    Go (just north of) west! See also Day 22\") +\n  tm_layout(frame = FALSE)"
-  },
-  {
-    "objectID": "maps/07-navigation.html#ggplot2",
-    "href": "maps/07-navigation.html#ggplot2",
-    "title": "07 Navigation",
-    "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(world) +\n  geom_sf(fill = \"#cccccc\", linewidth = 0) +\n  geom_sf(data = graticule, colour = \"grey\", linewidth = 0.2) +\n  geom_sf(data = lox_sf, colour = \"firebrick\", size = 0.01) +\n  ggtitle(\"Go west(ish). See also Day 22\") +\n  theme_void()"
   },
   {
     "objectID": "maps/13-choropleth.html",
@@ -431,7 +480,7 @@
     "href": "maps/13-choropleth.html#data-wrangling",
     "title": "13 Choropleth",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nak <- st_read(\"data/ak-demographics-2018.gpkg\") %>% \n  slice(-1) # remove Gulf Islands"
+    "text": "Data wrangling\n\n\nCode\nak &lt;- st_read(\"data/ak-demographics-2018.gpkg\") %&gt;% \n  slice(-1) # remove Gulf Islands"
   },
   {
     "objectID": "maps/13-choropleth.html#tmap",
@@ -445,42 +494,7 @@
     "href": "maps/13-choropleth.html#ggplot2",
     "title": "13 Choropleth",
     "section": "ggplot2",
-    "text": "ggplot2\nHere we have to do all the classification work and use the scale_fill_fermenter() function to get the same effect. We can use classInt::classIntervals() to do this. Even then we have to make up the legend labels manually. An added challenge caused by placing the legend below the map area is that we have to extend the plot area to accommodate it, using coord_sf(...ylim=...).\n\nlibrary(classInt)\n\nintervals <- classIntervals(ak$maori, 9, \"quantile\", digits = 1)\nbrks <- round(intervals$brks, 1)\nlbls = paste0(brks[-10], rep(\" to \", 9), brks[-1])\nbb <- st_bbox(ak)\n\nggplot(ak) + \n  geom_sf(aes(fill = maori), colour = \"grey\", linewidth = 0.2) +\n  scale_fill_fermenter(\n    palette = \"YlGnBu\",\n    direction = 1,\n    breaks = brks[-10],\n    labels = lbls,\n    name = \"% Māori\",\n    guide = guide_legend(\n      keywidth = unit(15, units = \"mm\"),\n      keyheight = unit(3, units = \"mm\"),\n      label.position = \"bottom\",\n      title.position = \"top\",\n      nrow = 1)) +\n  coord_sf(ylim = c(bb[2] - 10000, bb[4]), clip = \"off\") +\n  theme_void() +\n  theme(legend.position = c(0.5, 0.1))"
-  },
-  {
-    "objectID": "maps/22-north-not-up.html",
-    "href": "maps/22-north-not-up.html",
-    "title": "22 North is Not Up",
-    "section": "",
-    "text": "↑"
-  },
-  {
-    "objectID": "maps/22-north-not-up.html#libraries",
-    "href": "maps/22-north-not-up.html#libraries",
-    "title": "22 North is Not Up",
-    "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\nsource(\"~/Documents/code/30-day-maps-2023/maps/utils.R\")"
-  },
-  {
-    "objectID": "maps/22-north-not-up.html#data-wrangling",
-    "href": "maps/22-north-not-up.html#data-wrangling",
-    "title": "22 North is Not Up",
-    "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus <- \"Antarctica\"\nlon0 <- 0\nlat0 <- -90\nproj <- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld <- st_read(\"data/world.gpkg\") %>%\n  st_make_valid() %>%\n  select(CONTINENT) %>%\n  st_transform(proj) %>%\n  st_make_valid() %>%\n  filter(!st_is_empty(.)) %>%\n  group_by(CONTINENT) %>%\n  summarise() \n\ncontinent <- world %>%\n  filter(CONTINENT == focus)\n\ngraticule <- get_graticule(spacing = 15)"
-  },
-  {
-    "objectID": "maps/22-north-not-up.html#tmap",
-    "href": "maps/22-north-not-up.html#tmap",
-    "title": "22 North is Not Up",
-    "section": "tmap",
-    "text": "tmap\n\ntm_shape(world) +\n  tm_fill() + \n  tm_shape(graticule) +\n  tm_lines(col = \"lightgrey\", lwd = 0.5) +\n  tm_compass() +\n  tm_layout(frame = FALSE)"
-  },
-  {
-    "objectID": "maps/22-north-not-up.html#ggplot2",
-    "href": "maps/22-north-not-up.html#ggplot2",
-    "title": "22 North is Not Up",
-    "section": "ggplot2",
-    "text": "ggplot2\nWe need ggspatial for a north arrow here.\n\nlibrary(ggspatial)\n\nggplot(world) +\n  geom_sf(linewidth = 0) +\n  geom_sf(data = graticule, col = \"lightgrey\", linewidth = 0.25) +\n  annotation_north_arrow(location = \"br\") + \n  theme_void()"
+    "text": "ggplot2\nHere we have to do all the classification work and use the scale_fill_fermenter() function to get the same effect. We can use classInt::classIntervals() to do this. Even then we have to make up the legend labels manually. An added challenge caused by placing the legend below the map area is that we have to extend the plot area to accommodate it, using coord_sf(...ylim=...).\n\nlibrary(classInt)\n\nintervals &lt;- classIntervals(ak$maori, 9, \"quantile\", digits = 1)\nbrks &lt;- round(intervals$brks, 1)\nlbls = paste0(brks[-10], rep(\" to \", 9), brks[-1])\nbb &lt;- st_bbox(ak)\n\nggplot(ak) + \n  geom_sf(aes(fill = maori), colour = \"grey\", linewidth = 0.2) +\n  scale_fill_fermenter(\n    palette = \"YlGnBu\",\n    direction = 1,\n    breaks = brks[-10],\n    labels = lbls,\n    name = \"% Māori\",\n    guide = guide_legend(\n      keywidth = unit(15, units = \"mm\"),\n      keyheight = unit(3, units = \"mm\"),\n      label.position = \"bottom\",\n      title.position = \"top\",\n      nrow = 1)) +\n  coord_sf(ylim = c(bb[2] - 10000, bb[4]), clip = \"off\") +\n  theme_void() +\n  theme(legend.position = c(0.5, 0.1))"
   },
   {
     "objectID": "maps/03-polygons.html",
@@ -501,7 +515,7 @@
     "href": "maps/03-polygons.html#data-wrangling",
     "title": "03 Polygons",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nnz <- st_read(\"data/nz.gpkg\") %>%\n  st_union() %>%\n  st_as_sf() %>%\n  mutate(What = \"Land\")\n\nnot_nz <- nz %>% \n  st_union() %>%\n  st_buffer(500) %>%\n  st_bbox() %>%\n  st_as_sfc() %>%\n  st_as_sf() %>%\n  st_difference(nz) %>%\n  mutate(What = \"Water\")\n\nnz_not_nz <- nz %>%\n  bind_rows(not_nz) %>%\n  mutate(What = as.factor(What))"
+    "text": "Data wrangling\n\n\nCode\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  st_union() %&gt;%\n  st_as_sf() %&gt;%\n  mutate(What = \"Land\")\n\nnot_nz &lt;- nz %&gt;% \n  st_union() %&gt;%\n  st_buffer(500) %&gt;%\n  st_bbox() %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf() %&gt;%\n  st_difference(nz) %&gt;%\n  mutate(What = \"Water\")\n\nnz_not_nz &lt;- nz %&gt;%\n  bind_rows(not_nz) %&gt;%\n  mutate(What = as.factor(What))"
   },
   {
     "objectID": "maps/03-polygons.html#tmap",
@@ -516,12 +530,5 @@
     "title": "03 Polygons",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(nz_not_nz) +\n  geom_sf(aes(fill = What), linewidth = 0) +\n  scale_fill_manual(values = c(\"#33aa66\", \"#bbddff\")) +\n  theme_void()"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "So what’s this all about then?",
-    "section": "",
-    "text": "I decided to give the 30 Day Map Challenge a go as a learning exercise. My efforts are certainly not an exercise in flashy or impressive cartographic design.\nI’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead.\nSo… I thought I’d try to make a bunch of maps using both platforms to get a feel for the pros and cons of each.\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n09 Hexagons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n13 Choropleth\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n22 North is Not Up\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   }
 ]

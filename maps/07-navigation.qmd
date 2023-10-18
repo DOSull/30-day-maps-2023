@@ -83,7 +83,7 @@ tm_shape(world) +
   tm_lines(col = "grey", lwd = 0.5) +
   tm_shape(lox_sf) +
   tm_dots(fill = "firebrick", size = 0.001) +
-  # tm_title("    Go (just north of) west! See also Day 22") +
+  tm_title("    Go west(ish) west! See also Day 22") +
   tm_layout(frame = FALSE)
 ```
 

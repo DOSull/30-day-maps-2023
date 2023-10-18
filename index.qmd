@@ -2,7 +2,7 @@
 title: "So what's this all about then?"
 listing: 
   type: grid
-  contents: maps/
+  contents: maps/*.qmd
 ---
 
 I decided to give the [30 Day Map Challenge](https://30daymapchallenge.com/) a go as a learning exercise. My efforts are certainly not an exercise in flashy or impressive cartographic design.
