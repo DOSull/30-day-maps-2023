@@ -42,16 +42,16 @@ tm_shape(ak) +
 
 It is nice to have the additional control that the separate specification of the `.scale` and `.legend` parameters provide, but the downside is a lot of additional typing. On the other, hand, if you like typing, take a look at what's involved in making a similar map using `ggplot2`.
 
+Some of the additional difficulty here is choosing to use a 'non-standard', legend, but this still seems like quite a lot of code.
+
 ```{r}
 tm_shape(ak) + 
   tm_polygons(
     fill = "maori",
     fill.scale = tm_scale_intervals(
-      n = 9, values = "YlGnBu", 
-      style = "quantile"),
+      n = 9, values = "YlGnBu", style = "quantile"),
     fill.legend = tm_legend(
-      orientation = "landscape",
-      title = "% Māori"),
+      orientation = "landscape", title = "% Māori"),
     col = "grey",
     lwd = 0.35
   ) +
@@ -61,15 +61,29 @@ tm_shape(ak) +
     legend.frame = FALSE)
 ```
 
+Version 3.x `tmap` would accomplish the same map (setting to one side the custome legend) with
+
+```
+tm_shape(ak) +
+  tm_polygons(col = "maori", n = 9, palette = "YlGnBu", style = "quantile"
+              border.col = "grey", lwd = 0.35)
+```
+
+I should note that at least for now this v3 code will be internally transformed to v4 code, and hence still directly useable.
+
+The 'embedded functions' approach such as `tm_scale_intervals` seems like extra work. The change from `palette` to `values` is consistent with the _visual variables_ concept, but I think you have to admit that it is likely to be less obvious to a beginner.
+
 ## `ggplot2`
-Here we have to do all the classification work and use the `scale_fill_fermenter()` function to get the same effect. We can use `classInt::classIntervals()` to do this. Even then we have to make up the legend labels manually. An added challenge caused by placing the legend below the map area is that we have to extend the plot area to accommodate it, using `coord_sf(...ylim=...)`.
+Here, we have to do all the classification work and use the `scale_fill_fermenter()` and function to get the same effect. We use `classInt::classIntervals()` to make breaks. Even then we have to make up the legend labels manually if we want to show ranges, not just the break values. Much as I uh... appreciate the quirkiness of _R_'s `paste()` function, I don't relish explaining this to an introductory class!
+
+An additional challenge caused by placing the legend below the map area is that we have to extend the plot area to accommodate it, using `coord_sf(...ylim=...)`, but that's a distraction it is the generation of breaks, and legend labels that is the real annoyance (at least to me).
 
 ```{r}
 library(classInt)
 
-intervals <- classIntervals(ak$maori, 9, "quantile", digits = 1)
-brks <- round(intervals$brks, 1)
-lbls = paste0(brks[-10], rep(" to ", 9), brks[-1])
+class_breaks <- classIntervals(ak$maori, 9, "quantile", digits = 1)
+brks <- round(class_breaks$brks, 1)
+intervals = paste(brks[-10], rep(" to ", 9), brks[-1])
 bb <- st_bbox(ak)
 
 ggplot(ak) + 
@@ -78,7 +92,7 @@ ggplot(ak) +
     palette = "YlGnBu",
     direction = 1,
     breaks = brks[-10],
-    labels = lbls,
+    labels = intervals,
     name = "% Māori",
     guide = guide_legend(
       keywidth = unit(15, units = "mm"),
@@ -91,3 +105,14 @@ ggplot(ak) +
   theme(legend.position = c(0.5, 0.1))
 
 ```
+
+The underlying issue here is that `ggplot2` really doesn't want to make classed choropleths. The data are 'continuous' valued and `ggplot2`'s strong preference is to associate a continuous variable with a continuos visual variable. You can see this if you let it do its own thing:
+
+```{r}
+ggplot(ak) + 
+  geom_sf(aes(fill = maori), colour = "grey", linewidth = 0.2) +
+  scale_fill_distiller(palette = "YlGnBu", direction = 1) +
+  theme_void()
+```
+
+Data values are mapped directly to positions on the colour ramp. Doing different things to this requires the kind of additional work we see above.
