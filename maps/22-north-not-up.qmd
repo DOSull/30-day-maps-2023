@@ -58,18 +58,70 @@ tm_shape(world) +
   tm_fill() + 
   tm_shape(graticule) +
   tm_lines(col = "lightgrey", lwd = 0.5) +
-  tm_compass() +
+  tm_compass(cardinal.directions = c("UP", "S", "E", "W")) +
   tm_layout(frame = FALSE)
 ```
 
 ## `ggplot2`
 We need [`ggspatial`](https://paleolimbot.github.io/ggspatial/) for a north arrow here.
+
+But even then, to customize it I have to make my own function.
+
+```{r}
+#| code-fold: true
+up_arrow <- function(line_width = 0.5, line_col = "black", 
+                                fill = "black", text_col = "black", 
+                                text_family = "", text_face = NULL,
+                                text_size = 8) {
+  text_label = "UP"
+  text_adj = c(0.5, 0.5)
+
+  grid::gList(
+    grid::polygonGrob(
+      x = c(0.6, 0.5, 0.5),
+      y = c(0.35, 0.9, 0.45),
+      default.units = "npc",
+      gp = grid::gpar(
+        lwd = line_width,
+        col = line_col,
+        fill = fill
+      )
+    ),
+    grid::polygonGrob(
+      x = c(0.4, 0.5, 0.5),
+      y = c(0.35, 0.9, 0.45),
+      default.units = "npc",
+      gp = grid::gpar(
+        lwd = line_width,
+        col = line_col,
+        fill = NULL
+      )
+    ),
+    grid::textGrob(
+      label = text_label,
+      x = 0.5,
+      y = 1,
+      hjust = text_adj[0],
+      vjust = text_adj[1],
+      rot = 0,
+      gp = grid::gpar(
+        fontfamily = text_family,
+        fontface = text_face,
+        fontsize = text_size,
+        col = text_col
+      )
+    )
+  )
+}
+```
+
+
 ```{r}
 library(ggspatial)
 
 ggplot(world) +
   geom_sf(linewidth = 0) +
   geom_sf(data = graticule, col = "lightgrey", linewidth = 0.25) +
-  annotation_north_arrow(location = "br") + 
+  annotation_north_arrow(location = "br", style = up_arrow) + 
   theme_void()
 ```

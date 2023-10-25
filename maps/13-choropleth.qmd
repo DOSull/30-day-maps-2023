@@ -106,7 +106,7 @@ ggplot(ak) +
 
 ```
 
-The underlying issue here is that `ggplot2` really doesn't want to make classed choropleths. The data are 'continuous' valued and `ggplot2`'s strong preference is to associate a continuous variable with a continuos visual variable. You can see this if you let it do its own thing:
+The underlying issue here is that `ggplot2` really doesn't want to make classed choropleths. The data are 'continuous' valued and `ggplot2`'s strong preference is to associate a continuous variable with a continuous visual variable. You can see this if you let it do its own thing:
 
 ```{r}
 ggplot(ak) + 

@@ -251,7 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="13-choropleth_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The underlying issue here is that <code>ggplot2</code> really doesn’t want to make classed choropleths. The data are ‘continuous’ valued and <code>ggplot2</code>’s strong preference is to associate a continuous variable with a continuos visual variable. You can see this if you let it do its own thing:</p>
+<p>The underlying issue here is that <code>ggplot2</code> really doesn’t want to make classed choropleths. The data are ‘continuous’ valued and <code>ggplot2</code>’s strong preference is to associate a continuous variable with a continuous visual variable. You can see this if you let it do its own thing:</p>
 <div class="cell" data-hash="13-choropleth_cache/html/unnamed-chunk-5_43cfad263fa8db32d0cdc817670b893a">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ak) <span class="sc">+</span> </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> maori), <span class="at">colour =</span> <span class="st">"grey"</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
