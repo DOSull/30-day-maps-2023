@@ -69,31 +69,28 @@ But even then, to customize it I have to make my own function.
 
 ```{r}
 #| code-fold: true
-up_arrow <- function(line_width = 0.5, line_col = "black", 
-                                fill = "black", text_col = "black", 
-                                text_family = "", text_face = NULL,
-                                text_size = 8) {
-  text_label = "UP"
+up_arrow <- function(label = "UP") {
+  text_label = label
   text_adj = c(0.5, 0.5)
 
   grid::gList(
     grid::polygonGrob(
-      x = c(0.6, 0.5, 0.5),
-      y = c(0.35, 0.9, 0.45),
+      x = c(0.625, 0.5, 0.5),
+      y = c(0.3, 0.85, 0.4),
       default.units = "npc",
       gp = grid::gpar(
-        lwd = line_width,
-        col = line_col,
-        fill = fill
+        lwd = 1,
+        col = "black",
+        fill = "black"
       )
     ),
     grid::polygonGrob(
-      x = c(0.4, 0.5, 0.5),
-      y = c(0.35, 0.9, 0.45),
+      x = c(0.375, 0.5, 0.5),
+      y = c(0.3, 0.85, 0.4),
       default.units = "npc",
       gp = grid::gpar(
-        lwd = line_width,
-        col = line_col,
+        lwd = 0.5,
+        col = "black",
         fill = NULL
       )
     ),
@@ -101,20 +98,16 @@ up_arrow <- function(line_width = 0.5, line_col = "black",
       label = text_label,
       x = 0.5,
       y = 1,
-      hjust = text_adj[0],
-      vjust = text_adj[1],
+      hjust = 0.5,
+      vjust = 0.5,
       rot = 0,
-      gp = grid::gpar(
-        fontfamily = text_family,
-        fontface = text_face,
-        fontsize = text_size,
-        col = text_col
-      )
+      gp = grid::gpar(fontsize = 9)
     )
   )
 }
 ```
 
+On the other hand, since I've done the work, I might as well make the most of it.
 
 ```{r}
 library(ggspatial)
@@ -123,5 +116,8 @@ ggplot(world) +
   geom_sf(linewidth = 0) +
   geom_sf(data = graticule, col = "lightgrey", linewidth = 0.25) +
   annotation_north_arrow(location = "br", style = up_arrow) + 
+  annotation_north_arrow(location = "tr", style = up_arrow("LEFT"), rotation = 90) + 
+  annotation_north_arrow(location = "tl", style = up_arrow("DOWN"), rotation = 180) + 
+  annotation_north_arrow(location = "bl", style = up_arrow("RIGHT"), rotation = 270) + 
   theme_void()
 ```
