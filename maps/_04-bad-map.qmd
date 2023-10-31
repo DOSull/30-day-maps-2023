@@ -60,7 +60,7 @@ tm_shape(combined) +
 ```
 
 ## `ggplot2`
-Here we need an additional package. [`ggspatial`](https://paleolimbot.github.io/ggspatial/) can do it and seems preferable to the not-very-configurable `ggsn`. The configurability of `ggspatial` seems a bit over the top for a simple map like this. On the other hand its default north arrow is very on brand for the themes "Bad Map"!
+Here we need an additional package. [`ggspatial`](https://paleolimbot.github.io/ggspatial/) can do it and seems preferable to the not-very-configurable `ggsn`. The configurability of `ggspatial` seems a bit over the top for a simple map like this. On the other hand its default north arrow is very on brand for the theme "Bad Map"!
 ```{r}
 library(ggspatial)
 

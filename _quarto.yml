@@ -4,20 +4,16 @@ project:
 
 website:
   title: "30 Day Map Challenge 2023"
-  navbar:
-    left:
-      - href: index.qmd
-        text: The Maps
-    pinned: true
+  sidebar:
+    contents:
+      - index.qmd 
+      - auto: maps/
+    floating: true
+  page-navigation: true
 
 format:
   html:
     theme: 
-      - slate
-      # - custom.scss
+      - litera
     toc: true
-    # css: styles.css
     df-print: kable
-
-
-

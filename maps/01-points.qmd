@@ -19,9 +19,12 @@ The first three themes (points, lines, areas) all work with the same data. I'm m
 #| code-fold: true
 library(sf)
 library(tmap)
+library(tidyr)
 library(dplyr)
 library(ggplot2)
 ```
+
+Ironically, of the three, the points maps was the fiddliest to make from the data wrangling perspective, because of course, the source data is a polygon dataset.
 
 ## Data wrangling
 ```{r}
@@ -76,7 +79,10 @@ pts <- pts %>%
   filter(!is.na(What))
 ```
 
-## `tmap`
+## The maps
+### `tmap`
+`tmap` v4's slightly verbose format is apparent here. There is no obvious way to make legend elements larger hence more readable.
+
 ```{r}
 tm_shape(pts) + 
   tm_dots(
@@ -92,9 +98,12 @@ tm_shape(pts) +
 ```
 
 ## `ggplot2`
+In `ggplot2` you can override the default symbol size in the colour legend, although it's not exactly an obvious snippet of code! The default legend position in `ggplot2` is not my preference, but I can't be bothered to move it.
+
 ```{r}
 ggplot(pts) +
   geom_sf(aes(colour = What), size = 0.025) +
   scale_colour_manual(values = c("#33aa6660", "#0000ff60", "#bbddff60")) + 
+  guides(colour = guide_legend(override.aes = list(size = 5))) +
   theme_void()
 ```

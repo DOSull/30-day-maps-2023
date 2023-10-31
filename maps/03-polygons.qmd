@@ -44,7 +44,10 @@ nz_not_nz <- nz %>%
   mutate(What = as.factor(What))
 ```
 
-## `tmap`
+## The maps
+Perhaps unsurprisingly, this is the case where both packages require the least additional work to get the desired result.
+
+### `tmap`
 ```{r}
 tm_shape(nz_not_nz) + 
   tm_fill(

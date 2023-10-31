@@ -32,7 +32,8 @@ nz <- st_read("data/nz.gpkg") %>%
 ```
 
 ## `tmap`
-Some of this code is a workaround for an [issue I reported](https://github.com/r-tmap/tmap/issues/797).
+It seems like if you don't 'need' a legend, i.e. if there is only one symbolisation in your map, then `tmap` won't generate one, and you have to 'force it' with the `tm_add_legend` function.
+
 ```{r}
 tm_shape(nz, bbox = nz %>% st_union() %>% st_buffer(500)) + 
   tm_lines(
