@@ -24,9 +24,9 @@ library(dplyr)
 library(ggplot2)
 ```
 
+## Data wrangling
 Ironically, of the three, the points maps was the fiddliest to make from the data wrangling perspective, because of course, the source data is a polygon dataset.
 
-## Data wrangling
 ```{r}
 #| results: false
 #| code-fold: true

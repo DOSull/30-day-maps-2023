@@ -18,14 +18,14 @@
     "href": "maps/01-points.html#libraries",
     "title": "01 Points",
     "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(tidyr)\nlibrary(dplyr)\nlibrary(ggplot2)\n\n\nIronically, of the three, the points maps was the fiddliest to make from the data wrangling perspective, because of course, the source data is a polygon dataset."
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(tidyr)\nlibrary(dplyr)\nlibrary(ggplot2)"
   },
   {
     "objectID": "maps/01-points.html#data-wrangling",
     "href": "maps/01-points.html#data-wrangling",
     "title": "01 Points",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nw &lt;- 500\n\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  mutate(Land = TRUE)\n\nbb &lt;- nz %&gt;% \n  st_bbox() %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_buffer(w, nQuadSegs = 1) \n\nshore &lt;- nz %&gt;% \n  st_cast(\"MULTILINESTRING\") %&gt;%\n  st_cast(\"LINESTRING\") %&gt;%\n  st_buffer(w) %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  mutate(Shore = TRUE)\n\nland &lt;- nz %&gt;%\n  st_union() %&gt;%\n  st_buffer(w)\n\nwater &lt;- bb %&gt;%\n  st_difference(land) %&gt;%\n  mutate(Water = TRUE)\n\npts &lt;- bb %&gt;%\n  st_sample(250000) %&gt;%\n  st_sf() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_join(water) %&gt;%\n  st_join(nz) %&gt;%\n  st_join(shore) %&gt;%\n  mutate(Water = replace_na(Water, FALSE),\n         Land  = replace_na(Land, FALSE),\n         Shore = replace_na(Shore, FALSE),\n         What = NA) %&gt;%\n  slice(sample(1:n()))\n\npts[pts$Water, \"What\"] &lt;- \"Water\"\npts[pts$Land, \"What\"] &lt;- \"Land\"\npts[pts$Shore, \"What\"] &lt;- \"Shore\"\n\npts &lt;- pts %&gt;%\n  mutate(What = as.factor(What)) %&gt;%\n  filter(!is.na(What))"
+    "text": "Data wrangling\nIronically, of the three, the points maps was the fiddliest to make from the data wrangling perspective, because of course, the source data is a polygon dataset.\n\n\nCode\nw &lt;- 500\n\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  mutate(Land = TRUE)\n\nbb &lt;- nz %&gt;% \n  st_bbox() %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_buffer(w, nQuadSegs = 1) \n\nshore &lt;- nz %&gt;% \n  st_cast(\"MULTILINESTRING\") %&gt;%\n  st_cast(\"LINESTRING\") %&gt;%\n  st_buffer(w) %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  mutate(Shore = TRUE)\n\nland &lt;- nz %&gt;%\n  st_union() %&gt;%\n  st_buffer(w)\n\nwater &lt;- bb %&gt;%\n  st_difference(land) %&gt;%\n  mutate(Water = TRUE)\n\npts &lt;- bb %&gt;%\n  st_sample(250000) %&gt;%\n  st_sf() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_join(water) %&gt;%\n  st_join(nz) %&gt;%\n  st_join(shore) %&gt;%\n  mutate(Water = replace_na(Water, FALSE),\n         Land  = replace_na(Land, FALSE),\n         Shore = replace_na(Shore, FALSE),\n         What = NA) %&gt;%\n  slice(sample(1:n()))\n\npts[pts$Water, \"What\"] &lt;- \"Water\"\npts[pts$Land, \"What\"] &lt;- \"Land\"\npts[pts$Shore, \"What\"] &lt;- \"Shore\"\n\npts &lt;- pts %&gt;%\n  mutate(What = as.factor(What)) %&gt;%\n  filter(!is.na(What))"
   },
   {
     "objectID": "maps/01-points.html#the-maps",
