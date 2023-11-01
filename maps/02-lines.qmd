@@ -11,6 +11,8 @@ knitr:
 
 A map with lines.
 
+Warning: rabbitholes ahead.
+
 ## Libraries
 ```{r}
 #| results: false
@@ -31,29 +33,43 @@ nz <- st_read("data/nz.gpkg") %>%
          What = as.factor(What))
 ```
 
-## `tmap`
-It seems like if you don't 'need' a legend, i.e. if there is only one symbolisation in your map, then `tmap` won't generate one, and you have to 'force it' with the `tm_add_legend` function.
+## The maps
+But first... a rabbithole.
 
+Something this map got me looking at a bit more closely than ever before was exactly what is going on with the `linewidth` setting in `ggplot2`, which, like a lot of things you've learned by osmosis, rather than systematically, doesn't seem that important until it does. 
+
+The obvious fact is that `lwd = 0.5` in `tmap` and `linewidth = 0.5` in `ggplot2` do not yield the same result. Turns out... it's complicated.  `tmap` uses 0.75 [points](https://en.wikipedia.org/wiki/Point_(typography)), and `ggplot2` uses ~0.75 [millimetres](https://en.wikipedia.org/wiki/Millimetre).
+
+Wait, wut? 0.75 pts and _approximately_ 0.75 mm?! Yes, you read that correctly. 
+
+To be fair to `tmap`, it's using the _R_ graphics standard, which is that `lwd` is specified in pixels, which is notionally 1/96 inch, as [laid down by CSS](https://www.w3schools.com/cssref/css_units.php). This is 'device dependent' and when it comes to getting plots out of _R_ and into image file formats can lead to all kinds of headaches, but that's another story. A point is 1/72 inch, so `lwd = 1` gives you nominal line widths of 0.75 points in `tmap`.
+
+Meanwhile, according to [the `ggplot2` documentation](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html?q=linewidth#linewidth) (RTFM, eh?)
+
+> Due to a historical error, the unit of linewidth is roughly 0.75 mm. Making it exactly 1 mm would change a very large number of existing plots, so we’re stuck with this mistake.
+
+They say nothing more on the matter. Presumably, it's something to do with that 1/72 _vs_ 1/96 thing just noted, and perhaps the `approximately` is due to TeX's use of a point being 1/72.27 inches, [which is apparently more historically accurate](https://tex.stackexchange.com/questions/200934/why-does-a-tex-point-differ-from-a-desktop-publishing-point), and was the approximation settled upon, _because it is palindromic_! Anyway, the magic number 72.27 is buried in the `ggplot2` code, where the [conversion factor 72.27 / 25.4 is baked in](https://github.com/tidyverse/ggplot2/blob/b05c6c1f61a52311809ffda775eb258b07518dab/R/geom-.r#L163). I was led to this information by [this stackoverflow post](https://stackoverflow.com/questions/47519624/how-is-the-line-width-size-defined-in-ggplot2).
+
+The upshot of all this? To get the same line widths in `ggplot2` as in `tmap` multiply by 25.4 / 72.27. Simple really!
+
+### `tmap`
 ```{r}
-tm_shape(nz, bbox = nz %>% st_union() %>% st_buffer(500)) + 
+tm_shape(nz) + 
   tm_lines(
-    col = "blue",
+    col = "What",
+    col.scale = tm_scale_categorical(
+      values = c("blue")),
     lwd = 0.5) + 
-  tm_add_legend(
-    type = "lines",
-    col = c("blue"),
-    labels = c("Shore"),
-    title = "What") +
   tm_layout(
     frame = FALSE,
     legend.frame = FALSE,
     legend.outside = TRUE)
 ```
 
-## `ggplot2`
+### `ggplot2`
 ```{r}
 ggplot(nz) +
-  geom_sf(aes(colour = What), linewidth = 0.25) +
+  geom_sf(aes(colour = What), linewidth = 0.5 * 25.4 / 72.27) +
   scale_colour_manual(values = c("blue")) +
   theme_void()
 ```

@@ -1,0 +1,52 @@
+---
+title: 05 Analog Map
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+---
+
+Non-digital maps.
+
+This one doesn't really fit with my `tmap` _vs_ `ggplot2` set up, but it prompted me to look a bit more closely into an idea that has interested me since I first saw this [amazing video](https://www.youtube.com/watch?v=UXENKmAUL0E) by [Ron Resch](https://en.wikipedia.org/wiki/Ron_Resch) one of the pioneers of [tessellation-based origami](https://en.wikipedia.org/wiki/Origami#Origami_tessellations).
+
+I'm a folder (not a designer) of origami, and so this map was an opportunity to explore this idea a bit further.
+
+So what I did was to take a DEM, and find valley floors and ridge lines. For this I used the [Whitebox Tools](https://www.whiteboxgeo.com/) [geomorphons](https://geomorphometry.org/wp-content/uploads/2021/07/StepinskiJasiewicz2011geomorphometry.pdf) tool. There may be better option but this worked for me. I can demonstrate this in _R_:
+
+```{r}
+#| results: false
+library(terra)
+library(whitebox)
+library(tmap)
+library(dplyr)
+
+wbt_geomorphons("data/dem.tif", "data/geomorphons.tif", search = 20)
+
+geomorphons <- rast("data/geomorphons.tif")
+inset_area <- ext(geomorphons) - rep(160, 4)
+
+tm_shape(geomorphons %>% crop(inset_area) %>% flip(direction = "vertical")) + 
+  tm_raster(
+    col.scale = tm_scale_intervals(
+      values = "RdBu", n = 10)
+  ) +
+  tm_layout(
+    frame = FALSE, 
+    legend.show = FALSE)
+```
+
+The blue areas in the map are valley floors, the red areas ridge tops. It so happens that in origami, red and blue lines are used in crease patterns to distinguish _mountain folds_ and _valley folds_. So pinching the blue linear features into creases and from the reverse side pinching the red linear features into creases gives the 'folded' sheet I want.
+
+So anyway, I printed the map on a sheet of paper, and then made the folds. Here's the end result:
+
+![](05-crumpled-paper-hillshade.jpg)
+
+If I'd thought it through a bit more carefully, I'd have inverted the landscape before printing it (since I am effectively folding it in reverse), but that's a detail for another time. It also required some care lighting the picture to avoid 'terrain inversion', and I'm not even sure it avoids that entirely. It's very clear in real life which parts of the landscape are 'up'.
+
+I've experimented a little with the approach, and it seems to work quite well on highly dissected terrain.
+
+Next up, I need to do some digging in [Robert Lang's wonderful _Twists, Tilings, and Tessellations_](https://langorigami.com/publication/twists-tilings-and-tessellations-mathematical-methods-for-geometric-origami/). There are definitely connections between this 'folded terrain model' and key principles of origami tessellations, which in turn are closely related to concepts in [surface networks](https://www.ucl.ac.uk/bartlett/casa/publications/2002/feb/casa-working-paper-43).

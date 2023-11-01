@@ -46,7 +46,7 @@
     "href": "maps/02-lines.html",
     "title": "02 Lines",
     "section": "",
-    "text": "A map with lines."
+    "text": "A map with lines.\nWarning: rabbitholes ahead."
   },
   {
     "objectID": "maps/02-lines.html#libraries",
@@ -63,18 +63,11 @@
     "text": "Data wrangling\n\n\nCode\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  st_cast(\"MULTILINESTRING\") %&gt;%\n  mutate(What = \"Shore\",\n         What = as.factor(What))"
   },
   {
-    "objectID": "maps/02-lines.html#tmap",
-    "href": "maps/02-lines.html#tmap",
+    "objectID": "maps/02-lines.html#the-maps",
+    "href": "maps/02-lines.html#the-maps",
     "title": "02 Lines",
-    "section": "tmap",
-    "text": "tmap\nIt seems like if you don’t ‘need’ a legend, i.e. if there is only one symbolisation in your map, then tmap won’t generate one, and you have to ‘force it’ with the tm_add_legend function.\n\ntm_shape(nz, bbox = nz %&gt;% st_union() %&gt;% st_buffer(500)) + \n  tm_lines(\n    col = \"blue\",\n    lwd = 0.5) + \n  tm_add_legend(\n    type = \"lines\",\n    col = c(\"blue\"),\n    labels = c(\"Shore\"),\n    title = \"What\") +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
-  },
-  {
-    "objectID": "maps/02-lines.html#ggplot2",
-    "href": "maps/02-lines.html#ggplot2",
-    "title": "02 Lines",
-    "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(nz) +\n  geom_sf(aes(colour = What), linewidth = 0.25) +\n  scale_colour_manual(values = c(\"blue\")) +\n  theme_void()"
+    "section": "The maps",
+    "text": "The maps\nBut first… a rabbithole.\nSomething this map got me looking at a bit more closely than ever before was exactly what is going on with the linewidth setting in ggplot2, which, like a lot of things you’ve learned by osmosis, rather than systematically, doesn’t seem that important until it does.\nThe obvious fact is that lwd = 0.5 in tmap and linewidth = 0.5 in ggplot2 do not yield the same result. Turns out… it’s complicated. tmap uses 0.75 points, and ggplot2 uses ~0.75 millimetres.\nWait, wut? 0.75 pts and approximately 0.75 mm?! Yes, you read that correctly.\nTo be fair to tmap, it’s using the R graphics standard, which is that lwd is specified in pixels, which is notionally 1/96 inch, as laid down by CSS. This is ‘device dependent’ and when it comes to getting plots out of R and into image file formats can lead to all kinds of headaches, but that’s another story. A point is 1/72 inch, so lwd = 1 gives you nominal line widths of 0.75 points in tmap.\nMeanwhile, according to the ggplot2 documentation (RTFM, eh?)\n\nDue to a historical error, the unit of linewidth is roughly 0.75 mm. Making it exactly 1 mm would change a very large number of existing plots, so we’re stuck with this mistake.\n\nThey say nothing more on the matter. Presumably, it’s something to do with that 1/72 vs 1/96 thing just noted, and perhaps the approximately is due to TeX’s use of a point being 1/72.27 inches, which is apparently more historically accurate, and was the approximation settled upon, because it is palindromic! Anyway, the magic number 72.27 is buried in the ggplot2 code, where the conversion factor 72.27 / 25.4 is baked in. I was led to this information by this stackoverflow post.\nThe upshot of all this? To get the same line widths in ggplot2 as in tmap multiply by 25.4 / 72.27. Simple really!\n\ntmap\n\ntm_shape(nz) + \n  tm_lines(\n    col = \"What\",\n    col.scale = tm_scale_categorical(\n      values = c(\"blue\")),\n    lwd = 0.5) + \n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)\n\n\n\n\n\n\nggplot2\n\nggplot(nz) +\n  geom_sf(aes(colour = What), linewidth = 0.5 * 25.4 / 72.27) +\n  scale_colour_manual(values = c(\"blue\")) +\n  theme_void()"
   },
   {
     "objectID": "maps/03-polygons.html",
