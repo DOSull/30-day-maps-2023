@@ -40,7 +40,7 @@ The obvious fact is that `lwd = 0.5` in `tmap` and `linewidth = 0.5` in `ggplot2
 
 Wait, wut? 0.75 pts and _approximately_ 0.75 mm?! Yes, you read that correctly. 
 
-To be fair to `tmap`, it's using the _R_ graphics standard, which is that `lwd` is specified in pixels, which is notionally 1/96 inch, as [laid down by CSS](https://www.w3schools.com/cssref/css_units.php). This is 'device dependent' and when it comes to getting plots out of _R_ and into image file formats can lead to all kinds of headaches, but that's another story. A point is 1/72 inch, so `lwd = 1` gives you nominal line widths of 0.75 points in `tmap`.
+To be fair to `tmap`, it's using the _R_ graphics standard, which is that `lwd` is specified in pixels, which is notionally 1/96 inch, as [laid down by CSS](https://www.w3schools.com/cssref/css_units.php). This is 'device dependent' and when it comes to getting plots out of _R_ and into image file formats can lead to all kinds of headaches, but that's another story. A point is 1/72 inch (ever since [Adobe made it so](https://en.wikipedia.org/wiki/Point_(typography)#Desktop_publishing_point)), so `lwd = 1` gives you nominal line widths of 0.75 points in `tmap`.
 
 Meanwhile, according to [the `ggplot2` documentation](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html?q=linewidth#linewidth) (RTFM, eh?)
 
