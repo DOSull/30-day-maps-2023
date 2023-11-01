@@ -48,7 +48,9 @@ Meanwhile, according to [the `ggplot2` documentation](https://ggplot2.tidyverse.
 
 > Due to a historical error, the unit of linewidth is roughly 0.75 mm. Making it exactly 1 mm would change a very large number of existing plots, so we’re stuck with this mistake.
 
-They say nothing more on the matter. Presumably, it's something to do with that 1/72 _vs_ 1/96 thing just noted, and perhaps the `approximately` is due to TeX's use of a point being 1/72.27 inches, [which is apparently more historically accurate](https://tex.stackexchange.com/questions/200934/why-does-a-tex-point-differ-from-a-desktop-publishing-point), and was the approximation settled upon, _because it is palindromic_! Anyway, the magic number 72.27 is buried in the `ggplot2` code, where the [conversion factor 72.27 / 25.4 is baked in](https://github.com/tidyverse/ggplot2/blob/b05c6c1f61a52311809ffda775eb258b07518dab/R/geom-.r#L163). I was led to this information by [this stackoverflow post](https://stackoverflow.com/questions/47519624/how-is-the-line-width-size-defined-in-ggplot2).
+They say nothing more on the matter. Presumably, it's something to do with that 1/72 _vs_ 1/96 thing just noted, and perhaps the `approximately` is due to TeX's use of a point being 1/72.27 inches, [which is apparently more historically accurate](https://tex.stackexchange.com/questions/200934/why-does-a-tex-point-differ-from-a-desktop-publishing-point), and was the approximation settled upon, _because it is palindromic_! OK... welll maybe not really that last bit. 
+
+Anyway, the magic number 72.27 is buried in the `ggplot2` code, where the [conversion factor 72.27 / 25.4 is baked in](https://github.com/tidyverse/ggplot2/blob/b05c6c1f61a52311809ffda775eb258b07518dab/R/geom-.r#L163). I was led to this information by [this stackoverflow post](https://stackoverflow.com/questions/47519624/how-is-the-line-width-size-defined-in-ggplot2).
 
 The upshot of all this? To get the same line widths in `ggplot2` as in `tmap` multiply by 25.4 / 72.27. Simple really!
 
