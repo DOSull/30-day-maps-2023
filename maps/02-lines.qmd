@@ -11,8 +11,6 @@ knitr:
 
 A map with lines.
 
-Warning: rabbitholes ahead.
-
 ## Libraries
 ```{r}
 #| results: false
