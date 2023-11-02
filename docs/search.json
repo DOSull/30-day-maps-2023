@@ -42,6 +42,41 @@
     "text": "ggplot2\nIn ggplot2 you can override the default symbol size in the colour legend, although it’s not exactly an obvious snippet of code! The default legend position in ggplot2 is not my preference, but I can’t be bothered to move it.\n\nggplot(pts) +\n  geom_sf(aes(colour = What), size = 0.025) +\n  scale_colour_manual(values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\")) + \n  guides(colour = guide_legend(override.aes = list(size = 5))) +\n  theme_void()"
   },
   {
+    "objectID": "maps/04-bad-map.html",
+    "href": "maps/04-bad-map.html",
+    "title": "04 Bad Map",
+    "section": "",
+    "text": "Let’s get this over with."
+  },
+  {
+    "objectID": "maps/04-bad-map.html#libraries",
+    "href": "maps/04-bad-map.html#libraries",
+    "title": "04 Bad Map",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/04-bad-map.html#data-wrangling",
+    "href": "maps/04-bad-map.html#data-wrangling",
+    "title": "04 Bad Map",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nsh1 &lt;- st_read(\"data/sh1.gpkg\") %&gt;%\n  st_transform(4326) %&gt;%\n  select(geom) %&gt;%\n  mutate(Mode = \"Road\")\ninterislander &lt;- st_read(\"data/interislander.gpkg\") %&gt;%\n  st_transform(4326) %&gt;%\n  select(geom) %&gt;%\n  mutate(Mode = \"Boat\")\ncombined &lt;- sh1 %&gt;%\n  bind_rows(interislander) %&gt;%\n  mutate(Mode = as.factor(Mode))"
+  },
+  {
+    "objectID": "maps/04-bad-map.html#the-maps",
+    "href": "maps/04-bad-map.html#the-maps",
+    "title": "04 Bad Map",
+    "section": "The maps",
+    "text": "The maps\nNew Zealand’s mighty State Highway 1 (one of the world’s better road trips). I wouldn’t start from here.\nIn this example, I wanted to get a better handle on how the legend options work in tmap v4.\n\ntmap\nThe tm_legend_combine function is a nice feature, which combines the two symbolisations of colour and line style.\n\ntm_shape(combined) +\n  tm_lines(\n    col = \"Mode\",\n    col.scale = tm_scale_categorical(\n      values = c(\"blue\", \"red\")),\n    lty = \"Mode\",\n    lty.scale = tm_scale_categorical(\n      values = c(\"dashed\", \"solid\")),\n    lty.legend = tm_legend_combine(\"col\"),\n    lwd = 0.5) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE) +\n  tm_compass()"
+  },
+  {
+    "objectID": "maps/04-bad-map.html#ggplot2",
+    "href": "maps/04-bad-map.html#ggplot2",
+    "title": "04 Bad Map",
+    "section": "ggplot2",
+    "text": "ggplot2\nHere we need an additional package for the entirely useless north arrow.\nggspatial can do it and seems preferable to the not-very-configurable ggsn. The configurability of ggspatial is a bit over the top for a simple map like this one. On the other hand its default north arrow is very on brand for the theme “Bad Map”!\n\nlibrary(ggspatial)\n\nggplot(combined) +\n  geom_sf(aes(colour = Mode, linetype = Mode), \n              linewidth = 0.5 * 25.4 / 72.7) +\n  scale_colour_manual(values = c(\"blue\", \"red\")) +\n  scale_linetype_manual(values = c(\"dashed\", \"solid\")) +\n  annotation_north_arrow(location = \"br\") + \n  theme_void()"
+  },
+  {
     "objectID": "maps/02-lines.html",
     "href": "maps/02-lines.html",
     "title": "02 Lines",

@@ -38,18 +38,23 @@ combined <- sh1 %>%
   mutate(Mode = as.factor(Mode))
 ```
 
-## `tmap`
+## The maps
+New Zealand's mighty State Highway 1 (one of the world's better road trips). I wouldn't start from here. 
+
+In this example, I wanted to get a better handle on how the legend options work in `tmap` v4.
+
+### `tmap`
+The `tm_legend_combine` function is a nice feature, which combines the two symbolisations of colour and line style.
+
 ```{r}
 tm_shape(combined) +
   tm_lines(
     col = "Mode",
     col.scale = tm_scale_categorical(
-      values = c("red", "blue"),
-      levels = c("Road", "Boat")),
+      values = c("blue", "red")),
     lty = "Mode",
     lty.scale = tm_scale_categorical(
-      values = c("solid", "dashed"),
-      levels = c("Road", "Boat")),
+      values = c("dashed", "solid")),
     lty.legend = tm_legend_combine("col"),
     lwd = 0.5) +
   tm_layout(
@@ -60,14 +65,18 @@ tm_shape(combined) +
 ```
 
 ## `ggplot2`
-Here we need an additional package. [`ggspatial`](https://paleolimbot.github.io/ggspatial/) can do it and seems preferable to the not-very-configurable `ggsn`. The configurability of `ggspatial` seems a bit over the top for a simple map like this. On the other hand its default north arrow is very on brand for the theme "Bad Map"!
+Here we need an additional package for the entirely useless north arrow.
+
+[`ggspatial`](https://paleolimbot.github.io/ggspatial/) can do it and seems preferable to the not-very-configurable [`ggsn`](http://oswaldosantos.github.io/ggsn/). The configurability of `ggspatial` is a bit over the top for a simple map like this one. On the other hand its default north arrow is very on brand for the theme "Bad Map"!
+
 ```{r}
 library(ggspatial)
 
 ggplot(combined) +
-  geom_sf(aes(colour = Mode, linetype = Mode), linewidth = 0.2) +
+  geom_sf(aes(colour = Mode, linetype = Mode), 
+              linewidth = 0.5 * 25.4 / 72.7) +
   scale_colour_manual(values = c("blue", "red")) +
-  scale_linetype_manual(values = c("dotted", "solid")) +
+  scale_linetype_manual(values = c("dashed", "solid")) +
   annotation_north_arrow(location = "br") + 
   theme_void()
 ```
