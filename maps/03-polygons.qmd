@@ -53,8 +53,7 @@ tm_shape(nz_not_nz) +
   tm_fill(
     fill = "What", 
     fill.scale = tm_scale_categorical(
-      values = c("#33aa66", "#bbddff"),
-      levels = c("Land", "Water"))) +
+      values = c("#33aa66", "#bbddff"))) +
   tm_layout(
     frame = FALSE,
     legend.frame = FALSE,

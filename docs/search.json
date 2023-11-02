@@ -95,7 +95,7 @@
     "href": "maps/03-polygons.html#the-maps",
     "title": "03 Polygons",
     "section": "The maps",
-    "text": "The maps\nPerhaps unsurprisingly, this is the case where both packages require the least additional work to get the desired result.\n\ntmap\n\ntm_shape(nz_not_nz) + \n  tm_fill(\n    fill = \"What\", \n    fill.scale = tm_scale_categorical(\n      values = c(\"#33aa66\", \"#bbddff\"),\n      levels = c(\"Land\", \"Water\"))) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
+    "text": "The maps\nPerhaps unsurprisingly, this is the case where both packages require the least additional work to get the desired result.\n\ntmap\n\ntm_shape(nz_not_nz) + \n  tm_fill(\n    fill = \"What\", \n    fill.scale = tm_scale_categorical(\n      values = c(\"#33aa66\", \"#bbddff\"))) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
   },
   {
     "objectID": "maps/03-polygons.html#ggplot2",
