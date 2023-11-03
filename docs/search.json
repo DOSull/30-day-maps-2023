@@ -67,7 +67,7 @@
     "href": "maps/04-bad-map.html#the-maps",
     "title": "04 Bad Map",
     "section": "The maps",
-    "text": "The maps\nNew Zealand’s mighty State Highway 1 (one of the world’s better road trips). I wouldn’t start from here.\nIn this example, I wanted to get a better handle on how the legend options work in tmap v4.\n\ntmap\nThe tm_legend_combine function is a nice feature, which combines the two symbolisations of colour and line style.\n\ntm_shape(combined) +\n  tm_lines(\n    col = \"Mode\",\n    col.scale = tm_scale_categorical(\n      values = c(\"blue\", \"red\")),\n    lty = \"Mode\",\n    lty.scale = tm_scale_categorical(\n      values = c(\"dashed\", \"solid\")),\n    lty.legend = tm_legend_combine(\"col\"),\n    lwd = 0.5) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE) +\n  tm_compass()"
+    "text": "The maps\nNew Zealand’s mighty State Highway 1 (one of the world’s better road trips). I wouldn’t start from here.\n\ntmap\nIn this example, I wanted to get a better handle on how the legend options work in tmap v4. The tm_legend_combine function is a nice feature, which combines the two symbolisations of colour and line style.\n\ntm_shape(combined) +\n  tm_lines(\n    col = \"Mode\",\n    col.scale = tm_scale_categorical(\n      values = c(\"blue\", \"red\")),\n    lty = \"Mode\",\n    lty.scale = tm_scale_categorical(\n      values = c(\"dashed\", \"solid\")),\n    lty.legend = tm_legend_combine(\"col\"),\n    lwd = 0.5) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE) +\n  tm_compass()"
   },
   {
     "objectID": "maps/04-bad-map.html#ggplot2",

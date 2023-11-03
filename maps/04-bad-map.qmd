@@ -41,10 +41,8 @@ combined <- sh1 %>%
 ## The maps
 New Zealand's mighty State Highway 1 (one of the world's better road trips). I wouldn't start from here. 
 
-In this example, I wanted to get a better handle on how the legend options work in `tmap` v4.
-
 ### `tmap`
-The `tm_legend_combine` function is a nice feature, which combines the two symbolisations of colour and line style.
+In this example, I wanted to get a better handle on how the legend options work in `tmap` v4. The `tm_legend_combine` function is a nice feature, which combines the two symbolisations of colour and line style.
 
 ```{r}
 tm_shape(combined) +
