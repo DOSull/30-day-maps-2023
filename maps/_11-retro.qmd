@@ -1,0 +1,116 @@
+---
+title: 11 Retro
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+---
+
+A blast from the past.
+
+Wherein we explore the lost art of the hatched choropleth.
+
+I decided to give hatched choropleths a go for this one, as those seem appropriately 'retro' in the context of mapping packages primarily aimed at relatively simple thematic mapping.
+
+TL;DR; it's been a journey. 
+
+Neither `tmap` not `ggplot2` has hatching available as an option natively. I experimented with the `HatchedPolygons` package with `tmap`, and the `ggpattern` package with `ggplot2` but neither allowed me to get the end result I was after. Eventually I returned to base _R_ plotting in conjunction with some code I found [here](https://rpubs.com/dieghernan/559092) from [Diego HH](https://github.com/dieghernan/), which I modified, in particular to get the legend to work.
+
+Both hatching and legend key elements are spatial data added to the map (i.e. they aren't patterns as such, they are linestrings).
+
+## Libraries
+```{r}
+#| results: false
+#| code-fold: true
+library(sf)
+library(tmap)
+library(dplyr)
+library(ggplot2)
+```
+
+## Data wrangling
+```{r}
+#| results: false
+#| code-fold: true
+ak <- st_read("data/ak-city-demographics-2018.gpkg")
+```
+
+## The maps
+So here is the best version, which uses base _R_. [`patterns.R`](patterns.R) contains code I modified from [here](https://raw.githubusercontent.com/dieghernan/dieghernan.github.io/master/assets/functions/patternfun.R) to provide `patternLayer` and `legendPattern` functions.
+
+```{r}
+library(classInt)
+source("patterns.R")
+
+brks <- round(classIntervals(ak$jedi, n = 5)$brks, 1)
+intervals <- paste(brks[-6], "to", brks[-1])
+brks[6] <- brks[6] + 0.01
+spacings <- c(500, 350, 250, 175, 125)
+
+par(mai = rep(0.1, 4))
+plot(ak$geom, lwd = 0.75)
+for (i in 1:5) {
+  ak %>% 
+    filter(pop > 0, jedi >= brks[i], jedi < brks[i + 1]) %>%
+    st_union() %>%
+  patternLayer("left2right", density = spacings[i], add = TRUE, lwd = 0.75)
+}
+bb <- st_bbox(ak)
+legendPattern(pos = bb[1:2], title.txt = "% Jedi",
+  categ = intervals, patterns = "left2right", density = spacings,
+  frame = FALSE, lwd = 0.75)
+```
+
+### `tmap`
+I tried the [`HatchedPolygons`](https://statnmap.github.io/HatchedPolygons/) package, since I'd successfully used it in [this figure](https://dosull.github.io/computing-geographically/chapters/chap5/fig5-10-san-fran-clusters.html). It makes hatched shapes fine, but I couldn't figure out how to make a useful legend.
+
+```{r}
+library(HatchedPolygons)
+
+hatched_subset <- function(data, var, range, density, angle) {
+  data[data[[var]] >= range[1] & data[[var]] < range[2], ] %>%
+    as("Spatial") %>%
+    hatched.SpatialPolygons(density = density, angle = angle) %>%
+    st_as_sf() %>%
+    st_set_crs(2193)
+}
+densities <- seq(0.006, 0.01, 0.001)
+
+m <- tm_shape(st_union(ak)) +
+  tm_lines(lwd = 0.75)
+
+for (i in 1:5) {
+  m <- m + 
+    tm_shape(
+      hatched_subset(ak, "jedi", brks[i:(i+1)], densities[i], -45)) +
+    tm_lines(lwd = 0.5, col = "black")
+}
+m + tm_shape(ak) +
+  tm_borders(lwd = 0.75) +
+  tm_layout(frame = FALSE)
+```
+
+### `ggplot2`
+[`ggpattern`](https://coolbutuseless.github.io/package/ggpattern/) from the aptly named [`coolbutuseless`](https://coolbutuseless.github.io/) stable is a lot of fun. 
+
+I played around with persuading it to make a 'serious' hatched choropleth&mdash;which to be clear, is possible&mdash;but in the end settled for this much more satisfying weird effect.
+
+```{r}
+library(ggpattern)
+
+ggplot(ak) +
+  geom_sf_pattern(aes(pattern_angle = jedi),
+    pattern_density = 0.001, 
+    pattern_spacing = 0.01,
+    pattern_fill = "black",
+    fill = "white",
+    colour = "white",
+    linewidth = 0.5 * 25.4 / 72.27,
+  ) + 
+  guides(pattern_angle = guide_legend(title = "% Jedi")) +
+  geom_sf(data = st_union(ak), linewidth = 0.75, fill = "#00000000") +
+  theme_void()
+```
