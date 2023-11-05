@@ -1,5 +1,5 @@
 ---
-title: 12 South America
+title: 14 Europe
 execute: 
   cache: true
   freeze: auto
@@ -9,7 +9,7 @@ knitr:
     message: false
 ---
 
-Southern part of the American continent.
+The westernmost peninsulas of Eurasia.
 
 ## Libraries
 ```{r}
@@ -26,16 +26,12 @@ library(ggplot2)
 ```{r}
 #| results: false
 #| code-fold: true
-focus <- "South America"
-lon0 <- -62
-lat0 <- -21
+focus <- "Europe"
+lon0 <- 30
+lat0 <- 60
 proj <- str_glue("+proj=ortho lon_0={lon0} lat_0={lat0}")
-```
 
-```{r}
-#| results: false
-#| code-fold: true
-world <- st_read("data/world.gpkg") %>%
+world <- st_read("data/ne_110m_admin_0_map_units.gpkg") %>%
   st_make_valid() %>%
   select(CONTINENT)
 
@@ -50,7 +46,8 @@ continent <- world %>%
   filter(CONTINENT == focus)
 ```
 
-## `tmap`
+## The maps
+### `tmap`
 ```{r}
 tm_shape(world_o) +
   tm_fill() + 

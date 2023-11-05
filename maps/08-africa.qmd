@@ -1,5 +1,5 @@
 ---
-title: 10 North America
+title: 08 Africa
 execute: 
   cache: true
   freeze: auto
@@ -9,7 +9,7 @@ knitr:
     message: false
 ---
 
-Northern part of the American continent.
+Second-largest and second-most populous continent.
 
 ## Libraries
 ```{r}
@@ -26,16 +26,12 @@ library(ggplot2)
 ```{r}
 #| results: false
 #| code-fold: true
-focus <- "North America"
-lon0 <- -105
-lat0 <- 45
+focus <- "Africa"
+lon0 <- 18
+lat0 <- 0
 proj <- str_glue("+proj=ortho lon_0={lon0} lat_0={lat0}")
-```
 
-```{r}
-#| results: false
-#| code-fold: true
-world <- st_read("data/world.gpkg") %>%
+world <- st_read("data/ne_110m_admin_0_map_units.gpkg") %>%
   st_make_valid() %>%
   select(CONTINENT)
 
@@ -50,7 +46,8 @@ continent <- world %>%
   filter(CONTINENT == focus)
 ```
 
-## `tmap`
+## The maps
+### `tmap`
 ```{r}
 tm_shape(world_o) +
   tm_fill() + 

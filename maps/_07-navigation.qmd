@@ -71,7 +71,8 @@ graticule <- get_graticule(centre = c(start_lon, start_lat)) %>%
   st_transform(ortho_proj)
 ```
 
-## `tmap`
+## The maps
+### `tmap`
 At time of writing there is a bug in `tm_title` so no title on this map. See [this issue](https://github.com/r-tmap/tmap/issues/796).
 
 Note that I hand made the graticule using code from a sourced *R* file which trims the graticule to only extend across the mapped area. Neither `tmap` nor `ggplot2` successfully applied the graticule in this projection without errors using their native functionality.

@@ -1,5 +1,5 @@
 ---
-title: 06 Asia
+title: 25 Antarctica
 execute: 
   cache: true
   freeze: auto
@@ -8,6 +8,8 @@ knitr:
     warning: false
     message: false
 ---
+
+A cold continent that can't be reached with Web Mercator.
 
 ## Libraries
 ```{r}
@@ -19,22 +21,17 @@ library(dplyr)
 library(stringr)
 library(ggplot2)
 ```
-Largest of the continents.
 
 ## Data wrangling
 ```{r}
 #| results: false
 #| code-fold: true
-focus <- "Asia"
-lon0 <- 100
-lat0 <- 45
+focus <- "Antarctica"
+lon0 <- 0
+lat0 <- -90
 proj <- str_glue("+proj=ortho lon_0={lon0} lat_0={lat0}")
-```
 
-```{r}
-#| results: false
-#| code-fold: true
-world <- st_read("data/world.gpkg") %>%
+world <- st_read("data/ne_110m_admin_0_map_units.gpkg") %>%
   st_make_valid() %>%
   select(CONTINENT)
 
@@ -49,7 +46,8 @@ continent <- world %>%
   filter(CONTINENT == focus)
 ```
 
-## `tmap`
+## The maps
+### `tmap`
 ```{r}
 tm_shape(world_o) +
   tm_fill() + 

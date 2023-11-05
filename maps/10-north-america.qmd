@@ -1,5 +1,5 @@
 ---
-title: 16 Oceania
+title: 10 North America
 execute: 
   cache: true
   freeze: auto
@@ -9,7 +9,7 @@ knitr:
     message: false
 ---
 
-Region made up of thousands of islands throughout the Central and South Pacific.
+Northern part of the American continent.
 
 ## Libraries
 ```{r}
@@ -20,22 +20,17 @@ library(tmap)
 library(dplyr)
 library(stringr)
 library(ggplot2)
-```
 
-## Data wrangling
-```{r}
-#| results: false
-#| code-fold: true
-focus <- "Oceania"
-lon0 <- 170
-lat0 <- -10
+focus <- "North America"
+lon0 <- -105
+lat0 <- 45
 proj <- str_glue("+proj=ortho lon_0={lon0} lat_0={lat0}")
 ```
 
 ```{r}
 #| results: false
 #| code-fold: true
-world <- st_read("data/world.gpkg") %>%
+world <- st_read("data/ne_110m_admin_0_map_units.gpkg") %>%
   st_make_valid() %>%
   select(CONTINENT)
 
@@ -50,7 +45,8 @@ continent <- world %>%
   filter(CONTINENT == focus)
 ```
 
-## `tmap`
+## The maps
+### `tmap`
 ```{r}
 tm_shape(world_o) +
   tm_fill() + 

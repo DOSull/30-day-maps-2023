@@ -70,7 +70,8 @@ bb <- h3_10 %>%
 credit <- maptiles::get_credit("OpenStreetMap")
 ```
 
-## `tmap`
+## The maps
+### `tmap`
 `tmap` v4 has a built-in web basemap function. The raster downscaling kicks in to make the image a bit unsatisfactory, but I assume that option will be tweakable in due course.
 
 ```{r}
