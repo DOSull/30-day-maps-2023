@@ -72,7 +72,7 @@ library(ggspatial)
 
 ggplot(combined) +
   geom_sf(aes(colour = Mode, linetype = Mode), 
-              linewidth = 0.5 * 25.4 / 72.7) +
+              linewidth = 0.5 * 25.4 / 72.27) +
   scale_colour_manual(values = c("blue", "red")) +
   scale_linetype_manual(values = c("dashed", "solid")) +
   annotation_north_arrow(location = "br") + 

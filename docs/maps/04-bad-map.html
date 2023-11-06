@@ -186,6 +186,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../maps/07-navigation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">07 Navigation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../maps/08-africa.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">08 Africa</span></a>
   </div>
@@ -326,12 +332,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="ggplot2"><code>ggplot2</code></h2>
 <p>Here we need an additional package for the entirely useless north arrow.</p>
 <p><a href="https://paleolimbot.github.io/ggspatial/"><code>ggspatial</code></a> can do it and seems preferable to the not-very-configurable <a href="http://oswaldosantos.github.io/ggsn/"><code>ggsn</code></a>. The configurability of <code>ggspatial</code> is a bit over the top for a simple map like this one. On the other hand its default north arrow is very on brand for the theme “Bad Map”!</p>
-<div class="cell" data-hash="04-bad-map_cache/html/unnamed-chunk-4_45b91903cd3fdfff9b424bf50af32eb2">
+<div class="cell" data-hash="04-bad-map_cache/html/unnamed-chunk-4_e6cdd10d2d8a9b16374c8e3439898495">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggspatial)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined) <span class="sc">+</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">colour =</span> Mode, <span class="at">linetype =</span> Mode), </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">linewidth =</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fl">25.4</span> <span class="sc">/</span> <span class="fl">72.7</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">linewidth =</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fl">25.4</span> <span class="sc">/</span> <span class="fl">72.27</span>) <span class="sc">+</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>)) <span class="sc">+</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"dashed"</span>, <span class="st">"solid"</span>)) <span class="sc">+</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">"br"</span>) <span class="sc">+</span> </span>

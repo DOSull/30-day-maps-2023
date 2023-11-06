@@ -1,0 +1,84 @@
+---
+title: 15 OpenStreetMap
+# execute: 
+#   cache: true
+#   freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+---
+
+The greatest of the datasets. Remember to give credit.
+
+## Libraries
+```{r}
+#| code-fold: true
+#| results: false
+library(ggplot2)
+library(dplyr)
+library(sf)
+library(tmap)
+```
+
+## Data wrangling
+```{r}
+#| code-fold: true
+#| results: false
+xlims <- c(1.746e6, 1.751e6)
+ylims <- c(5.426e6, 5.431e6)
+
+bb <- tmaptools::bb(xlim = xlims, ylim = ylims) %>%
+  st_as_sfc() %>%
+  st_as_sf(crs = 2193)
+
+wellington <- st_read("data/wellington-ta.gpkg")
+
+cafes <- st_read("data/cafes-in-nz.gpkg") %>%
+  st_filter(bb) %>%
+  select(geom)
+
+roads <- st_read("data/welly-rds.gpkg")
+
+icon_file <- "data/coffee.png"
+
+cafes$icon <- icon_file
+```
+
+## The maps
+### `tmap`
+```{r fig.width=8, fig.height=8}
+coffee_cup <- tmap_icons(icon_file)
+
+tm_shape(wellington, bbox = bb) +
+  tm_fill(fill = "#cccccc") +
+  tm_shape(roads) +
+  tm_lines(col = "white") +
+  tm_shape(cafes) + 
+  tm_symbols(
+    shape = coffee_cup,
+    size = 1.5,
+    lwd = 0) +
+  tm_layout(legend.show = FALSE, bg.color = "#66ccff")
+```
+
+### `ggplot2`
+```{r fig.width=8, fig.height=8}
+library(ggimage)
+
+xy <- cafes %>%
+  st_coordinates() %>% 
+  as_tibble()
+
+ggplot(wellington) +
+  geom_sf(fill = "#cccccc", linewidth = 0) +
+  geom_sf(data = roads, colour = "white") +
+  geom_image(data = xy, aes(x = X, y = Y, image = icon_file),
+             size = 0.03) +
+  stat_density2d(data = xy, aes(x = X, y = Y)) +
+  coord_sf(xlim = xlims, ylim = ylims, expand = FALSE) +
+  theme_void() +
+  theme(panel.background = element_rect(fill = "#66ccff"),
+        panel.border = element_rect(fill = NA, colour = "black"))
+```
+

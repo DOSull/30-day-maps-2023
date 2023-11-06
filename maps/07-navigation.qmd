@@ -1,0 +1,126 @@
+---
+title: 07 Navigation
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+---
+
+A map that helps you to navigate.
+
+While not really filling the brief, these maps confirmed for me that there are still quite a few issues dealing with global map projections in the _R_ spatial ecosystem. 
+
+I hand made the graticule in these maps using code from a [sourced *R* file](utils.R) which trims the graticule to only extend across the visible extent, because neither `tmap` nor `ggplot2` successfully applied their 'native' graticule in this orthographic projection without errors.
+
+[`geosphere`](https://github.com/rspatial/geosphere) is yet another excellent package from the excellent [Robert Hijmans](https://desp.ucdavis.edu/people/robert-hijmans) at UC Davis, and its `destPointRhumb` function is helpful here in building the rhumb line corkscrewing around the globe.
+
+## Libraries
+```{r}
+#| results: false
+#| code-fold: true
+library(sf)
+library(tmap)
+library(dplyr)
+library(geosphere)
+library(ggplot2)
+library(stringr)
+
+source("~/Documents/code/30-day-maps-2023/maps/utils.R")
+```
+
+## Data wrangling
+```{r}
+#| results: false
+#| code-fold: true
+start_lat <- -41.3
+start_lon <- 174.75
+start <- c(start_lon, start_lat)
+
+ortho_proj <- get_ortho_proj(start)
+aeqd_proj <- get_azimuthal_eq_dist(start)
+
+bearing <- -88.5
+end_lat <- 45
+step_length <- 5e4
+last_pt <- start
+lox <- list()
+transect <- last_pt
+i <- 1
+while (last_pt[2] < end_lat) {
+  next_pt <- geosphere::destPointRhumb(last_pt, bearing, step_length)
+  if (next_pt[1] > last_pt[1]) {
+    lox[[i]] <- transect
+    i <- i + 1
+    transect <- c(next_pt)
+  } else {
+    transect <- c(transect, next_pt)
+  }
+  last_pt <- next_pt
+}
+lox[[i]] <- transect
+
+hemisphere <- get_hemisphere(start, crs = aeqd_proj)
+
+lox_sf <- lox %>%
+  lapply(unlist) %>%
+  lapply(matrix, ncol = 2, byrow = TRUE) %>%
+  st_multilinestring() %>%
+  st_sfc() %>%
+  st_sf(crs = 4326) %>%
+  st_cast("LINESTRING") %>%
+  st_transform(aeqd_proj) %>%
+  st_intersection(get_hemisphere(start, aeqd_proj)) %>%
+  st_transform(ortho_proj)
+  # st_cast("POINT")
+
+data(World)
+world <- World %>%
+  st_cast("POLYGON") %>%
+  st_transform(ortho_proj) %>%
+  dplyr::filter(!(st_is_empty(geometry)))
+
+graticule <- get_graticule(centre = start) %>%
+  st_transform(ortho_proj)
+
+globe <- st_point(c(0, 0)) %>%
+  st_buffer(6378137) %>%
+  st_sfc(crs = ortho_proj) %>%
+  st_sf()
+```
+
+## The maps
+### `tmap`
+```{r fig.width=8, fig.height=8}
+instruction <- st_point(c(0, 0)) %>%
+  st_sfc(crs = ortho_proj) %>%
+  st_sf() %>%
+  mutate(label = "Go west(ish!)")
+
+tm_shape(globe) +
+  tm_fill(fill = "lightblue1") +
+  tm_shape(world) +
+  tm_fill(fill = "darkseagreen3", lwd = 0) +
+  tm_shape(graticule, is.main = TRUE) +
+  tm_lines(col = "cornflowerblue", lwd = 1) +
+  tm_shape(lox_sf) +
+  tm_lines(col = "firebrick", lwd = 2) +
+  tm_title("Go west(ish!)", position = c(0.5, 0.5), size = 2) +
+  tm_layout(frame = FALSE)
+```
+
+## `ggplot2`
+```{r fig.width=8, fig.height=8}
+ggplot(globe) +
+  geom_sf(fill = "lightblue1") +
+  geom_sf(data = world, fill = "darkseagreen3", linewidth = 0) +
+  geom_sf(data = graticule, colour = "cornflowerblue", 
+          linewidth = 1 * 25.4 / 72.27) +
+  geom_sf(data = lox_sf, colour = "firebrick", 
+          linewidth = 2 * 25.4 / 72.27) +
+  annotate("text", x = 0, y = 0, label = "Go west(ish!)", 
+            hjust = 0, size = 10) +
+  theme_void()
+```
