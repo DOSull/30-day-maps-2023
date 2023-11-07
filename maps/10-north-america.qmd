@@ -25,7 +25,7 @@ library(stringr)
 library(ggplot2)
 
 focus <- "North America"
-lon0 <- -105
+lon0 <- -95
 lat0 <- 45
 proj <- str_glue("+proj=ortho lon_0={lon0} lat_0={lat0}")
 ```
