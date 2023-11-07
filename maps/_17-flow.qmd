@@ -1,0 +1,121 @@
+---
+title: 17 Flow
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+filters:
+  - lightbox
+lightbox: auto
+---
+
+Flow of transport, people.
+
+Well... no, flow of water.
+
+## Libraries
+```{r}
+#| code-fold: true
+#| results: false
+library(terra)
+library(sf)
+library(ggplot2)
+library(tmap)
+```
+
+## Data wrangling
+```{r}
+#| code-fold: true
+#| results: false
+nz <- st_read("data/nz.gpkg")
+flows <- st_read("data/manawatu-flows.gpkg") %>%
+  dplyr::arrange(ORDER)
+catch <- st_read("data/manawatu-catch.gpkg")
+
+mask <- catch %>%
+  st_buffer(2.5e3, nQuadSegs = 0) %>%
+  st_bbox() %>%
+  st_as_sfc(crs = 2193) %>%
+  st_sf() %>%
+  st_difference(catch) %>%
+  st_intersection(nz)
+
+dem <- rast("data/manawatu-dem-rect.tif") %>%
+  classify(rcl = matrix(c(-8, 0, 0), nr = 1))
+
+aspect <- dem %>% terrain(v = "aspect", unit = "radians")
+slope <- dem %>% terrain(unit = "radians")
+hillshade <- shade(slope, aspect)
+
+# for ggplot use - otherwise it takes too long to plot
+dem2 <- dem %>% aggregate(4)
+hillshade2 <- hillshade %>% aggregate(4)
+```
+
+## The maps
+Per [this issue](https://github.com/r-tmap/tmap/issues/809) `tm_scalebar` fails with `tm_pos_out`.
+
+`tmap runs quite slowly with the raster layers.
+
+### `tmap`
+```{r fig.width=10, fig.height=8}
+tm_shape(dem, bbox = catch %>% st_buffer(2.5e3)) +
+  tm_raster(
+    col = "taranaki_25r",
+    col.scale = tm_scale_continuous(values = terrain.colors(10)[3:10]),
+    col.legend = tm_legend(show = FALSE)) +
+  tm_shape(hillshade) +
+  tm_raster(
+    col = "hillshade",
+    col.scale = tm_scale_continuous(values = "Greys"), 
+    col.legend = tm_legend(show = FALSE),
+    col_alpha = 0.5) +
+  tm_shape(mask) +
+  tm_fill(fill = "white", fill_alpha = 0.35) +
+  tm_shape(flows) + 
+  tm_lines(
+    lwd = "ORDER", 
+    lwd.scale = tm_scale_discrete(values.scale = 1.5),
+    lwd.legend = tm_legend(title = "Stream order"),
+    col = "blue"
+    # col = "MeanFlowCumecs", 
+    # col.scale = tm_scale_continuous_log(
+    #   values = RColorBrewer::brewer.pal(9, "Blues")[3:9]),
+    # col.legend = tm_legend(title = "Mean flow cubic m/sec")
+  ) +
+  tm_title("Manawatu catchment") +
+  tm_scalebar(
+    # position = tm_pos_auto_out(
+    # cell.h = "center", cell.v = "bottom",
+    # pos.h = "right", pos.v = "top")
+  ) +
+  tm_layout(legend.frame = FALSE, bg.color = "lightblue2")
+```
+
+### `ggplot2`
+Unable to handle two rasters layered on top of one another as both are trying to use the `fill` aesthetic.
+
+```{r fig.width=10, fig.height=8}
+library(tidyterra)
+
+ggplot() +
+  geom_spatraster(
+    data = dem2, aes(fill = taranaki_25r), alpha = 0.65) +
+  scale_fill_hypso_c(palette = "DEM_screen", guide = "none") +
+  geom_sf(data = flows, 
+          # aes(colour = MeanFlowCumecs, linewidth = ORDER)) +
+          aes(linewidth = ORDER), colour = "blue") +
+  scale_linewidth(range = c(0.2, 2), name = "Stream order") +
+  # scale_colour_gradientn(
+  #   colours = RColorBrewer::brewer.pal(9, "Blues")[3:9],
+  #   name = "Flow cubic m/sec", trans = "log") +
+  coord_sf(xlim = st_bbox(catch)[c(1, 3)],
+           ylim = st_bbox(catch)[c(2, 4)]) +
+  theme_void() +
+  theme(panel.background = element_rect(fill = "lightblue2"),
+        panel.border = element_rect(fill = NA, colour = "black"))
+```
+

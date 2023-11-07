@@ -7,6 +7,9 @@ knitr:
   opts_chunk: 
     warning: false
     message: false
+filters:
+  - lightbox
+lightbox: auto
 ---
 
 A blast from the past.
@@ -17,7 +20,7 @@ I decided to give hatched choropleths a go for this one, as those seem appropria
 
 TL;DR; it's been a journey. 
 
-Neither `tmap` not `ggplot2` has hatching available as an option natively. I experimented with the `HatchedPolygons` package with `tmap`, and the `ggpattern` package with `ggplot2` but neither allowed me to get the end result I was after. Eventually I returned to base _R_ plotting in conjunction with some code I found [here](https://rpubs.com/dieghernan/559092) from [Diego HH](https://github.com/dieghernan/), which I modified, in particular to get the legend to work.
+Neither `tmap` not `ggplot2` has hatching available as an option natively. I experimented with the `HatchedPolygons` package with `tmap`, and the `ggpattern` package with `ggplot2` but neither allowed me to get the end result I was after. Eventually I returned to base _R_ plotting in conjunction with some code I found [here](https://rpubs.com/dieghernan/559092) from [Diego Hernangómez](https://github.com/dieghernan/), which I modified, in particular to get the legend to work.
 
 Both hatching and legend key elements are spatial data added to the map (i.e. they aren't patterns as such, they are linestrings).
 

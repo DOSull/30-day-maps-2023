@@ -1,12 +1,15 @@
 ---
 title: 15 OpenStreetMap
-# execute: 
-#   cache: true
-#   freeze: auto
+execute: 
+  cache: true
+  freeze: auto
 knitr:
   opts_chunk: 
     warning: false
     message: false
+filters:
+  - lightbox
+lightbox: auto
 ---
 
 The greatest of the datasets. Remember to give credit.

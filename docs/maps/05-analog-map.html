@@ -75,6 +75,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -268,7 +271,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Non-digital maps.</p>
 <p>A (carefully) crumpled paper hillshade (yes, it is part of a real landscape).</p>
-<p><img src="05-crumpled-paper-hillshade.jpg" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="05-crumpled-paper-hillshade.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="05-crumpled-paper-hillshade.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
 <section id="what-happened-to-the-tmap-vs-ggplot2-cage-fight" class="level2">
 <h2 class="anchored" data-anchor-id="what-happened-to-the-tmap-vs-ggplot2-cage-fight">What happened to the <code>tmap</code> <em>vs</em> <code>ggplot2</code> cage fight?</h2>
 <p>This one doesn’t really fit with my <code>tmap</code> <em>vs</em> <code>ggplot2</code> set up, but it prompted me to look a bit more closely into an idea that has interested me since I first saw this <a href="https://www.youtube.com/watch?v=UXENKmAUL0E">amazing video</a> by <a href="https://en.wikipedia.org/wiki/Ron_Resch">Ron Resch</a> one of the pioneers of <a href="https://en.wikipedia.org/wiki/Origami#Origami_tessellations">tessellation-based origami</a>.</p>
@@ -297,12 +304,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">frame =</span> <span class="cn">FALSE</span>, </span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.show =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05-analog-map_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="05-analog-map_files/figure-html/unnamed-chunk-1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="05-analog-map_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The blue areas in the map are valley floors, the red areas ridge tops. It so happens that in origami, red and blue lines are often used in <a href="https://en.wikipedia.org/wiki/Crease_pattern">crease patterns</a> to distinguish <em>mountain folds</em> and <em>valley folds</em>. So pinching the blue linear features into creases and from the reverse side (i.e., through the back of the printed page) pinching the red linear features into creases gives the ‘crumpled’ sheet I want.</p>
 <p>So anyway, I printed the map on a sheet of paper, and then made the folds. Here’s another example.</p>
-<p><img src="05-crumpled-paper-hillshade-2.jpg" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="05-crumpled-paper-hillshade-2.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="05-crumpled-paper-hillshade-2.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
 </section>
 <section id="thoughts" class="level2">
 <h2 class="anchored" data-anchor-id="thoughts">Thoughts</h2>
@@ -317,9 +332,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="even-more-origami">Even more origami</h2>
 <p>If this stuff intrigues you, then go see the phenomenal <a href="https://origamisimulator.org/">Origami Simulator</a> by <a href="https://amandaghassaei.com/">Amanda Ghassaei</a>.</p>
 <p>To finish, here’s a highly dissected terrain (not really) that’s an origami tessellation classic by the Shumakovs…</p>
-<p><img src="dragons-egg-peaks.jpg" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="dragons-egg-peaks.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="dragons-egg-peaks.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
 <p>… which can also be formed into a ball.</p>
-<p><img src="dragons-egg-ball.jpg" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="dragons-egg-ball.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="dragons-egg-ball.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
 
 
 </section>
@@ -571,6 +594,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","loop":true,"descPosition":"bottom","openEffect":"zoom"});</script>
 
 
 

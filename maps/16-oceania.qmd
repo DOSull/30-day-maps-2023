@@ -7,6 +7,9 @@ knitr:
   opts_chunk: 
     warning: false
     message: false
+filters:
+  - lightbox
+lightbox: auto
 ---
 
 Region made up of thousands of islands throughout the Central and South Pacific.
