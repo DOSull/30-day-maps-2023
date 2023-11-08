@@ -22,6 +22,8 @@ The starting point for me was the amazing visualisation of [earth.nullschool.net
 
 Instead, I stumbled upon the [`rWind` package](https://github.com/jabiologo/rWind), which allows relatively easy download of [GFS (Global Forecast System)](https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast) data. In combination with the [`rasterVis` package](https://oscarperpinan.github.io/rastervis/) I managed to cobble together something interesting to look at.
 
+That it is indeed windy around Wellington is confirmed&mdash;a lot to do with the Cook Strait funneling the 'Roaring Forties' our way.
+
 ## Libraries
 Some unfamiliar characters this time around. There's a lot of older formats involved in this particular toolchain hence some of the packages.
 
@@ -43,13 +45,13 @@ library(latticeExtra) # a whole other graphics system
 ```{r}
 #| code-fold: true
 #| results: false
-nz <- st_read("~/Documents/teaching/Geog315/labs/nz.gpkg") %>%
+nz <- st_read("data/nz-small.gpkg") %>%
   st_transform(4326) %>%
   as("Spatial")
 
-w <- wind.dl(2023, 10, 26, 0, # year, month, day, hour
-             165, 179,        # longitude range
-             -48, -33)        # latitude range
+w <- wind.dl(2023, 10, 25, 18, # year, month, day, hour
+             169, 177,        # longitude range
+             -44, -38)        # latitude range
 
 wind <- wind2raster(w)  # a raster stack with direction and speed
 ```
@@ -59,9 +61,9 @@ Using  `rasterVis` vector and stream flow plots.
 
 `vectorplot` shows only directions but not speeds in its 'default' form. To get arrows that reflect wind speed, we have to supply 'dXY' format data.
 
-I also densify the data a bit to get something a bit 'complete' seeming.
+I also densify the data a bit to get something a bit more 'complete' seeming.
 
-```{r fig.width=10, fig.height=8}
+```{r fig.width=10, fig.height=10}
 # get vector components
 north <- -cos(pi * wind$direction / 180) * wind$speed
 east <- -sin(pi * wind$direction / 180) * wind$speed
@@ -72,19 +74,19 @@ names(wind_vec) <- c("N", "E")
 vectorplot(wind_vec, isField = "dXY", region = TRUE,
            lwd.arrows = 1, col.arrows = "blue",
            uLayers = 1, vLayers = 2, par.settings = YlOrRdTheme) +
-  layer(sp.polygons(nz))
+  layer(sp.polygons(nz, lwd = 2))
 ```
 
 `streamplot` traces the paths that 'droplets' would follow on the surface, so it wants the data in speed, direction format. This is almost the format supplied by `rWind::wind2Raster` except the order needs reversing! However, since we've gone to the trouble of densifying the data into the vector component form, I recombine them here to give a denser interpolated speed-direction pair than we started with.
 
 I don't entirely know, nor do I have time to get to the bottom of how to drive this function!
 
-```{r fig.width=10, fig.height=8}
+```{r fig.width=10, fig.height=10}
 wind_field <- stack(sqrt(wind_vec$N ^ 2 + wind_vec$E ^ 2),
                     raster::atan2(wind_vec$N, wind_vec$E))
 
 streamplot(wind_field, isField = TRUE,
-           streamlet = list(L = 10), droplet = list(pc = 25),
-           par.settings = streamTheme(symbol = brewer.pal(n = 9, 'YlOrRd'), cex = 0.5)) +
+    streamlet = list(L = 8), droplet = list(pc = 100),
+    par.settings = streamTheme(symbol = brewer.pal(n = 9, 'YlOrRd'))) +
   layer(sp.polygons(nz, col = "lightblue2", lwd = 2))
 ```

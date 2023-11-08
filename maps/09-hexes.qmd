@@ -71,6 +71,9 @@ bb <- h3_10 %>%
   st_bbox()
 
 credit <- maptiles::get_credit("OpenStreetMap")
+
+tm_lwds <- c(3.5, 2.5, 1.5, 1, 0.7, 0.5)
+gg_lwds <- tm_lwds * 25.4 / 72.27
 ```
 
 ## The maps
@@ -80,17 +83,17 @@ credit <- maptiles::get_credit("OpenStreetMap")
 ```{r fig.width=10, fig.height=10}
 tm_basemap(server = "OpenStreetMap", zoom = 12) +
   tm_shape(h3_5) + 
-  tm_lines(lwd = 3.5) +
+  tm_lines(lwd = tm_lwds[1]) +
   tm_shape(h3_6) + 
-  tm_lines(lwd = 2.5) +
+  tm_lines(lwd = tm_lwds[2]) +
   tm_shape(h3_7) + 
-  tm_lines(lwd = 1.5) +
+  tm_lines(lwd = tm_lwds[3]) +
   tm_shape(h3_8) + 
-  tm_lines(lwd = 1) +
+  tm_lines(lwd = tm_lwds[4]) +
   tm_shape(h3_9) + 
-  tm_lines(lwd = 0.7) +
+  tm_lines(lwd = tm_lwds[5]) +
   tm_shape(h3_10, is.main = TRUE) + 
-  tm_lines(lwd = 0.5) +
+  tm_lines(lwd = tm_lwds[6]) +
   tm_credits(
     credit,
     position = tm_pos_out(pos.h = "RIGHT", pos.v = "TOP",
@@ -106,13 +109,13 @@ library(ggspatial)
 
 ggplot(square, aes(colour = "#00000000")) +
   annotation_map_tile(zoomin = 1) + 
-  geom_sf(data = h3_5, linewidth = 1, colour = "black") +
-  geom_sf(data = h3_6, linewidth = 0.75, colour = "black") +
-  geom_sf(data = h3_7, linewidth = 0.6, colour = "black") +
-  geom_sf(data = h3_8, linewidth = 0.45, colour = "black") +
-  geom_sf(data = h3_9, linewidth = 0.35, colour = "black") +
-  geom_sf(data = h3_10, linewidth = 0.25, colour = "black") +
-  xlim(bb[1], bb[3]) +
-  ylim(bb[2], bb[4]) +
+  geom_sf(data = h3_5, linewidth = gg_lwds[1], colour = "black") +
+  geom_sf(data = h3_6, linewidth = gg_lwds[2], colour = "black") +
+  geom_sf(data = h3_7, linewidth = gg_lwds[3], colour = "black") +
+  geom_sf(data = h3_8, linewidth = gg_lwds[4], colour = "black") +
+  geom_sf(data = h3_9, linewidth = gg_lwds[5], colour = "black") +
+  geom_sf(data = h3_10, linewidth = gg_lwds[6], colour = "black") +
+  ggplot2::coord_sf(
+    xlim = bb[c(1, 3)], ylim = bb[c(2, 4)], expand = FALSE) +
   theme_void()
 ```
