@@ -24,7 +24,7 @@ Day | Theme | Details
 15 | [OpenStreetMap](https://dosull.github.io/30-day-maps-2023/maps/15-osm.html) | The greatest of the datasets. Remember to give credit.
 16 | [Oceania](https://dosull.github.io/30-day-maps-2023/maps/16-oceania.html) | Region made up of thousands of islands throughout the Central and South Pacific
 17 | [Flow](https://dosull.github.io/30-day-maps-2023/maps/17-flow.html) | Flow of transport, people
-18 | [Atmosphere](https://dosull.github.io/30-day-maps-2023/maps/18-Atmosphere.html) | Conditions of the atmosphere can be either weather or ~~climate~~
+18 | [Atmosphere](https://dosull.github.io/30-day-maps-2023/maps/18-Atmosphere.html) | Conditions of the atmosphere can be either weather or climate
 19 | [5-minute map](https://dosull.github.io/30-day-maps-2023/maps/5-minute-map.html) | Spend no more than 5 minutes to prepare this map
 20 | [Outdoors](https://dosull.github.io/30-day-maps-2023/maps/20-outdoors.html) | Map of mountains, trails, or something completely different
 21 | [Raster](https://dosull.github.io/30-day-maps-2023/maps/21-raster.html) | Pixels, please

@@ -16,17 +16,26 @@ Flow of transport, people.
 
 Well... no, flow of water.
 
+Data for the Manawatū catchment in Te Ika-a-Māui is from the [NZ Ministry for the Environment](https://environment.govt.nz/), and available at [koordinates.com](https://koordinates.com/from/data.mfe.govt.nz/layer/53309-river-flows/). 
+
+Elevation data is a [25m resolution DEM from Manaaki Whenua Landcare Research](https://lris.scinfo.org.nz/layer/48131-nzdem-north-island-25-metre/), which I had kicking around on my laptop. Clearly getting a bit long in the tooth as it was for some reason in the old NZ Map Grid (EPSG 27200) projection and had to be reprojected to NZ Transverse Mercator (EPSG 2193).
+
 ## Libraries
 ```{r}
 #| code-fold: true
 #| results: false
 library(terra)
+library(tidyterra)
 library(sf)
 library(ggplot2)
 library(tmap)
 ```
 
 ## Data wrangling
+I wanted to use a hillshaded DEM in this one. It was feasible in `tmap` to layer a hypsometric coloured DEM and a hillshade derived from it in `terra` easily enough. In `ggplot2` it proved a problem because having more than one map layer attempt to use the `fill` aesthetic is _verboten_. I am sure there is a way around this, but while 30 days is a long time, life is too short, so it was easier to jump out to the excellent (and free) [PyramidShader](http://terraincartography.com/PyramidShader/) and do the work there to make a hillshaded and coloured DEM image. That still required a bit of fiddle to make it work in the two tools I'm using, but nothing too difficult.
+
+The successor to PyramidShader, [Eduard](https://eduard.earth/) [looks excellent](https://www.youtube.com/watch?v=Da6SY6XjRiA&t=3s), but not worth me buying for this project alone!
+
 ```{r}
 #| code-fold: true
 #| results: false
@@ -43,77 +52,67 @@ mask <- catch %>%
   st_difference(catch) %>%
   st_intersection(nz)
 
-dem <- rast("data/manawatu-dem-rect.tif") %>%
-  classify(rcl = matrix(c(-8, 0, 0), nr = 1))
+hillshaded_dem <- rast("data/manawatu-dem-rect-image.tif") %>%
+  tidyterra::select(1:3) %>%
+  crop(nz %>% as("SpatVector"), mask = TRUE)
+terra::set.crs(hillshaded_dem, "epsg:2193")
+names(hillshaded_dem) <- c("r", "g", "b")
 
-aspect <- dem %>% terrain(v = "aspect", unit = "radians")
-slope <- dem %>% terrain(unit = "radians")
-hillshade <- shade(slope, aspect)
-
-# for ggplot use - otherwise it takes too long to plot
-dem2 <- dem %>% aggregate(4)
-hillshade2 <- hillshade %>% aggregate(4)
+bbox <- catch %>%
+  st_buffer(2.5e3) %>%
+  st_bbox()
 ```
 
 ## The maps
-Per [this issue](https://github.com/r-tmap/tmap/issues/809) `tm_scalebar` fails with `tm_pos_out`.
+Per [this issue](https://github.com/r-tmap/tmap/issues/809) `tm_scalebar` at time of writing `tmap` fails with `tm_pos_out` for placing the scale bar outside the map area.
 
-`tmap runs quite slowly with the raster layers.
+`tmap` seems to run quite slowly with raster layers.
+
+In general however, `tmap` is the winner in this comparison because it can cope with multiple layers using the same aesthetics. For most people making maps, it's entirely natural to assume you can style them independently of one another and layer them on top of each other. Just because one layer uses the fill colour aesthetic doesn't mean that no other layer can also use it, which is what happens in `ggplot2`'s world.
 
 ### `tmap`
 ```{r fig.width=10, fig.height=8}
-tm_shape(dem, bbox = catch %>% st_buffer(2.5e3)) +
-  tm_raster(
-    col = "taranaki_25r",
-    col.scale = tm_scale_continuous(values = terrain.colors(10)[3:10]),
-    col.legend = tm_legend(show = FALSE)) +
-  tm_shape(hillshade) +
-  tm_raster(
-    col = "hillshade",
-    col.scale = tm_scale_continuous(values = "Greys"), 
-    col.legend = tm_legend(show = FALSE),
-    col_alpha = 0.5) +
+tm_shape(hillshaded_dem, bbox = bbox) +
+  tm_rgb(tm_mv("r", "g", "b")) +
   tm_shape(mask) +
   tm_fill(fill = "white", fill_alpha = 0.35) +
   tm_shape(flows) + 
   tm_lines(
     lwd = "ORDER", 
-    lwd.scale = tm_scale_discrete(values.scale = 1.5),
+    lwd.scale = tm_scale_discrete(values.scale = 2),
     lwd.legend = tm_legend(title = "Stream order"),
-    col = "blue"
-    # col = "MeanFlowCumecs", 
-    # col.scale = tm_scale_continuous_log(
-    #   values = RColorBrewer::brewer.pal(9, "Blues")[3:9]),
-    # col.legend = tm_legend(title = "Mean flow cubic m/sec")
-  ) +
-  tm_title("Manawatu catchment") +
-  tm_scalebar(
-    # position = tm_pos_auto_out(
-    # cell.h = "center", cell.v = "bottom",
-    # pos.h = "right", pos.v = "top")
-  ) +
+    col = "MeanFlowCumecs", 
+    col.scale = tm_scale_continuous_log(
+      values = RColorBrewer::brewer.pal(9, "Blues")[3:9]),
+    col.legend = tm_legend(title = "Mean flow cubic m/sec")) +
+  tm_title("Manawatū catchment") +
+  tm_scalebar() +
+  # position = tm_pos_auto_out(
+  # cell.h = "center", cell.v = "bottom",
+  # pos.h = "right", pos.v = "top")) +
   tm_layout(legend.frame = FALSE, bg.color = "lightblue2")
 ```
 
 ### `ggplot2`
-Unable to handle two rasters layered on top of one another as both are trying to use the `fill` aesthetic.
+`ggplot2` is unwilling to handle two rasters layered on top of one another as both are trying to use the `fill` aesthetic, but that was resolved by generating the hillshade relief in an external tool. Even then, the [`tidyterra` package](https://dieghernan.github.io/tidyterra/index.html) proved a much better bet for deploying a raster layer in `ggplot2` than anything native.
+
+I could add a scale bar and whatnot using `ggspatial` as I have in other maps, but honestly... I've had enough of this foray into more 'topographic' as opposed to 'thematic' mapping for now, so I'll leave that as an exercise for the reader.
 
 ```{r fig.width=10, fig.height=8}
 library(tidyterra)
 
 ggplot() +
-  geom_spatraster(
-    data = dem2, aes(fill = taranaki_25r), alpha = 0.65) +
-  scale_fill_hypso_c(palette = "DEM_screen", guide = "none") +
+  geom_spatraster_rgb(data = hillshaded_dem) +
   geom_sf(data = flows, 
-          # aes(colour = MeanFlowCumecs, linewidth = ORDER)) +
-          aes(linewidth = ORDER), colour = "blue") +
+          aes(colour = MeanFlowCumecs, linewidth = ORDER)) +
+  geom_sf(data = mask, fill = "white", alpha = 0.35, linewidth = 0) +
   scale_linewidth(range = c(0.2, 2), name = "Stream order") +
-  # scale_colour_gradientn(
-  #   colours = RColorBrewer::brewer.pal(9, "Blues")[3:9],
-  #   name = "Flow cubic m/sec", trans = "log") +
-  coord_sf(xlim = st_bbox(catch)[c(1, 3)],
-           ylim = st_bbox(catch)[c(2, 4)]) +
+  scale_colour_gradientn(
+    colours = RColorBrewer::brewer.pal(9, "Blues")[3:9],
+    name = "Flow cubic m/sec", trans = "log") +
+  coord_sf(xlim = bbox[c(1, 3)], ylim = bbox[c(2, 4)], 
+           expand = FALSE) +
+  ggtitle("Manawatū catchment") +
   theme_void() +
   theme(panel.background = element_rect(fill = "lightblue2"),
         panel.border = element_rect(fill = NA, colour = "black"))
