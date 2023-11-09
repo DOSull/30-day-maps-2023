@@ -1,0 +1,92 @@
+---
+title: 18 Atmosphere
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+filters:
+  - lightbox
+lightbox: auto
+---
+
+Conditions of the atmosphere can be either weather or climate.
+
+Another departure from the `tmap` vs `ggplot2` face-off, given the specialised nature of weather data, and presentations. 
+
+If you live in Wellington as I do, then wind is the most salient aspect of the weather. Weather data in Aotearoa New Zealand of any kind (wind or otherwise) are regrettably not easy to get hold of.
+
+The starting point for me was the amazing visualisation of [earth.nullschool.net](https://earth.nullschool.net/#2023/10/26/0000Z/wind/surface/level/orthographic=-191.58,-45.04,2116).
+
+Instead, I stumbled upon the [`rWind` package](https://github.com/jabiologo/rWind), which allows relatively easy download of [GFS (Global Forecast System)](https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast) data. In combination with the [`rasterVis` package](https://oscarperpinan.github.io/rastervis/) I managed to cobble together something interesting to look at.
+
+That it is indeed windy around Wellington is confirmed&mdash;a lot to do with the Cook Strait funneling the 'Roaring Forties' our way.
+
+## Libraries
+Some unfamiliar characters this time around. There's a lot of older formats involved in this particular toolchain hence some of the packages.
+
+```{r}
+#| code-fold: true
+#| results: false
+library(raster)       # note: not terra!
+library(sf)
+library(sp)           # older spatial features type
+library(rWind)        # wind data downloads
+library(rasterVis)    # visualisation of vector fields
+library(RColorBrewer) # familiar colour palettes
+library(maptools)     # some spatial conversions
+library(latticeExtra) # a whole other graphics system
+```
+
+## Basic data collection
+
+```{r}
+#| code-fold: true
+#| results: false
+nz <- st_read("data/nz-small.gpkg") %>%
+  st_transform(4326) %>%
+  as("Spatial")
+
+w <- wind.dl(2023, 10, 25, 18, # year, month, day, hour
+             169, 177,        # longitude range
+             -44, -38)        # latitude range
+
+wind <- wind2raster(w)  # a raster stack with direction and speed
+```
+
+## The maps
+Using  `rasterVis` vector and stream flow plots.
+
+`vectorplot` shows only directions but not speeds in its 'default' form. To get arrows that reflect wind speed, we have to supply 'dXY' format data.
+
+I also densify the data a bit to get something a bit more 'complete' seeming.
+
+```{r fig.width=10, fig.height=10}
+# get vector components
+north <- -cos(pi * wind$direction / 180) * wind$speed
+east <- -sin(pi * wind$direction / 180) * wind$speed
+wind_vec <- stack(north, east) %>%
+  disaggregate(2, method = "bilinear")
+names(wind_vec) <- c("N", "E")
+
+vectorplot(wind_vec, isField = "dXY", region = TRUE,
+           lwd.arrows = 1, col.arrows = "blue",
+           uLayers = 1, vLayers = 2, par.settings = YlOrRdTheme) +
+  layer(sp.polygons(nz, lwd = 2))
+```
+
+`streamplot` traces the paths that 'droplets' would follow on the surface, so it wants the data in speed, direction format. This is almost the format supplied by `rWind::wind2Raster` except the order needs reversing! However, since we've gone to the trouble of densifying the data into the vector component form, I recombine them here to give a denser interpolated speed-direction pair than we started with.
+
+I don't entirely know, nor do I have time to get to the bottom of how to drive this function!
+
+```{r fig.width=10, fig.height=10}
+wind_field <- stack(sqrt(wind_vec$N ^ 2 + wind_vec$E ^ 2),
+                    raster::atan2(wind_vec$N, wind_vec$E))
+
+streamplot(wind_field, isField = TRUE,
+    streamlet = list(L = 8), droplet = list(pc = 100),
+    par.settings = streamTheme(symbol = brewer.pal(n = 9, 'YlOrRd'))) +
+  layer(sp.polygons(nz, col = "lightblue2", lwd = 2))
+```
