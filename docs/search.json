@@ -7,151 +7,186 @@
     "text": "I decided to give the 30 Day Map Challenge a go as a learning exercise. My efforts are certainly not an exercise in flashy or impressive cartographic design.\nI’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead.\nSo… I thought I’d make a bunch of maps using both platforms to get a feel for the pros and cons of each."
   },
   {
-    "objectID": "maps/07-navigation.html",
-    "href": "maps/07-navigation.html",
-    "title": "07 Navigation",
+    "objectID": "maps/11-retro.html",
+    "href": "maps/11-retro.html",
+    "title": "11 Retro",
     "section": "",
-    "text": "A map that helps you to navigate.\nWhile not really filling the brief, these maps confirmed for me that there are still quite a few issues dealing with global map projections in the R spatial ecosystem.\nI hand made the graticule in these maps using code from a sourced R file which trims the graticule to only extend across the visible extent, because neither tmap nor ggplot2 successfully applied their ‘native’ graticule in this orthographic projection without errors.\ngeosphere is yet another excellent package from the excellent Robert Hijmans at UC Davis, and its destPointRhumb function is helpful here in building the rhumb line corkscrewing around the globe."
+    "text": "A blast from the past.\nWherein we explore the lost art of the hatched choropleth.\nI decided to give hatched choropleths a go for this one, as those seem appropriately ‘retro’ in the context of mapping packages primarily aimed at relatively simple thematic mapping.\nTL;DR; it’s been a journey.\nNeither tmap not ggplot2 has hatching available as an option natively. I experimented with the HatchedPolygons package with tmap, and the ggpattern package with ggplot2 but neither allowed me to get the end result I was after. Eventually I returned to base R plotting in conjunction with some code I found here from Diego Hernangómez, which I modified, in particular to get the legend to work.\nBoth hatching and legend key elements are spatial data added to the map (i.e. they aren’t patterns as such, they are linestrings)."
   },
   {
-    "objectID": "maps/07-navigation.html#libraries",
-    "href": "maps/07-navigation.html#libraries",
-    "title": "07 Navigation",
+    "objectID": "maps/11-retro.html#libraries",
+    "href": "maps/11-retro.html#libraries",
+    "title": "11 Retro",
     "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(geosphere)\nlibrary(ggplot2)\nlibrary(stringr)\n\nsource(\"~/Documents/code/30-day-maps-2023/maps/utils.R\")"
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
   },
   {
-    "objectID": "maps/07-navigation.html#data-wrangling",
-    "href": "maps/07-navigation.html#data-wrangling",
-    "title": "07 Navigation",
+    "objectID": "maps/11-retro.html#data-wrangling",
+    "href": "maps/11-retro.html#data-wrangling",
+    "title": "11 Retro",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nstart_lat &lt;- -41.3\nstart_lon &lt;- 174.75\nstart &lt;- c(start_lon, start_lat)\n\northo_proj &lt;- get_ortho_proj(start)\naeqd_proj &lt;- get_azimuthal_eq_dist(start)\n\nbearing &lt;- -88.5\nend_lat &lt;- 45\nstep_length &lt;- 5e4\nlast_pt &lt;- start\nlox &lt;- list()\ntransect &lt;- last_pt\ni &lt;- 1\nwhile (last_pt[2] &lt; end_lat) {\n  next_pt &lt;- geosphere::destPointRhumb(last_pt, bearing, step_length)\n  if (next_pt[1] &gt; last_pt[1]) {\n    lox[[i]] &lt;- transect\n    i &lt;- i + 1\n    transect &lt;- c(next_pt)\n  } else {\n    transect &lt;- c(transect, next_pt)\n  }\n  last_pt &lt;- next_pt\n}\nlox[[i]] &lt;- transect\n\nhemisphere &lt;- get_hemisphere(start, crs = aeqd_proj)\n\nlox_sf &lt;- lox %&gt;%\n  lapply(unlist) %&gt;%\n  lapply(matrix, ncol = 2, byrow = TRUE) %&gt;%\n  st_multilinestring() %&gt;%\n  st_sfc() %&gt;%\n  st_sf(crs = 4326) %&gt;%\n  st_cast(\"LINESTRING\") %&gt;%\n  st_transform(aeqd_proj) %&gt;%\n  st_intersection(get_hemisphere(start, aeqd_proj)) %&gt;%\n  st_transform(ortho_proj)\n  # st_cast(\"POINT\")\n\ndata(World)\nworld &lt;- World %&gt;%\n  st_cast(\"POLYGON\") %&gt;%\n  st_transform(ortho_proj) %&gt;%\n  dplyr::filter(!(st_is_empty(geometry)))\n\ngraticule &lt;- get_graticule(centre = start) %&gt;%\n  st_transform(ortho_proj)\n\nglobe &lt;- st_point(c(0, 0)) %&gt;%\n  st_buffer(6378137) %&gt;%\n  st_sfc(crs = ortho_proj) %&gt;%\n  st_sf()"
+    "text": "Data wrangling\n\n\nCode\nak &lt;- st_read(\"data/ak-city-demographics-2018.gpkg\")"
   },
   {
-    "objectID": "maps/07-navigation.html#the-maps",
-    "href": "maps/07-navigation.html#the-maps",
-    "title": "07 Navigation",
+    "objectID": "maps/11-retro.html#the-maps",
+    "href": "maps/11-retro.html#the-maps",
+    "title": "11 Retro",
     "section": "The maps",
-    "text": "The maps\n\ntmap\n\ninstruction &lt;- st_point(c(0, 0)) %&gt;%\n  st_sfc(crs = ortho_proj) %&gt;%\n  st_sf() %&gt;%\n  mutate(label = \"Go west(ish!)\")\n\ntm_shape(globe) +\n  tm_fill(fill = \"lightblue1\") +\n  tm_shape(world) +\n  tm_fill(fill = \"darkseagreen3\", lwd = 0) +\n  tm_shape(graticule, is.main = TRUE) +\n  tm_lines(col = \"cornflowerblue\", lwd = 1) +\n  tm_shape(lox_sf) +\n  tm_lines(col = \"firebrick\", lwd = 2) +\n  tm_title(\"Go west(ish!)\", position = c(0.5, 0.5), size = 2) +\n  tm_layout(frame = FALSE)"
+    "text": "The maps\nSo here is the best version, which uses base R. patterns.R contains code I modified from here to provide patternLayer and legendPattern functions.\n\nlibrary(classInt)\nsource(\"patterns.R\")\n\nbrks &lt;- round(classIntervals(ak$jedi, n = 5)$brks, 1)\nintervals &lt;- paste(brks[-6], \"to\", brks[-1])\nbrks[6] &lt;- brks[6] + 0.01\nspacings &lt;- c(500, 350, 250, 175, 125)\n\npar(mai = rep(0.1, 4))\nplot(ak$geom, lwd = 0.75)\nfor (i in 1:5) {\n  ak %&gt;% \n    filter(pop &gt; 0, jedi &gt;= brks[i], jedi &lt; brks[i + 1]) %&gt;%\n    st_union() %&gt;%\n  patternLayer(\"left2right\", density = spacings[i], add = TRUE, lwd = 0.75)\n}\nbb &lt;- st_bbox(ak)\nlegendPattern(pos = bb[1:2], title.txt = \"% Jedi\",\n  categ = intervals, patterns = \"left2right\", density = spacings,\n  frame = FALSE, lwd = 0.75)\n\n\n\n\n\n\n\n\n\ntmap\nI tried the HatchedPolygons package, since I’d successfully used it in this figure. It makes hatched shapes fine, but I couldn’t figure out how to make a useful legend.\n\nlibrary(HatchedPolygons)\n\nhatched_subset &lt;- function(data, var, range, density, angle) {\n  data[data[[var]] &gt;= range[1] & data[[var]] &lt; range[2], ] %&gt;%\n    as(\"Spatial\") %&gt;%\n    hatched.SpatialPolygons(density = density, angle = angle) %&gt;%\n    st_as_sf() %&gt;%\n    st_set_crs(2193)\n}\ndensities &lt;- seq(0.006, 0.01, 0.001)\n\nm &lt;- tm_shape(st_union(ak)) +\n  tm_lines(lwd = 0.75)\n\nfor (i in 1:5) {\n  m &lt;- m + \n    tm_shape(\n      hatched_subset(ak, \"jedi\", brks[i:(i+1)], densities[i], -45)) +\n    tm_lines(lwd = 0.5, col = \"black\")\n}\nm + tm_shape(ak) +\n  tm_borders(lwd = 0.75) +\n  tm_layout(frame = FALSE)\n\n\n\n\n\n\n\n\n\n\nggplot2\nggpattern from the aptly named coolbutuseless stable is a lot of fun.\nI played around with persuading it to make a ‘serious’ hatched choropleth—which to be clear, is possible—but in the end settled for this much more satisfying weird effect.\n\nlibrary(ggpattern)\n\nggplot(ak) +\n  geom_sf_pattern(aes(pattern_angle = jedi),\n    pattern_density = 0.001, \n    pattern_spacing = 0.01,\n    pattern_fill = \"black\",\n    fill = \"white\",\n    colour = \"white\",\n    linewidth = 0.5 * 25.4 / 72.27,\n  ) + \n  guides(pattern_angle = guide_legend(title = \"% Jedi\")) +\n  geom_sf(data = st_union(ak), linewidth = 0.75, fill = \"#00000000\") +\n  theme_void()"
   },
   {
-    "objectID": "maps/07-navigation.html#ggplot2",
-    "href": "maps/07-navigation.html#ggplot2",
-    "title": "07 Navigation",
-    "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(globe) +\n  geom_sf(fill = \"lightblue1\") +\n  geom_sf(data = world, fill = \"darkseagreen3\", linewidth = 0) +\n  geom_sf(data = graticule, colour = \"cornflowerblue\", \n          linewidth = 1 * 25.4 / 72.27) +\n  geom_sf(data = lox_sf, colour = \"firebrick\", \n          linewidth = 2 * 25.4 / 72.27) +\n  annotate(\"text\", x = 0, y = 0, label = \"Go west(ish!)\", \n            hjust = 0, size = 10) +\n  theme_void()"
-  },
-  {
-    "objectID": "maps/25-antarctica.html",
-    "href": "maps/25-antarctica.html",
-    "title": "25 Antarctica",
+    "objectID": "maps/14-europe.html",
+    "href": "maps/14-europe.html",
+    "title": "14 Europe",
     "section": "",
-    "text": "A cold continent that can’t be reached with Web Mercator."
+    "text": "The westernmost peninsulas of Eurasia."
   },
   {
-    "objectID": "maps/25-antarctica.html#libraries",
-    "href": "maps/25-antarctica.html#libraries",
-    "title": "25 Antarctica",
+    "objectID": "maps/14-europe.html#libraries",
+    "href": "maps/14-europe.html#libraries",
+    "title": "14 Europe",
     "section": "Libraries",
     "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
   },
   {
-    "objectID": "maps/25-antarctica.html#data-wrangling",
-    "href": "maps/25-antarctica.html#data-wrangling",
-    "title": "25 Antarctica",
+    "objectID": "maps/14-europe.html#data-wrangling",
+    "href": "maps/14-europe.html#data-wrangling",
+    "title": "14 Europe",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Antarctica\"\nlon0 &lt;- 0\nlat0 &lt;- -90\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\nworld &lt;- st_read(\"data/ne_110m_admin_0_map_units.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
+    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Europe\"\nlon0 &lt;- 30\nlat0 &lt;- 60\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\nworld &lt;- st_read(\"data/ne_110m_admin_0_map_units.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
   },
   {
-    "objectID": "maps/25-antarctica.html#the-maps",
-    "href": "maps/25-antarctica.html#the-maps",
-    "title": "25 Antarctica",
+    "objectID": "maps/14-europe.html#the-maps",
+    "href": "maps/14-europe.html#the-maps",
+    "title": "14 Europe",
     "section": "The maps",
     "text": "The maps\n\ntmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
   },
   {
-    "objectID": "maps/25-antarctica.html#ggplot2",
-    "href": "maps/25-antarctica.html#ggplot2",
-    "title": "25 Antarctica",
+    "objectID": "maps/14-europe.html#ggplot2",
+    "href": "maps/14-europe.html#ggplot2",
+    "title": "14 Europe",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },
   {
-    "objectID": "maps/data/outdoors.html",
-    "href": "maps/data/outdoors.html",
-    "title": "30 Day Map Challenge 2023",
+    "objectID": "maps/08-africa.html",
+    "href": "maps/08-africa.html",
+    "title": "08 Africa",
     "section": "",
-    "text": "&lt;!DOCTYPE qgis PUBLIC ‘http://mrcc.com/qgis.dtd’ ‘SYSTEM’&gt;     dataset\n\n\n       PROJCRS[“NZGD2000 / New Zealand Transverse Mercator 2000”,BASEGEOGCRS[“NZGD2000”,DATUM[“New Zealand Geodetic Datum 2000”,ELLIPSOID[“GRS 1980”,6378137,298.257222101,LENGTHUNIT[“metre”,1]]],PRIMEM[“Greenwich”,0,ANGLEUNIT[“degree”,0.0174532925199433]],ID[“EPSG”,4167]],CONVERSION[“New Zealand Transverse Mercator 2000”,METHOD[“Transverse Mercator”,ID[“EPSG”,9807]],PARAMETER[“Latitude of natural origin”,0,ANGLEUNIT[“degree”,0.0174532925199433],ID[“EPSG”,8801]],PARAMETER[“Longitude of natural origin”,173,ANGLEUNIT[“degree”,0.0174532925199433],ID[“EPSG”,8802]],PARAMETER[“Scale factor at natural origin”,0.9996,SCALEUNIT[“unity”,1],ID[“EPSG”,8805]],PARAMETER[“False easting”,1600000,LENGTHUNIT[“metre”,1],ID[“EPSG”,8806]],PARAMETER[“False northing”,10000000,LENGTHUNIT[“metre”,1],ID[“EPSG”,8807]]],CS[Cartesian,2],AXIS[“northing (N)”,north,ORDER[1],LENGTHUNIT[“metre”,1]],AXIS[“easting (E)”,east,ORDER[2],LENGTHUNIT[“metre”,1]],USAGE[SCOPE[“Engineering survey, topographic mapping.”],AREA[“New Zealand - North Island, South Island, Stewart Island - onshore.”],BBOX[-47.33,166.37,-34.1,178.63]],ID[“EPSG”,2193]] +proj=tmerc +lat_0=0 +lon_0=173 +k=0.9996 +x_0=1600000 +y_0=10000000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs 177 2193 EPSG:2193 NZGD2000 / New Zealand Transverse Mercator 2000 tmerc EPSG:7019 false"
+    "text": "Second-largest and second-most populous continent."
   },
   {
-    "objectID": "maps/09-hexes.html",
-    "href": "maps/09-hexes.html",
-    "title": "09 Hexagons",
-    "section": "",
-    "text": "6 sides, 6 angles, and 6 vertices.\nWishing to use a static web basemap increased the degree of difficulty here.\nHaving said that, tmap’s built in tm_basemap() function seems promising and intuitive.\nA bit of hunting around suggests that the ggspatial package’s annotation_map_tile() function is the best for basemaps in ggplot2."
-  },
-  {
-    "objectID": "maps/09-hexes.html#libraries",
-    "href": "maps/09-hexes.html#libraries",
-    "title": "09 Hexagons",
-    "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(dplyr)\nlibrary(h3forr)\nlibrary(tmap)\nlibrary(sf)\nlibrary(ggplot2)\nlibrary(stringr)"
-  },
-  {
-    "objectID": "maps/09-hexes.html#data-wrangling",
-    "href": "maps/09-hexes.html#data-wrangling",
-    "title": "09 Hexagons",
-    "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nsquare &lt;- c(1.74e6 + 1e4 * c(0, 0, 1, 1, 0), \n            5.42e6 + 1e4 * c(0, 1, 1, 0, 0)) %&gt;%\n  matrix(ncol = 2) %&gt;%\n  list() %&gt;%\n  st_polygon() %&gt;%\n  st_sfc() %&gt;%\n  st_sf(crs = 2193) %&gt;%\n  st_transform(4326)\n\nget_hexes &lt;- function(poly, resolution, distance) {\n  poly %&gt;% \n    st_buffer(distance) %&gt;%\n    polyfill(res = resolution) %&gt;% \n    h3_to_geo_boundary() %&gt;% \n    geo_boundary_to_sf()\n}\n\nh3_5 &lt;- get_hexes(square, 5, 5000) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_6 &lt;- get_hexes(square, 6, 2500) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_7 &lt;- get_hexes(square, 7, 1500) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_8 &lt;- get_hexes(square, 8, 1000) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_9 &lt;- get_hexes(square, 9, 750) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_10 &lt;- get_hexes(square, 10, 500) %&gt;% \n  st_cast(\"LINESTRING\")\n\nbb &lt;- h3_10 %&gt;% \n  st_union() %&gt;%\n  st_bbox()\n\ncredit &lt;- maptiles::get_credit(\"OpenStreetMap\")\n\ntm_lwds &lt;- c(3.5, 2.5, 1.5, 1, 0.7, 0.5)\ngg_lwds &lt;- tm_lwds * 25.4 / 72.27"
-  },
-  {
-    "objectID": "maps/09-hexes.html#the-maps",
-    "href": "maps/09-hexes.html#the-maps",
-    "title": "09 Hexagons",
-    "section": "The maps",
-    "text": "The maps\n\ntmap\ntmap v4 has a built-in web basemap function. The raster downscaling kicks in to make the image a bit unsatisfactory, but I assume that option will be tweakable in due course.\n\ntm_basemap(server = \"OpenStreetMap\", zoom = 12) +\n  tm_shape(h3_5) + \n  tm_lines(lwd = tm_lwds[1]) +\n  tm_shape(h3_6) + \n  tm_lines(lwd = tm_lwds[2]) +\n  tm_shape(h3_7) + \n  tm_lines(lwd = tm_lwds[3]) +\n  tm_shape(h3_8) + \n  tm_lines(lwd = tm_lwds[4]) +\n  tm_shape(h3_9) + \n  tm_lines(lwd = tm_lwds[5]) +\n  tm_shape(h3_10, is.main = TRUE) + \n  tm_lines(lwd = tm_lwds[6]) +\n  tm_credits(\n    credit,\n    position = tm_pos_out(pos.h = \"RIGHT\", pos.v = \"TOP\",\n                          cell.h = \"center\", cell.v = \"bottom\")) + \n  tm_layout(frame = FALSE)"
-  },
-  {
-    "objectID": "maps/09-hexes.html#ggplot2",
-    "href": "maps/09-hexes.html#ggplot2",
-    "title": "09 Hexagons",
-    "section": "ggplot2",
-    "text": "ggplot2\nggspatial seems the best option for a static background basemap.\n\nlibrary(ggspatial)\n\nggplot(square, aes(colour = \"#00000000\")) +\n  annotation_map_tile(zoomin = 1) + \n  geom_sf(data = h3_5, linewidth = gg_lwds[1], colour = \"black\") +\n  geom_sf(data = h3_6, linewidth = gg_lwds[2], colour = \"black\") +\n  geom_sf(data = h3_7, linewidth = gg_lwds[3], colour = \"black\") +\n  geom_sf(data = h3_8, linewidth = gg_lwds[4], colour = \"black\") +\n  geom_sf(data = h3_9, linewidth = gg_lwds[5], colour = \"black\") +\n  geom_sf(data = h3_10, linewidth = gg_lwds[6], colour = \"black\") +\n  ggplot2::coord_sf(\n    xlim = bb[c(1, 3)], ylim = bb[c(2, 4)], expand = FALSE) +\n  theme_void()"
-  },
-  {
-    "objectID": "maps/12-south-america.html",
-    "href": "maps/12-south-america.html",
-    "title": "12 South America",
-    "section": "",
-    "text": "Southern part of the American continent."
-  },
-  {
-    "objectID": "maps/12-south-america.html#libraries",
-    "href": "maps/12-south-america.html#libraries",
-    "title": "12 South America",
+    "objectID": "maps/08-africa.html#libraries",
+    "href": "maps/08-africa.html#libraries",
+    "title": "08 Africa",
     "section": "Libraries",
     "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
   },
   {
-    "objectID": "maps/12-south-america.html#data-wrangling",
-    "href": "maps/12-south-america.html#data-wrangling",
-    "title": "12 South America",
+    "objectID": "maps/08-africa.html#data-wrangling",
+    "href": "maps/08-africa.html#data-wrangling",
+    "title": "08 Africa",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"South America\"\nlon0 &lt;- -61\nlat0 &lt;- -21\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\nworld &lt;- st_read(\"data/ne_110m_admin_0_map_units.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
+    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Africa\"\nlon0 &lt;- 18\nlat0 &lt;- 0\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\nworld &lt;- st_read(\"data/ne_110m_admin_0_map_units.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
   },
   {
-    "objectID": "maps/12-south-america.html#the-maps",
-    "href": "maps/12-south-america.html#the-maps",
-    "title": "12 South America",
+    "objectID": "maps/08-africa.html#the-maps",
+    "href": "maps/08-africa.html#the-maps",
+    "title": "08 Africa",
     "section": "The maps",
     "text": "The maps\n\ntmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
   },
   {
-    "objectID": "maps/12-south-america.html#ggplot2",
-    "href": "maps/12-south-america.html#ggplot2",
-    "title": "12 South America",
+    "objectID": "maps/08-africa.html#ggplot2",
+    "href": "maps/08-africa.html#ggplot2",
+    "title": "08 Africa",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/06-asia.html",
+    "href": "maps/06-asia.html",
+    "title": "06 Asia",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\n\nLargest of the continents."
+  },
+  {
+    "objectID": "maps/06-asia.html#libraries",
+    "href": "maps/06-asia.html#libraries",
+    "title": "06 Asia",
+    "section": "",
+    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\n\nLargest of the continents."
+  },
+  {
+    "objectID": "maps/06-asia.html#the-continent-series",
+    "href": "maps/06-asia.html#the-continent-series",
+    "title": "06 Asia",
+    "section": "The ‘continent’ series",
+    "text": "The ‘continent’ series\nAlong with this one, Days 8, 10, 12, 14, 16, and 25 are each one of the seven continents. I’ve mapped them all the same way, so all the commentary is on this page.\nThere’s not much to say here. The biggest challenge in this case was finding a latitude-longitude coordinate pair for the centre of the orthographic projection that didn’t result in lost polygons or some other distortion of the geometry. The only fix was to hunt around a bit in the vicinity of the ‘centre’ of each continent. That’s also why there is a post-projection st_make_valid() followed by a filter(!st_is_empty(.)) to handle some simpler cleanups. In the absence of these tmap in particular is unhappy to map the data.\nFor what it’s worth, the built in data(World) that accompanies tmap was more prone to these issues than the Natural Earth dataset I’ve used.\nBoth tmap and ggplot2 handle this style of map admirably, with little fuss. I’ve suppressed the graticule because these often showed problems in the orthographic projection (more on this in a later map.)"
+  },
+  {
+    "objectID": "maps/06-asia.html#data-wrangling",
+    "href": "maps/06-asia.html#data-wrangling",
+    "title": "06 Asia",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Asia\"\nlon0 &lt;- 100\nlat0 &lt;- 45\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\nworld &lt;- st_read(\"data/ne_110m_admin_0_map_units.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
+  },
+  {
+    "objectID": "maps/06-asia.html#the-maps",
+    "href": "maps/06-asia.html#the-maps",
+    "title": "06 Asia",
+    "section": "The maps",
+    "text": "The maps\n\ntmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/06-asia.html#ggplot2",
+    "href": "maps/06-asia.html#ggplot2",
+    "title": "06 Asia",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/05-analog-map.html",
+    "href": "maps/05-analog-map.html",
+    "title": "05 Analog Map",
+    "section": "",
+    "text": "Non-digital maps.\nA (carefully) crumpled paper hillshade (yes, it is part of a real landscape)."
+  },
+  {
+    "objectID": "maps/05-analog-map.html#what-happened-to-the-tmap-vs-ggplot2-cage-fight",
+    "href": "maps/05-analog-map.html#what-happened-to-the-tmap-vs-ggplot2-cage-fight",
+    "title": "05 Analog Map",
+    "section": "What happened to the tmap vs ggplot2 cage fight?",
+    "text": "What happened to the tmap vs ggplot2 cage fight?\nThis one doesn’t really fit with my tmap vs ggplot2 set up, but it prompted me to look a bit more closely into an idea that has interested me since I first saw this amazing video by Ron Resch one of the pioneers of tessellation-based origami.\nI’m a folder (not a designer) of origami, and so this map was an opportunity to explore this idea a bit further."
+  },
+  {
+    "objectID": "maps/05-analog-map.html#how-i-made-it",
+    "href": "maps/05-analog-map.html#how-i-made-it",
+    "title": "05 Analog Map",
+    "section": "How I made it",
+    "text": "How I made it\nSo what I did was to take a DEM, and find valley floors and ridge lines. For this I used the Whitebox Tools geomorphons tool. There may be better option but this worked for me. I can demonstrate this in R:\n\nlibrary(terra)\nlibrary(whitebox)\nlibrary(tmap)\nlibrary(dplyr)\n\nwbt_geomorphons(\"data/dem.tif\", \"data/geomorphons.tif\", search = 20)\n\ngeomorphons &lt;- rast(\"data/geomorphons.tif\")\ninset_area &lt;- ext(geomorphons) - rep(160, 4)\n\ntm_shape(geomorphons %&gt;% crop(inset_area) %&gt;% flip(direction = \"vertical\")) + \n  tm_raster(\n    col.scale = tm_scale_intervals(\n      values = \"RdBu\", n = 10)\n  ) +\n  tm_layout(\n    frame = FALSE, \n    legend.show = FALSE)\n\n\n\n\n\n\n\n\nThe blue areas in the map are valley floors, the red areas ridge tops. It so happens that in origami, red and blue lines are often used in crease patterns to distinguish mountain folds and valley folds. So pinching the blue linear features into creases and from the reverse side (i.e., through the back of the printed page) pinching the red linear features into creases gives the ‘crumpled’ sheet I want.\nSo anyway, I printed the map on a sheet of paper, and then made the folds. Here’s another example."
+  },
+  {
+    "objectID": "maps/05-analog-map.html#thoughts",
+    "href": "maps/05-analog-map.html#thoughts",
+    "title": "05 Analog Map",
+    "section": "Thoughts",
+    "text": "Thoughts\nIf I’d thought it through a bit more carefully, I’d have inverted the landscape before printing it (since I am effectively folding it in reverse), but that’s a detail for another time (in cartographic terms, north is not up, but that’s a map for another day…). It also required some care lighting the picture to avoid ‘terrain inversion’, and I’m not even sure it avoids that entirely. It’s very clear in real life which parts of the landscape are ‘up’.\nI’ve experimented a little with the approach, and it seems to work better on more highly dissected terrain."
+  },
+  {
+    "objectID": "maps/05-analog-map.html#more-origami",
+    "href": "maps/05-analog-map.html#more-origami",
+    "title": "05 Analog Map",
+    "section": "More origami",
+    "text": "More origami\nNext up, I need to do some digging in Robert Lang’s wonderful Twists, Tilings, and Tessellations. There are definitely connections between this ‘folded terrain model’ and key principles of origami tessellations, which in turn are closely related to concepts in surface networks."
+  },
+  {
+    "objectID": "maps/05-analog-map.html#even-more-origami",
+    "href": "maps/05-analog-map.html#even-more-origami",
+    "title": "05 Analog Map",
+    "section": "Even more origami",
+    "text": "Even more origami\nIf this stuff intrigues you, then go see the phenomenal Origami Simulator by Amanda Ghassaei.\nTo finish, here’s a highly dissected terrain (not really) that’s an origami tessellation classic by the Shumakovs…\n\n\n\n\n\n… which can also be formed into a ball."
   },
   {
     "objectID": "maps/10-north-america.html",
@@ -315,193 +350,151 @@
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },
   {
-    "objectID": "maps/20-outdoors.html",
-    "href": "maps/20-outdoors.html",
-    "title": "20 Outdoors",
+    "objectID": "maps/12-south-america.html",
+    "href": "maps/12-south-america.html",
+    "title": "12 South America",
     "section": "",
-    "text": "Map of mountains, trails, or something completely different.\nAs previously noted much of the outdoors in Wellington is dominated by wind.\nThat’s why I’ve used blue for all of the space outside the buildings in these maps. The visual inspiration is machine space\nbut inverted. Of course, a lot of the ‘open’ space here is also machine space (given over to cars), but still, it’s fun to look a the built environment in this way.\nThe buildings are from Te Toitū Whenua - Land Information New Zealand. Tracks are from Wellington City Council."
+    "text": "Southern part of the American continent."
   },
   {
-    "objectID": "maps/20-outdoors.html#libraries",
-    "href": "maps/20-outdoors.html#libraries",
-    "title": "20 Outdoors",
-    "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(ggplot2)"
-  },
-  {
-    "objectID": "maps/20-outdoors.html#data-wrangling",
-    "href": "maps/20-outdoors.html#data-wrangling",
-    "title": "20 Outdoors",
-    "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\noutdoors &lt;- st_read(\"data/outdoors.gpkg\")\ntracks &lt;- st_read(\"data/WCC_Tracks.geojson\")\ncoast &lt;- st_read(\"data/welly-outdoors-coast.gpkg\")"
-  },
-  {
-    "objectID": "maps/20-outdoors.html#the-maps",
-    "href": "maps/20-outdoors.html#the-maps",
-    "title": "20 Outdoors",
-    "section": "The maps",
-    "text": "The maps\n\ntmap\n\ntm_shape(outdoors) +\n  tm_fill(fill = \"dodgerblue\", fill_alpha = 0.5) +\n  tm_shape(tracks) +\n  tm_lines(lwd = 0.2) +\n  tm_shape(coast) +\n  tm_lines(col = \"dodgerblue\", lwd = 0.5) +\n  tm_scalebar() +\n  tm_title(\"Te Whanganui-a-Tara outdoors\",\n    position = tm_pos_out(\n      cell.h = \"center\", cell.v = \"top\",\n      pos.h = \"left\", pos.v = \"top\")) +\n  tm_layout(frame = FALSE, inner.margins = rep(0, 4))"
-  },
-  {
-    "objectID": "maps/20-outdoors.html#ggplot2",
-    "href": "maps/20-outdoors.html#ggplot2",
-    "title": "20 Outdoors",
-    "section": "ggplot2",
-    "text": "ggplot2\n\nlibrary(ggspatial)\n\nggplot() +\n  geom_sf(data = outdoors, fill = \"dodgerblue\", \n          alpha = 0.5, linewidth = 0) +\n  geom_sf(data = tracks, linewidth = 0.2 * 25.4 / 72.27) +\n  geom_sf(data = coast, colour = \"dodgerblue\",\n          linewidth = 0.5 * 25.4 / 72.27) +\n  coord_sf(xlim = st_bbox(outdoors)[c(1, 3)],\n           ylim = st_bbox(outdoors)[c(2, 4)],\n           expand = FALSE) +\n  annotation_scale() +\n  ggtitle(\"Te Whanganui-a-Tara outdoors\") +\n  theme_void()"
-  },
-  {
-    "objectID": "maps/05-analog-map.html",
-    "href": "maps/05-analog-map.html",
-    "title": "05 Analog Map",
-    "section": "",
-    "text": "Non-digital maps.\nA (carefully) crumpled paper hillshade (yes, it is part of a real landscape)."
-  },
-  {
-    "objectID": "maps/05-analog-map.html#what-happened-to-the-tmap-vs-ggplot2-cage-fight",
-    "href": "maps/05-analog-map.html#what-happened-to-the-tmap-vs-ggplot2-cage-fight",
-    "title": "05 Analog Map",
-    "section": "What happened to the tmap vs ggplot2 cage fight?",
-    "text": "What happened to the tmap vs ggplot2 cage fight?\nThis one doesn’t really fit with my tmap vs ggplot2 set up, but it prompted me to look a bit more closely into an idea that has interested me since I first saw this amazing video by Ron Resch one of the pioneers of tessellation-based origami.\nI’m a folder (not a designer) of origami, and so this map was an opportunity to explore this idea a bit further."
-  },
-  {
-    "objectID": "maps/05-analog-map.html#how-i-made-it",
-    "href": "maps/05-analog-map.html#how-i-made-it",
-    "title": "05 Analog Map",
-    "section": "How I made it",
-    "text": "How I made it\nSo what I did was to take a DEM, and find valley floors and ridge lines. For this I used the Whitebox Tools geomorphons tool. There may be better option but this worked for me. I can demonstrate this in R:\n\nlibrary(terra)\nlibrary(whitebox)\nlibrary(tmap)\nlibrary(dplyr)\n\nwbt_geomorphons(\"data/dem.tif\", \"data/geomorphons.tif\", search = 20)\n\ngeomorphons &lt;- rast(\"data/geomorphons.tif\")\ninset_area &lt;- ext(geomorphons) - rep(160, 4)\n\ntm_shape(geomorphons %&gt;% crop(inset_area) %&gt;% flip(direction = \"vertical\")) + \n  tm_raster(\n    col.scale = tm_scale_intervals(\n      values = \"RdBu\", n = 10)\n  ) +\n  tm_layout(\n    frame = FALSE, \n    legend.show = FALSE)\n\n\n\n\n\n\n\n\nThe blue areas in the map are valley floors, the red areas ridge tops. It so happens that in origami, red and blue lines are often used in crease patterns to distinguish mountain folds and valley folds. So pinching the blue linear features into creases and from the reverse side (i.e., through the back of the printed page) pinching the red linear features into creases gives the ‘crumpled’ sheet I want.\nSo anyway, I printed the map on a sheet of paper, and then made the folds. Here’s another example."
-  },
-  {
-    "objectID": "maps/05-analog-map.html#thoughts",
-    "href": "maps/05-analog-map.html#thoughts",
-    "title": "05 Analog Map",
-    "section": "Thoughts",
-    "text": "Thoughts\nIf I’d thought it through a bit more carefully, I’d have inverted the landscape before printing it (since I am effectively folding it in reverse), but that’s a detail for another time (in cartographic terms, north is not up, but that’s a map for another day…). It also required some care lighting the picture to avoid ‘terrain inversion’, and I’m not even sure it avoids that entirely. It’s very clear in real life which parts of the landscape are ‘up’.\nI’ve experimented a little with the approach, and it seems to work better on more highly dissected terrain."
-  },
-  {
-    "objectID": "maps/05-analog-map.html#more-origami",
-    "href": "maps/05-analog-map.html#more-origami",
-    "title": "05 Analog Map",
-    "section": "More origami",
-    "text": "More origami\nNext up, I need to do some digging in Robert Lang’s wonderful Twists, Tilings, and Tessellations. There are definitely connections between this ‘folded terrain model’ and key principles of origami tessellations, which in turn are closely related to concepts in surface networks."
-  },
-  {
-    "objectID": "maps/05-analog-map.html#even-more-origami",
-    "href": "maps/05-analog-map.html#even-more-origami",
-    "title": "05 Analog Map",
-    "section": "Even more origami",
-    "text": "Even more origami\nIf this stuff intrigues you, then go see the phenomenal Origami Simulator by Amanda Ghassaei.\nTo finish, here’s a highly dissected terrain (not really) that’s an origami tessellation classic by the Shumakovs…\n\n\n\n\n\n… which can also be formed into a ball."
-  },
-  {
-    "objectID": "maps/06-asia.html",
-    "href": "maps/06-asia.html",
-    "title": "06 Asia",
-    "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\n\nLargest of the continents."
-  },
-  {
-    "objectID": "maps/06-asia.html#libraries",
-    "href": "maps/06-asia.html#libraries",
-    "title": "06 Asia",
-    "section": "",
-    "text": "Code\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\n\nLargest of the continents."
-  },
-  {
-    "objectID": "maps/06-asia.html#the-continent-series",
-    "href": "maps/06-asia.html#the-continent-series",
-    "title": "06 Asia",
-    "section": "The ‘continent’ series",
-    "text": "The ‘continent’ series\nAlong with this one, Days 8, 10, 12, 14, 16, and 25 are each one of the seven continents. I’ve mapped them all the same way, so all the commentary is on this page.\nThere’s not much to say here. The biggest challenge in this case was finding a latitude-longitude coordinate pair for the centre of the orthographic projection that didn’t result in lost polygons or some other distortion of the geometry. The only fix was to hunt around a bit in the vicinity of the ‘centre’ of each continent. That’s also why there is a post-projection st_make_valid() followed by a filter(!st_is_empty(.)) to handle some simpler cleanups. In the absence of these tmap in particular is unhappy to map the data.\nFor what it’s worth, the built in data(World) that accompanies tmap was more prone to these issues than the Natural Earth dataset I’ve used.\nBoth tmap and ggplot2 handle this style of map admirably, with little fuss. I’ve suppressed the graticule because these often showed problems in the orthographic projection (more on this in a later map.)"
-  },
-  {
-    "objectID": "maps/06-asia.html#data-wrangling",
-    "href": "maps/06-asia.html#data-wrangling",
-    "title": "06 Asia",
-    "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Asia\"\nlon0 &lt;- 100\nlat0 &lt;- 45\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\nworld &lt;- st_read(\"data/ne_110m_admin_0_map_units.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
-  },
-  {
-    "objectID": "maps/06-asia.html#the-maps",
-    "href": "maps/06-asia.html#the-maps",
-    "title": "06 Asia",
-    "section": "The maps",
-    "text": "The maps\n\ntmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
-  },
-  {
-    "objectID": "maps/06-asia.html#ggplot2",
-    "href": "maps/06-asia.html#ggplot2",
-    "title": "06 Asia",
-    "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
-  },
-  {
-    "objectID": "maps/08-africa.html",
-    "href": "maps/08-africa.html",
-    "title": "08 Africa",
-    "section": "",
-    "text": "Second-largest and second-most populous continent."
-  },
-  {
-    "objectID": "maps/08-africa.html#libraries",
-    "href": "maps/08-africa.html#libraries",
-    "title": "08 Africa",
+    "objectID": "maps/12-south-america.html#libraries",
+    "href": "maps/12-south-america.html#libraries",
+    "title": "12 South America",
     "section": "Libraries",
     "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
   },
   {
-    "objectID": "maps/08-africa.html#data-wrangling",
-    "href": "maps/08-africa.html#data-wrangling",
-    "title": "08 Africa",
+    "objectID": "maps/12-south-america.html#data-wrangling",
+    "href": "maps/12-south-america.html#data-wrangling",
+    "title": "12 South America",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Africa\"\nlon0 &lt;- 18\nlat0 &lt;- 0\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\nworld &lt;- st_read(\"data/ne_110m_admin_0_map_units.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
+    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"South America\"\nlon0 &lt;- -61\nlat0 &lt;- -21\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\nworld &lt;- st_read(\"data/ne_110m_admin_0_map_units.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
   },
   {
-    "objectID": "maps/08-africa.html#the-maps",
-    "href": "maps/08-africa.html#the-maps",
-    "title": "08 Africa",
+    "objectID": "maps/12-south-america.html#the-maps",
+    "href": "maps/12-south-america.html#the-maps",
+    "title": "12 South America",
     "section": "The maps",
     "text": "The maps\n\ntmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
   },
   {
-    "objectID": "maps/08-africa.html#ggplot2",
-    "href": "maps/08-africa.html#ggplot2",
-    "title": "08 Africa",
+    "objectID": "maps/12-south-america.html#ggplot2",
+    "href": "maps/12-south-america.html#ggplot2",
+    "title": "12 South America",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },
   {
-    "objectID": "maps/14-europe.html",
-    "href": "maps/14-europe.html",
-    "title": "14 Europe",
+    "objectID": "maps/09-hexes.html",
+    "href": "maps/09-hexes.html",
+    "title": "09 Hexagons",
     "section": "",
-    "text": "The westernmost peninsulas of Eurasia."
+    "text": "6 sides, 6 angles, and 6 vertices.\nWishing to use a static web basemap increased the degree of difficulty here.\nHaving said that, tmap’s built in tm_basemap() function seems promising and intuitive.\nA bit of hunting around suggests that the ggspatial package’s annotation_map_tile() function is the best for basemaps in ggplot2."
   },
   {
-    "objectID": "maps/14-europe.html#libraries",
-    "href": "maps/14-europe.html#libraries",
-    "title": "14 Europe",
+    "objectID": "maps/09-hexes.html#libraries",
+    "href": "maps/09-hexes.html#libraries",
+    "title": "09 Hexagons",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(dplyr)\nlibrary(h3forr)\nlibrary(tmap)\nlibrary(sf)\nlibrary(ggplot2)\nlibrary(stringr)"
+  },
+  {
+    "objectID": "maps/09-hexes.html#data-wrangling",
+    "href": "maps/09-hexes.html#data-wrangling",
+    "title": "09 Hexagons",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nsquare &lt;- c(1.74e6 + 1e4 * c(0, 0, 1, 1, 0), \n            5.42e6 + 1e4 * c(0, 1, 1, 0, 0)) %&gt;%\n  matrix(ncol = 2) %&gt;%\n  list() %&gt;%\n  st_polygon() %&gt;%\n  st_sfc() %&gt;%\n  st_sf(crs = 2193) %&gt;%\n  st_transform(4326)\n\nget_hexes &lt;- function(poly, resolution, distance) {\n  poly %&gt;% \n    st_buffer(distance) %&gt;%\n    polyfill(res = resolution) %&gt;% \n    h3_to_geo_boundary() %&gt;% \n    geo_boundary_to_sf()\n}\n\nh3_5 &lt;- get_hexes(square, 5, 5000) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_6 &lt;- get_hexes(square, 6, 2500) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_7 &lt;- get_hexes(square, 7, 1500) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_8 &lt;- get_hexes(square, 8, 1000) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_9 &lt;- get_hexes(square, 9, 750) %&gt;% \n  st_cast(\"LINESTRING\")\nh3_10 &lt;- get_hexes(square, 10, 500) %&gt;% \n  st_cast(\"LINESTRING\")\n\nbb &lt;- h3_10 %&gt;% \n  st_union() %&gt;%\n  st_bbox()\n\ncredit &lt;- maptiles::get_credit(\"OpenStreetMap\")\n\ntm_lwds &lt;- c(3.5, 2.5, 1.5, 1, 0.7, 0.5)\ngg_lwds &lt;- tm_lwds * 25.4 / 72.27"
+  },
+  {
+    "objectID": "maps/09-hexes.html#the-maps",
+    "href": "maps/09-hexes.html#the-maps",
+    "title": "09 Hexagons",
+    "section": "The maps",
+    "text": "The maps\n\ntmap\ntmap v4 has a built-in web basemap function. The raster downscaling kicks in to make the image a bit unsatisfactory, but I assume that option will be tweakable in due course.\n\ntm_basemap(server = \"OpenStreetMap\", zoom = 12) +\n  tm_shape(h3_5) + \n  tm_lines(lwd = tm_lwds[1]) +\n  tm_shape(h3_6) + \n  tm_lines(lwd = tm_lwds[2]) +\n  tm_shape(h3_7) + \n  tm_lines(lwd = tm_lwds[3]) +\n  tm_shape(h3_8) + \n  tm_lines(lwd = tm_lwds[4]) +\n  tm_shape(h3_9) + \n  tm_lines(lwd = tm_lwds[5]) +\n  tm_shape(h3_10, is.main = TRUE) + \n  tm_lines(lwd = tm_lwds[6]) +\n  tm_credits(\n    credit,\n    position = tm_pos_out(pos.h = \"RIGHT\", pos.v = \"TOP\",\n                          cell.h = \"center\", cell.v = \"bottom\")) + \n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/09-hexes.html#ggplot2",
+    "href": "maps/09-hexes.html#ggplot2",
+    "title": "09 Hexagons",
+    "section": "ggplot2",
+    "text": "ggplot2\nggspatial seems the best option for a static background basemap.\n\nlibrary(ggspatial)\n\nggplot(square, aes(colour = \"#00000000\")) +\n  annotation_map_tile(zoomin = 1) + \n  geom_sf(data = h3_5, linewidth = gg_lwds[1], colour = \"black\") +\n  geom_sf(data = h3_6, linewidth = gg_lwds[2], colour = \"black\") +\n  geom_sf(data = h3_7, linewidth = gg_lwds[3], colour = \"black\") +\n  geom_sf(data = h3_8, linewidth = gg_lwds[4], colour = \"black\") +\n  geom_sf(data = h3_9, linewidth = gg_lwds[5], colour = \"black\") +\n  geom_sf(data = h3_10, linewidth = gg_lwds[6], colour = \"black\") +\n  ggplot2::coord_sf(\n    xlim = bb[c(1, 3)], ylim = bb[c(2, 4)], expand = FALSE) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/data/outdoors.html",
+    "href": "maps/data/outdoors.html",
+    "title": "30 Day Map Challenge 2023",
+    "section": "",
+    "text": "&lt;!DOCTYPE qgis PUBLIC ‘http://mrcc.com/qgis.dtd’ ‘SYSTEM’&gt;     dataset\n\n\n       PROJCRS[“NZGD2000 / New Zealand Transverse Mercator 2000”,BASEGEOGCRS[“NZGD2000”,DATUM[“New Zealand Geodetic Datum 2000”,ELLIPSOID[“GRS 1980”,6378137,298.257222101,LENGTHUNIT[“metre”,1]]],PRIMEM[“Greenwich”,0,ANGLEUNIT[“degree”,0.0174532925199433]],ID[“EPSG”,4167]],CONVERSION[“New Zealand Transverse Mercator 2000”,METHOD[“Transverse Mercator”,ID[“EPSG”,9807]],PARAMETER[“Latitude of natural origin”,0,ANGLEUNIT[“degree”,0.0174532925199433],ID[“EPSG”,8801]],PARAMETER[“Longitude of natural origin”,173,ANGLEUNIT[“degree”,0.0174532925199433],ID[“EPSG”,8802]],PARAMETER[“Scale factor at natural origin”,0.9996,SCALEUNIT[“unity”,1],ID[“EPSG”,8805]],PARAMETER[“False easting”,1600000,LENGTHUNIT[“metre”,1],ID[“EPSG”,8806]],PARAMETER[“False northing”,10000000,LENGTHUNIT[“metre”,1],ID[“EPSG”,8807]]],CS[Cartesian,2],AXIS[“northing (N)”,north,ORDER[1],LENGTHUNIT[“metre”,1]],AXIS[“easting (E)”,east,ORDER[2],LENGTHUNIT[“metre”,1]],USAGE[SCOPE[“Engineering survey, topographic mapping.”],AREA[“New Zealand - North Island, South Island, Stewart Island - onshore.”],BBOX[-47.33,166.37,-34.1,178.63]],ID[“EPSG”,2193]] +proj=tmerc +lat_0=0 +lon_0=173 +k=0.9996 +x_0=1600000 +y_0=10000000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs 177 2193 EPSG:2193 NZGD2000 / New Zealand Transverse Mercator 2000 tmerc EPSG:7019 false"
+  },
+  {
+    "objectID": "maps/25-antarctica.html",
+    "href": "maps/25-antarctica.html",
+    "title": "25 Antarctica",
+    "section": "",
+    "text": "A cold continent that can’t be reached with Web Mercator."
+  },
+  {
+    "objectID": "maps/25-antarctica.html#libraries",
+    "href": "maps/25-antarctica.html#libraries",
+    "title": "25 Antarctica",
     "section": "Libraries",
     "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)"
   },
   {
-    "objectID": "maps/14-europe.html#data-wrangling",
-    "href": "maps/14-europe.html#data-wrangling",
-    "title": "14 Europe",
+    "objectID": "maps/25-antarctica.html#data-wrangling",
+    "href": "maps/25-antarctica.html#data-wrangling",
+    "title": "25 Antarctica",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Europe\"\nlon0 &lt;- 30\nlat0 &lt;- 60\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\nworld &lt;- st_read(\"data/ne_110m_admin_0_map_units.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
+    "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Antarctica\"\nlon0 &lt;- 0\nlat0 &lt;- -90\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\nworld &lt;- st_read(\"data/ne_110m_admin_0_map_units.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
   },
   {
-    "objectID": "maps/14-europe.html#the-maps",
-    "href": "maps/14-europe.html#the-maps",
-    "title": "14 Europe",
+    "objectID": "maps/25-antarctica.html#the-maps",
+    "href": "maps/25-antarctica.html#the-maps",
+    "title": "25 Antarctica",
     "section": "The maps",
     "text": "The maps\n\ntmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
   },
   {
-    "objectID": "maps/14-europe.html#ggplot2",
-    "href": "maps/14-europe.html#ggplot2",
-    "title": "14 Europe",
+    "objectID": "maps/25-antarctica.html#ggplot2",
+    "href": "maps/25-antarctica.html#ggplot2",
+    "title": "25 Antarctica",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/07-navigation.html",
+    "href": "maps/07-navigation.html",
+    "title": "07 Navigation",
+    "section": "",
+    "text": "A map that helps you to navigate.\nWhile not really filling the brief, these maps confirmed for me that there are still quite a few issues dealing with global map projections in the R spatial ecosystem.\nI hand made the graticule in these maps using code from a sourced R file which trims the graticule to only extend across the visible extent, because neither tmap nor ggplot2 successfully applied their ‘native’ graticule in this orthographic projection without errors.\ngeosphere is yet another excellent package from the excellent Robert Hijmans at UC Davis, and its destPointRhumb function is helpful here in building the rhumb line corkscrewing around the globe."
+  },
+  {
+    "objectID": "maps/07-navigation.html#libraries",
+    "href": "maps/07-navigation.html#libraries",
+    "title": "07 Navigation",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(geosphere)\nlibrary(ggplot2)\nlibrary(stringr)\n\nsource(\"~/Documents/code/30-day-maps-2023/maps/utils.R\")"
+  },
+  {
+    "objectID": "maps/07-navigation.html#data-wrangling",
+    "href": "maps/07-navigation.html#data-wrangling",
+    "title": "07 Navigation",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nstart_lat &lt;- -41.3\nstart_lon &lt;- 174.75\nstart &lt;- c(start_lon, start_lat)\n\northo_proj &lt;- get_ortho_proj(start)\naeqd_proj &lt;- get_azimuthal_eq_dist(start)\n\nbearing &lt;- -88.5\nend_lat &lt;- 45\nstep_length &lt;- 5e4\nlast_pt &lt;- start\nlox &lt;- list()\ntransect &lt;- last_pt\ni &lt;- 1\nwhile (last_pt[2] &lt; end_lat) {\n  next_pt &lt;- geosphere::destPointRhumb(last_pt, bearing, step_length)\n  if (next_pt[1] &gt; last_pt[1]) {\n    lox[[i]] &lt;- transect\n    i &lt;- i + 1\n    transect &lt;- c(next_pt)\n  } else {\n    transect &lt;- c(transect, next_pt)\n  }\n  last_pt &lt;- next_pt\n}\nlox[[i]] &lt;- transect\n\nhemisphere &lt;- get_hemisphere(start, crs = aeqd_proj)\n\nlox_sf &lt;- lox %&gt;%\n  lapply(unlist) %&gt;%\n  lapply(matrix, ncol = 2, byrow = TRUE) %&gt;%\n  st_multilinestring() %&gt;%\n  st_sfc() %&gt;%\n  st_sf(crs = 4326) %&gt;%\n  st_cast(\"LINESTRING\") %&gt;%\n  st_transform(aeqd_proj) %&gt;%\n  st_intersection(get_hemisphere(start, aeqd_proj)) %&gt;%\n  st_transform(ortho_proj)\n  # st_cast(\"POINT\")\n\ndata(World)\nworld &lt;- World %&gt;%\n  st_cast(\"POLYGON\") %&gt;%\n  st_transform(ortho_proj) %&gt;%\n  dplyr::filter(!(st_is_empty(geometry)))\n\ngraticule &lt;- get_graticule(centre = start) %&gt;%\n  st_transform(ortho_proj)\n\nglobe &lt;- st_point(c(0, 0)) %&gt;%\n  st_buffer(6378137) %&gt;%\n  st_sfc(crs = ortho_proj) %&gt;%\n  st_sf()"
+  },
+  {
+    "objectID": "maps/07-navigation.html#the-maps",
+    "href": "maps/07-navigation.html#the-maps",
+    "title": "07 Navigation",
+    "section": "The maps",
+    "text": "The maps\n\ntmap\n\ninstruction &lt;- st_point(c(0, 0)) %&gt;%\n  st_sfc(crs = ortho_proj) %&gt;%\n  st_sf() %&gt;%\n  mutate(label = \"Go west(ish!)\")\n\ntm_shape(globe) +\n  tm_fill(fill = \"lightblue1\") +\n  tm_shape(world) +\n  tm_fill(fill = \"darkseagreen3\", lwd = 0) +\n  tm_shape(graticule, is.main = TRUE) +\n  tm_lines(col = \"cornflowerblue\", lwd = 1) +\n  tm_shape(lox_sf) +\n  tm_lines(col = \"firebrick\", lwd = 2) +\n  tm_title(\"Go west(ish!)\", position = c(0.5, 0.5), size = 2) +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/07-navigation.html#ggplot2",
+    "href": "maps/07-navigation.html#ggplot2",
+    "title": "07 Navigation",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(globe) +\n  geom_sf(fill = \"lightblue1\") +\n  geom_sf(data = world, fill = \"darkseagreen3\", linewidth = 0) +\n  geom_sf(data = graticule, colour = \"cornflowerblue\", \n          linewidth = 1 * 25.4 / 72.27) +\n  geom_sf(data = lox_sf, colour = \"firebrick\", \n          linewidth = 2 * 25.4 / 72.27) +\n  annotate(\"text\", x = 0, y = 0, label = \"Go west(ish!)\", \n            hjust = 0, size = 10) +\n  theme_void()"
   },
   {
     "objectID": "maps/03-polygons.html",
