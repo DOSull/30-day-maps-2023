@@ -362,7 +362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="ggplot2"><code>ggplot2</code></h3>
 <p>Here, we have to do all the classification work and use the <code>scale_fill_fermenter()</code> function to get the same effect. We use <code>classInt::classIntervals()</code> to make breaks. Even then we have to make up the legend labels manually if we want to show ranges, not just the break values. Much as I appreciate the uh… quirkiness of <em>R</em>’s <code>paste()</code> function, I don’t relish explaining this to an introductory class!</p>
 <p>An additional challenge caused by placing the legend below the map area is that we have to extend the plot area to accommodate it, using <code>coord_sf(...ylim=...)</code>, but that’s a distraction, it is the generation of breaks, and legend labels that is the real annoyance (at least to me).</p>
-<div class="cell" data-hash="13-choropleth_cache/html/unnamed-chunk-4_d78803f8c0902c8cb69afe1acee9b87d">
+<div class="cell" data-hash="13-choropleth_cache/html/unnamed-chunk-4_11a1e15f3bca7c56d6d1940789d01a47">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(classInt)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>class_breaks <span class="ot">&lt;-</span> <span class="fu">classIntervals</span>(ak<span class="sc">$</span>maori, <span class="dv">9</span>, <span class="st">"quantile"</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span>
@@ -386,7 +386,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nz <span class="sc">%&gt;%</span> <span class="fu">st_intersection</span>(clip)) <span class="sc">+</span> </span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"lightgray"</span>, <span class="at">linewidth =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> ak, <span class="fu">aes</span>(<span class="at">fill =</span> maori), <span class="at">colour =</span> <span class="st">"grey"</span>, </span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>          <span class="at">linewidth =</span> <span class="fl">0.2</span> <span class="sc">*</span> <span class="fl">25.4</span> <span class="sc">/</span> <span class="fl">72.27</span>) <span class="sc">+</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>          <span class="at">linewidth =</span> <span class="fl">0.35</span> <span class="sc">*</span> <span class="fl">25.4</span> <span class="sc">/</span> <span class="fl">72.27</span>) <span class="sc">+</span></span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_fermenter</span>(</span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">"YlGnBu"</span>,</span>
 <span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">direction =</span> <span class="dv">1</span>,</span>
@@ -409,11 +409,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The underlying issue here is that <code>ggplot2</code> really doesn’t want to make classed choropleths. The data are ‘continuous’ valued and <code>ggplot2</code>’s strong preference is to associate a continuous variable with a continuous visual variable. You can see this if you let it do its own thing:</p>
-<div class="cell" data-hash="13-choropleth_cache/html/unnamed-chunk-5_14f30e7edfe5aad012afd1ce3deb2dbf">
+<div class="cell" data-hash="13-choropleth_cache/html/unnamed-chunk-5_a11d69eeb018286ac640bb0d8dcbb40d">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nz <span class="sc">%&gt;%</span> <span class="fu">st_intersection</span>(clip)) <span class="sc">+</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"lightgray"</span>, <span class="at">linewidth =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> ak, <span class="fu">aes</span>(<span class="at">fill =</span> maori), <span class="at">colour =</span> <span class="st">"grey"</span>, </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">linewidth =</span> <span class="fl">0.2</span> <span class="sc">*</span> <span class="fl">25.4</span> <span class="sc">/</span> <span class="fl">72.27</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">linewidth =</span> <span class="fl">0.35</span> <span class="sc">*</span> <span class="fl">25.4</span> <span class="sc">/</span> <span class="fl">72.27</span>) <span class="sc">+</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_distiller</span>(<span class="at">palette =</span> <span class="st">"YlGnBu"</span>, <span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -432,14 +432,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>It also doesn’t help at all for other classification schemes. It also prioritises making buckets equal-sized over putting cases in the right bucket, so that areas with the same value might end up in different buckets if they happen to sit on a class interval boundary!</p>
 <p>So… not really a fix at all.</p>
 <p>I haven’t bothered with cleaning up the legend here, which also shows how this is only a very partial workaround. Worth knowing about, but perhaps not as useful at it first appears.</p>
-<div class="cell" data-hash="13-choropleth_cache/html/unnamed-chunk-6_8a11bc5d8eaec45c20c3e896086fde93">
+<div class="cell" data-hash="13-choropleth_cache/html/unnamed-chunk-6_a797da0b1cd23324587761c3e3700a5a">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ak <span class="ot">&lt;-</span> ak <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">maori_q =</span> <span class="fu">as.factor</span>(<span class="fu">ntile</span>(maori, <span class="dv">9</span>)))</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nz <span class="sc">%&gt;%</span> <span class="fu">st_intersection</span>(clip)) <span class="sc">+</span> </span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"lightgray"</span>, <span class="at">linewidth =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> ak, <span class="fu">aes</span>(<span class="at">fill =</span> maori_q), <span class="at">colour =</span> <span class="st">"grey"</span>, </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">linewidth =</span> <span class="fl">0.2</span> <span class="sc">*</span> <span class="fl">25.4</span> <span class="sc">/</span> <span class="fl">72.27</span>) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">linewidth =</span> <span class="fl">0.35</span> <span class="sc">*</span> <span class="fl">25.4</span> <span class="sc">/</span> <span class="fl">72.27</span>) <span class="sc">+</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"YlGnBu"</span>) <span class="sc">+</span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -702,7 +702,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","closeEffect":"zoom","openEffect":"zoom","selector":".lightbox","loop":true});</script>
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","closeEffect":"zoom","openEffect":"zoom","loop":true,"selector":".lightbox"});</script>
 
 
 
