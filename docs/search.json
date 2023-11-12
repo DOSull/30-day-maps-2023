@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "So what’s this all about then?",
     "section": "",
-    "text": "I decided to give the 30 Day Map Challenge a go as a learning exercise. My efforts are certainly not an exercise in flashy or impressive cartographic design.\nI’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead.\nSo… I thought I’d make a bunch of maps using both platforms to get a feel for the pros and cons of each."
+    "text": "I decided to give the 30 Day Map Challenge a go as a learning exercise. My efforts are certainly not an exercise in flashy or impressive cartographic design.\nI’ve been teaching with tmap for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to ggplot2, which I have often considered instead.\nSo… I thought I’d make a bunch of maps using both platforms to get a feel for the pros and cons of each.\nAs the month wore on, I tried a few other things, there being only so many things to explore in comparing tools primarily focused on relatively simple thematic mapping."
   },
   {
     "objectID": "maps/13-choropleth.html",

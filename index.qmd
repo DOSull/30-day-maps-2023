@@ -7,3 +7,5 @@ I decided to give the [30 Day Map Challenge](https://30daymapchallenge.com/) a g
 I've been teaching with `tmap` for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to `ggplot2`, which I have often considered instead. 
 
 So... I thought I'd make a bunch of maps using both platforms to get a feel for the pros and cons of each.
+
+As the month wore on, I tried a few other things, there being only so many things to explore in comparing tools primarily focused on relatively simple thematic mapping.
