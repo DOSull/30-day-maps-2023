@@ -1,8 +1,8 @@
 ---
 title: 13 Choropleth
-# execute: 
-#   cache: true
-#   freeze: auto
+execute: 
+  cache: true
+  freeze: auto
 knitr:
   opts_chunk: 
     warning: false
