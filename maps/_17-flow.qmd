@@ -32,7 +32,7 @@ library(tmap)
 ```
 
 ## Data wrangling
-I wanted to use a hillshaded DEM in this one. It was feasible in `tmap` to layer a hypsometric coloured DEM and a hillshade derived from it in `terra` easily enough. In `ggplot2` it proved a problem because having more than one map layer attempt to use the `fill` aesthetic is _verboten_. I am sure there is a way around this, but while 30 days is a long time, life is too short, so it was easier to jump out to the excellent (and free) [PyramidShader](http://terraincartography.com/PyramidShader/) and do the work there to make a hillshaded and coloured DEM image. That still required a bit of fiddle to make it work in the two tools I'm using, but nothing too difficult.
+I wanted to use a hillshaded DEM in this one. It was feasible in `tmap` to layer a hypsometric coloured DEM and a hillshade derived from it in `terra` easily enough. In `ggplot2` it proved a problem because having more than one map layer attempt to use the `fill` aesthetic is _verboten_. I am sure there is a way around this, but while 30 days is a long time, sometimes life is too short for hunting around on stackoverflow, so it was easier to jump out to the excellent (and free) [PyramidShader](http://terraincartography.com/PyramidShader/) and do the work there to make a hillshaded and coloured DEM image. That still required a bit of fiddle to make it work in the two tools I'm using, but nothing too difficult.
 
 The successor to PyramidShader, [Eduard](https://eduard.earth/) [looks excellent](https://www.youtube.com/watch?v=Da6SY6XjRiA&t=3s), but not worth me buying for this project alone!
 

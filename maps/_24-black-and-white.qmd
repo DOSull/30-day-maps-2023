@@ -1,0 +1,72 @@
+---
+title: "24 Black & white"
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+filters:
+  - lightbox
+lightbox: auto
+---
+
+Only two colors allowed.
+
+I already did this with [11 Retro](11-retro.qmd) and kind of again with [20 Outdoors](_20-outdoors.qmd) so once more back to searching for suitable data in Aotearoa New Zealand. In deference to the greatest ever black and white maps&mdash;Horvath's machine space&mdash;see
+
+> Horvath RJ. [Machine space](https://www.csun.edu/~rdavids/350fall08/350readings/Horvath%20Machine%20space.pdf). Geographical Review **64**(2) 167-188.
+
+already reference in in map 20, I tried to track down an impervious cover layer for a New Zealand city, any New Zealand city, but without success. You'd maybe think given all the trouble New Zealand has been having with flooding lately that this would be more of a thing... apparently not.
+
+Anyway, quite by chance, while on the hunt for impervious cover, [New Zealand rabbit proneness](https://koordinates.com/from/lris.scinfo.org.nz/layer/105591-new-zealand-rabbit-proneness/) came to my attention, and not being one to resist a uh... _rabbit hole_ I fell for it, and here we all are.
+
+## Libraries
+```{r}
+#| results: false
+#| code-fold: true
+library(sf)
+library(tmap)
+library(ggplot2)
+library(dplyr)
+```
+
+## Data wrangling
+```{r}
+#| results: false
+#| code-fold: true
+binary <- data.frame(
+  RCODE2 = c("e", "H", "i", "l", "L", "M", "O", "q", "r", "t", "X"),
+  rabbit_prone = c(FALSE, TRUE, FALSE, FALSE, TRUE, TRUE, 
+                   FALSE, FALSE, FALSE, FALSE, TRUE)
+)
+
+dang_rabbits <- st_read("data/rabbits.gpkg") %>% 
+  left_join(binary) %>%
+  group_by(rabbit_prone) %>%
+  summarise() 
+```
+
+## The maps
+### `tmap`
+```{r fig.width=10, fig.height=10}
+tm_shape(dang_rabbits) +
+  tm_polygons(
+    fill = "rabbit_prone", 
+    fill.scale = tm_scale_categorical(
+      levels = c(FALSE, TRUE),
+      values = c("white", "black")),
+    fill.legend = tm_legend(title = "Rabbit prone"),
+    lwd = 0.1) +
+  tm_layout(frame = FALSE, legend.frame = FALSE)
+```
+
+## `ggplot2`
+```{r fig.width=10, fig.height=10}
+ggplot(dang_rabbits) +
+  geom_sf(aes(fill = rabbit_prone), linewidth = 0.1 * 25.4 / 72.27) +
+  scale_fill_manual(values = c("white", "black"), 
+                    name = "Rabbit prone") +
+  theme_void()
+```
