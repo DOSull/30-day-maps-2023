@@ -40,8 +40,9 @@ The successor to PyramidShader, [Eduard](https://eduard.earth/) [looks excellent
 #| code-fold: true
 #| results: false
 nz <- st_read("data/nz.gpkg")
-flows <- st_read("data/manawatu-flows.gpkg") %>%
-  dplyr::arrange(ORDER)
+flows <- st_read("data/manawatu-flows.gpkg") 
+# %>%
+#   dplyr::arrange(desc(ORDER))
 catch <- st_read("data/manawatu-catch.gpkg")
 
 mask <- catch %>%

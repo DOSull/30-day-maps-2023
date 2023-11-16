@@ -322,31 +322,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="data-wrangling">Data wrangling</h2>
 <p>I wanted to use a hillshaded DEM in this one. It was feasible in <code>tmap</code> to layer a hypsometric coloured DEM and a hillshade derived from it in <code>terra</code> easily enough. In <code>ggplot2</code> it proved a problem because having more than one map layer attempt to use the <code>fill</code> aesthetic is <em>verboten</em>. I am sure there is a way around this, but while 30 days is a long time, sometimes life is too short for hunting around on stackoverflow, so it was easier to jump out to the excellent (and free) <a href="http://terraincartography.com/PyramidShader/">PyramidShader</a> and do the work there to make a hillshaded and coloured DEM image. That still required a bit of fiddle to make it work in the two tools I’m using, but nothing too difficult.</p>
 <p>The successor to PyramidShader, <a href="https://eduard.earth/">Eduard</a> <a href="https://www.youtube.com/watch?v=Da6SY6XjRiA&amp;t=3s">looks excellent</a>, but not worth me buying for this project alone!</p>
-<div class="cell" data-hash="17-flow_cache/html/unnamed-chunk-2_62fd0d3116e6a693d85287cc8ff9e33b">
+<div class="cell" data-hash="17-flow_cache/html/unnamed-chunk-2_9831f30d632fd5ff2e32544af5cb7ce4">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nz <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/nz.gpkg"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>flows <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/manawatu-flows.gpkg"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(ORDER)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>catch <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/manawatu-catch.gpkg"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>mask <span class="ot">&lt;-</span> catch <span class="sc">%&gt;%</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_buffer</span>(<span class="fl">2.5e3</span>, <span class="at">nQuadSegs =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_bbox</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sfc</span>(<span class="at">crs =</span> <span class="dv">2193</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sf</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_difference</span>(catch) <span class="sc">%&gt;%</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_intersection</span>(nz)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>hillshaded_dem <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/manawatu-dem-rect-image.tif"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(nz <span class="sc">%&gt;%</span> <span class="fu">as</span>(<span class="st">"SpatVector"</span>), <span class="at">mask =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">set.crs</span>(hillshaded_dem, <span class="st">"epsg:2193"</span>)</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(hillshaded_dem) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"r"</span>, <span class="st">"g"</span>, <span class="st">"b"</span>)</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>bbox <span class="ot">&lt;-</span> catch <span class="sc">%&gt;%</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_buffer</span>(<span class="fl">2.5e3</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_bbox</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>flows <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/manawatu-flows.gpkg"</span>) </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># %&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   dplyr::arrange(desc(ORDER))</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>catch <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/manawatu-catch.gpkg"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>mask <span class="ot">&lt;-</span> catch <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_buffer</span>(<span class="fl">2.5e3</span>, <span class="at">nQuadSegs =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_bbox</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sfc</span>(<span class="at">crs =</span> <span class="dv">2193</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sf</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_difference</span>(catch) <span class="sc">%&gt;%</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_intersection</span>(nz)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>hillshaded_dem <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/manawatu-dem-rect-image.tif"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(nz <span class="sc">%&gt;%</span> <span class="fu">as</span>(<span class="st">"SpatVector"</span>), <span class="at">mask =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">set.crs</span>(hillshaded_dem, <span class="st">"epsg:2193"</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(hillshaded_dem) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"r"</span>, <span class="st">"g"</span>, <span class="st">"b"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>bbox <span class="ot">&lt;-</span> catch <span class="sc">%&gt;%</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_buffer</span>(<span class="fl">2.5e3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_bbox</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -668,7 +669,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","descPosition":"bottom","closeEffect":"zoom","loop":true});</script>
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":true});</script>
 
 
 
