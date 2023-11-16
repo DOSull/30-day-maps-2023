@@ -1,0 +1,57 @@
+---
+title: "28 Is this a chart or a map?"
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+filters:
+  - lightbox
+lightbox: auto
+---
+
+In thematic maps you can't always tell. Try to stretch the limits.
+
+In New Zealand drop down lists of regions are almost always presented from north to south almost like a map. It works because the country is 'narrow' from east to west. Picking up on that idea here is a population bar chart 'map'.
+
+## Libraries
+```{r}
+#| results: false
+#| code-fold: true
+library(sf)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+```
+
+## Data wrangling
+```{r}
+#| results: false
+#| code-fold: true
+pop <- st_read("data/regional-population.gpkg")
+bb <- st_bbox(pop)
+hght <- (bb[4] - bb[2]) / dim(pop)[1]
+
+pop_df <- pop %>% 
+  st_centroid() %>%
+  st_coordinates() %>%
+  as_tibble() %>%
+  mutate(Population = pop$pop, Region = pop$region) %>%
+  arrange(Y) %>%
+  mutate(order = bb[2] + row_number() * hght - hght / 2,
+         y = Y, x = X, h = hght, w = Population / 20,
+         name = str_remove(Region, " Region"))
+```
+
+## The map
+## `ggplot2`
+```{r fig.width=8, fig.height=8}
+ggplot(pop_df) +
+  geom_tile(aes(x = x, y = order, width = w, height = h), 
+            fill = "grey", colour = "black") +
+  geom_text(aes(x = x, y = order, label = name), hjust = 0.2) +
+  coord_equal() +
+  theme_void()
+```

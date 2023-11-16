@@ -84,7 +84,7 @@ tm_shape(hillshaded_dem, bbox = bbox) +
     col = "MeanFlowCumecs", 
     col.scale = tm_scale_continuous_log(
       values = RColorBrewer::brewer.pal(9, "Blues")[3:9]),
-    col.legend = tm_legend(title = "Mean flow cubic m/sec")) +
+    col.legend = tm_legend(title = "Flow cubic m/sec")) +
   tm_title("Manawatū catchment") +
   tm_scalebar() +
   # position = tm_pos_auto_out(

@@ -1,0 +1,115 @@
+---
+title: "27 Dot"
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+filters:
+  - lightbox
+lightbox: auto
+---
+
+Dot density, a single dot in space or something different.
+
+Definitely something different.
+
+Again, drawing on our [weaving space tools](https://github.com/DOSull/weaving-space), I made a tiled map based on a 7-colouring by hexagons. Symbolising the hexagons with coloured 'dots' allows the simultaneous visualisation of seven variables, in this case components of an index of multiple deprivation developed by [Dan Exeter and colleagues at University of Auckland](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0181260). The position of each aspect of the index is shown in the key and all are coloured on a red-yellow-blue scale, where red indicates higher levels of deprivation on that aspect. 
+
+## Libraries
+```{r}
+#| results: false
+#| code-fold: true
+library(sf)
+library(tmap)
+library(dplyr)
+```
+
+## Data wrangling
+```{r}
+#| results: false
+#| code-fold: true
+hexes <- st_read("data/h7-base.gpkg")
+
+layers <- list()
+tilesets <- list()
+for (id in letters[1:7]) {
+  these_hexes <- hexes %>% filter(element_id == id)
+  layers[[id]] <- these_hexes 
+  tilesets[[id]] <- these_hexes$tile_id
+}
+tiles <- tilesets[[1]]
+for (i in 2:7) {
+  tiles <- intersect(tiles, tilesets[[i]])
+}
+legend_elements <- hexes %>% 
+  select(geom, tile_id, element_id) %>%
+  filter(tile_id == tiles[1])
+
+base <- hexes %>% 
+  select(geom, tile_id, element_id) %>%
+  group_by(tile_id) %>%
+  summarise()
+
+legend_elements <- legend_elements %>%
+  bind_rows(base %>% filter(tile_id == tiles[1]))
+c_leg <- legend_elements %>% 
+  st_union() %>%
+  st_centroid() %>%
+  st_coordinates() %>%
+  c()
+legend_elements$geom <- ((legend_elements$geom - c_leg) * 
+                         matrix(c(5, 0, 0, 5), 2, 2)) + c_leg
+legend_elements <- legend_elements %>%
+  st_set_crs(2193)
+lr_leg <- (legend_elements %>%
+             st_union() %>%
+             st_bbox())[1:2]
+lr_base <- (base %>% 
+              st_union() %>%
+              st_bbox())[1:2]
+legend_elements$geom <- legend_elements$geom - lr_leg + lr_base
+legend_elements <- legend_elements %>%
+  st_set_crs(2193) %>%
+  mutate(dimension = c("Employment", "Income", "Crime", "Housing", 
+                       "Health", "Education", "Accessibility", NA))
+
+vars <- names(hexes)[which(str_sub(names(hexes), 1, 4) == "Rank")][-1]
+```
+
+## The map
+`tmap` this time, as there is no point even trying with `ggplot2` this time since it won't allow multiple fill aesthetics to be specified.
+
+```{r fig.width=10, fig.height=7}
+m <- tm_shape(base) +
+  tm_fill(fill = "#dddddd")
+for (i in 1:7) {
+  m <- m + 
+    tm_shape(layers[[i]]) + 
+    tm_dots(
+      fill = vars[i], 
+      fill.scale = tm_scale_continuous(
+        values = "tol.sunset", 
+        values.range = c(0, 1)),
+      fill.legend = tm_legend(
+        limits = range(pull(layers[[i]], vars[i])),
+        variable = "fill",
+        title = "Deprivation",
+        labels = c("Low", rep("", 4), "High"),
+        orientation = "landscape",
+        width = 15,
+        position = tm_pos_in(pos.h = "center", pos.v = "bottom", just.h = 1),
+        frame = FALSE,
+        show = (i == 1)),
+      size = 0.35)
+}
+m + 
+  tm_shape(legend_elements %>% slice(8)) +
+  tm_fill(fill = "#dddddd") +
+  tm_shape(legend_elements %>% slice(-8)) +
+  tm_dots(fill = "white", size = 2.1) + 
+  tm_text(text = "dimension", size = 0.8) +
+  tm_layout(frame = FALSE)
+```
