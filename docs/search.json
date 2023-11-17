@@ -210,130 +210,32 @@
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },
   {
-    "objectID": "maps/10-north-america.html",
-    "href": "maps/10-north-america.html",
-    "title": "10 North America",
+    "objectID": "maps/15-osm.html",
+    "href": "maps/15-osm.html",
+    "title": "15 OpenStreetMap",
     "section": "",
-    "text": "Northern part of the American continent."
+    "text": "The greatest of the datasets. Remember to give credit.\nSome have claimed that Wellington has more cafés per capita than any other city. I can’t speak to that, but it certainly has a few as borne out by the OpenStreetMap data.\nI thought I’d see how it was adding custom symbols to a map. In short, it’s not as easy as I’d like."
   },
   {
-    "objectID": "maps/10-north-america.html#libraries",
-    "href": "maps/10-north-america.html#libraries",
-    "title": "10 North America",
+    "objectID": "maps/15-osm.html#libraries",
+    "href": "maps/15-osm.html#libraries",
+    "title": "15 OpenStreetMap",
     "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\nfocus &lt;- \"North America\"\nlon0 &lt;- -95\nlat0 &lt;- 45\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld &lt;- st_read(\"data/ne_110m_admin_0_map_units.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
+    "text": "Libraries\n\n\nCode\nlibrary(ggplot2)\nlibrary(dplyr)\nlibrary(sf)\nlibrary(tmap)"
   },
   {
-    "objectID": "maps/10-north-america.html#the-maps",
-    "href": "maps/10-north-america.html#the-maps",
-    "title": "10 North America",
-    "section": "The maps",
-    "text": "The maps\n\ntmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
-  },
-  {
-    "objectID": "maps/10-north-america.html#ggplot2",
-    "href": "maps/10-north-america.html#ggplot2",
-    "title": "10 North America",
-    "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
-  },
-  {
-    "objectID": "maps/01-points.html",
-    "href": "maps/01-points.html",
-    "title": "01 Points",
-    "section": "",
-    "text": "A map with points.\nThe first three themes (points, lines, areas) all work with the same data. I’m making a meta-point about the somewhat arbitrary nature of geometries in spatial data (a polygon is after all conceputalised as a point set)."
-  },
-  {
-    "objectID": "maps/01-points.html#libraries",
-    "href": "maps/01-points.html#libraries",
-    "title": "01 Points",
-    "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(tidyr)\nlibrary(dplyr)\nlibrary(ggplot2)"
-  },
-  {
-    "objectID": "maps/01-points.html#data-wrangling",
-    "href": "maps/01-points.html#data-wrangling",
-    "title": "01 Points",
+    "objectID": "maps/15-osm.html#data-wrangling",
+    "href": "maps/15-osm.html#data-wrangling",
+    "title": "15 OpenStreetMap",
     "section": "Data wrangling",
-    "text": "Data wrangling\nIronically, of the three, the points maps was the fiddliest to make from the data wrangling perspective, because of course, the source data is a polygon dataset.\n\n\nCode\nw &lt;- 500\n\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  mutate(Land = TRUE)\n\nbb &lt;- nz %&gt;% \n  st_bbox() %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_buffer(w, nQuadSegs = 1) \n\nshore &lt;- nz %&gt;% \n  st_cast(\"MULTILINESTRING\") %&gt;%\n  st_cast(\"LINESTRING\") %&gt;%\n  st_buffer(w) %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  mutate(Shore = TRUE)\n\nland &lt;- nz %&gt;%\n  st_union() %&gt;%\n  st_buffer(w)\n\nwater &lt;- bb %&gt;%\n  st_difference(land) %&gt;%\n  mutate(Water = TRUE)\n\npts &lt;- bb %&gt;%\n  st_sample(250000) %&gt;%\n  st_sf() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_join(water) %&gt;%\n  st_join(nz) %&gt;%\n  st_join(shore) %&gt;%\n  mutate(Water = replace_na(Water, FALSE),\n         Land  = replace_na(Land, FALSE),\n         Shore = replace_na(Shore, FALSE),\n         What = NA) %&gt;%\n  slice(sample(1:n()))\n\npts[pts$Water, \"What\"] &lt;- \"Water\"\npts[pts$Land, \"What\"] &lt;- \"Land\"\npts[pts$Shore, \"What\"] &lt;- \"Shore\"\n\npts &lt;- pts %&gt;%\n  mutate(What = as.factor(What)) %&gt;%\n  filter(!is.na(What))"
+    "text": "Data wrangling\n\n\nCode\nxlims &lt;- c(1.746e6, 1.751e6)\nylims &lt;- c(5.426e6, 5.431e6)\n\nbb &lt;- tmaptools::bb(xlim = xlims, ylim = ylims) %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = 2193)\n\nwellington &lt;- st_read(\"data/wellington-ta.gpkg\")\n\ncafes &lt;- st_read(\"data/cafes-in-nz.gpkg\") %&gt;%\n  st_filter(bb) %&gt;%\n  select(geom)\n\nroads &lt;- st_read(\"data/welly-rds.gpkg\")\n\nicon_file &lt;- \"data/coffee.png\"\n\ncafes$icon &lt;- icon_file"
   },
   {
-    "objectID": "maps/01-points.html#the-maps",
-    "href": "maps/01-points.html#the-maps",
-    "title": "01 Points",
+    "objectID": "maps/15-osm.html#the-maps",
+    "href": "maps/15-osm.html#the-maps",
+    "title": "15 OpenStreetMap",
     "section": "The maps",
-    "text": "The maps\n\ntmap\ntmap v4’s slightly verbose format is apparent here. There is no obvious way to make legend elements larger hence more readable.\n\ntm_shape(pts) + \n  tm_dots(\n    fill = \"What\",\n    fill.scale = tm_scale_categorical(\n      values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\"),\n      levels = c(\"Land\", \"Shore\", \"Water\")), \n    size = 0.05) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
-  },
-  {
-    "objectID": "maps/01-points.html#ggplot2",
-    "href": "maps/01-points.html#ggplot2",
-    "title": "01 Points",
-    "section": "ggplot2",
-    "text": "ggplot2\nIn ggplot2 you can override the default symbol size in the colour legend, although it’s not exactly an obvious snippet of code! The default legend position in ggplot2 is not my preference, but I can’t be bothered to move it.\n\nggplot(pts) +\n  geom_sf(aes(colour = What), size = 0.025) +\n  scale_colour_manual(values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\")) + \n  guides(colour = guide_legend(override.aes = list(size = 5))) +\n  theme_void()"
-  },
-  {
-    "objectID": "maps/04-bad-map.html",
-    "href": "maps/04-bad-map.html",
-    "title": "04 Bad Map",
-    "section": "",
-    "text": "Let’s get this over with."
-  },
-  {
-    "objectID": "maps/04-bad-map.html#libraries",
-    "href": "maps/04-bad-map.html#libraries",
-    "title": "04 Bad Map",
-    "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
-  },
-  {
-    "objectID": "maps/04-bad-map.html#data-wrangling",
-    "href": "maps/04-bad-map.html#data-wrangling",
-    "title": "04 Bad Map",
-    "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nsh1 &lt;- st_read(\"data/sh1.gpkg\") %&gt;%\n  st_transform(4326) %&gt;%\n  select(geom) %&gt;%\n  mutate(Mode = \"Road\")\ninterislander &lt;- st_read(\"data/interislander.gpkg\") %&gt;%\n  st_transform(4326) %&gt;%\n  select(geom) %&gt;%\n  mutate(Mode = \"Boat\")\ncombined &lt;- sh1 %&gt;%\n  bind_rows(interislander) %&gt;%\n  mutate(Mode = as.factor(Mode))"
-  },
-  {
-    "objectID": "maps/04-bad-map.html#the-maps",
-    "href": "maps/04-bad-map.html#the-maps",
-    "title": "04 Bad Map",
-    "section": "The maps",
-    "text": "The maps\nNew Zealand’s mighty State Highway 1 (one of the world’s better road trips). I wouldn’t start from here.\n\ntmap\nIn this example, I wanted to get a better handle on how the legend options work in tmap v4. The tm_legend_combine function is a nice feature, which combines the two symbolisations of colour and line style.\n\ntm_shape(combined) +\n  tm_lines(\n    col = \"Mode\",\n    col.scale = tm_scale_categorical(\n      values = c(\"blue\", \"red\")),\n    lty = \"Mode\",\n    lty.scale = tm_scale_categorical(\n      values = c(\"dashed\", \"solid\")),\n    lty.legend = tm_legend_combine(\"col\"),\n    lwd = 0.5) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE) +\n  tm_compass()"
-  },
-  {
-    "objectID": "maps/04-bad-map.html#ggplot2",
-    "href": "maps/04-bad-map.html#ggplot2",
-    "title": "04 Bad Map",
-    "section": "ggplot2",
-    "text": "ggplot2\nHere we need an additional package for the entirely useless north arrow.\nggspatial can do it and seems preferable to the not-very-configurable ggsn. The configurability of ggspatial is a bit over the top for a simple map like this one. On the other hand its default north arrow is very on brand for the theme “Bad Map”!\n\nlibrary(ggspatial)\n\nggplot(combined) +\n  geom_sf(aes(colour = Mode, linetype = Mode), \n              linewidth = 0.5 * 25.4 / 72.27) +\n  scale_colour_manual(values = c(\"blue\", \"red\")) +\n  scale_linetype_manual(values = c(\"dashed\", \"solid\")) +\n  annotation_north_arrow(location = \"br\") + \n  theme_void()"
-  },
-  {
-    "objectID": "maps/02-lines.html",
-    "href": "maps/02-lines.html",
-    "title": "02 Lines",
-    "section": "",
-    "text": "A map with lines."
-  },
-  {
-    "objectID": "maps/02-lines.html#libraries",
-    "href": "maps/02-lines.html#libraries",
-    "title": "02 Lines",
-    "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
-  },
-  {
-    "objectID": "maps/02-lines.html#data-wrangling",
-    "href": "maps/02-lines.html#data-wrangling",
-    "title": "02 Lines",
-    "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  st_cast(\"MULTILINESTRING\") %&gt;%\n  mutate(What = \"Shore\",\n         What = as.factor(What))"
-  },
-  {
-    "objectID": "maps/02-lines.html#the-maps",
-    "href": "maps/02-lines.html#the-maps",
-    "title": "02 Lines",
-    "section": "The maps",
-    "text": "The maps\nBut first… a rabbithole.\nSomething this map got me looking at a bit more closely than ever before was exactly what is going on with the linewidth setting in ggplot2, which, like a lot of things you’ve learned by osmosis, rather than systematically, doesn’t seem that important until it does.\nThe obvious fact is that lwd = 0.5 in tmap and linewidth = 0.5 in ggplot2 do not yield the same result. Turns out… it’s complicated. tmap uses 0.75 points, and ggplot2 uses ~0.75 millimetres.\nWait, wut? 0.75 pts and approximately 0.75 mm?! Yes, you read that correctly.\nTo be fair to tmap, it’s using the R graphics standard, which is that lwd is specified in pixels, which is notionally 1/96 inch, as laid down by CSS. This is ‘device dependent’ and when it comes to getting plots out of R and into image file formats can lead to all kinds of headaches, but that’s another story. A point is 1/72 inch (ever since Adobe made it so), so lwd = 1 gives you nominal line widths of 0.75 points in tmap.\nMeanwhile, according to the ggplot2 documentation (RTFM, eh?)\n\nDue to a historical error, the unit of linewidth is roughly 0.75 mm. Making it exactly 1 mm would change a very large number of existing plots, so we’re stuck with this mistake.\n\nThey say nothing more on the matter. Presumably, it’s something to do with that 1/72 vs 1/96 thing just noted, and perhaps the approximately is due to TeX’s use of a point being 1/72.27 inches, which is apparently more historically accurate, and was the approximation settled upon, because it is palindromic! OK… welll maybe not really that last bit.\nAnyway, the magic number 72.27 is buried in the ggplot2 code, where the conversion factor 72.27 / 25.4 is baked in. I was led to this information by this stackoverflow post.\nThe upshot of all this? To get the same line widths in ggplot2 as in tmap multiply by 25.4 / 72.27. Simple really!\n\ntmap\n\ntm_shape(nz) + \n  tm_lines(\n    col = \"What\",\n    col.scale = tm_scale_categorical(\n      values = c(\"blue\")),\n    lwd = 0.5) + \n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)\n\n\n\n\n\n\n\n\n\n\nggplot2\n\nggplot(nz) +\n  geom_sf(aes(colour = What), linewidth = 0.5 * 25.4 / 72.27) +\n  scale_colour_manual(values = c(\"blue\")) +\n  theme_void()"
+    "text": "The maps\n\ntmap\nTo use a PNG image as a symbol, you have to first pass it to the tmap_icons function. It took me a while to figure this out because in its current in-process state the documentation of this feature is not all that clear. The lwd = 0 setting is to suppress a box that appears unasked for around the symbols.\n\ncoffee_cup &lt;- tmap_icons(icon_file)\n\ntm_shape(wellington, bbox = bb) +\n  tm_fill(fill = \"#cccccc\") +\n  tm_shape(roads) +\n  tm_lines(col = \"white\") +\n  tm_shape(cafes) + \n  tm_symbols(shape = coffee_cup, size = 1.5, lwd = 0) +\n  tm_layout(legend.show = FALSE, bg.color = \"#66ccff\",\n            inner.margins = rep(0, 4)) + \n  tm_scalebar() +\n  tm_credits(maptiles::get_credit(\"OpenStreetMap\"),\n    position = tm_pos_out(cell.h = \"center\", cell.v = \"bottom\",\n                          pos.h = \"right\", pos.v = \"top\"))\n\n\n\n\n\n\n\n\n\n\nggplot2\nIt’s kind of fun to use ggplot2’s geom_density2d just to emphasise the bizarrely large number of cafés. To use images as a symbol we need the ggimage package.\n\nlibrary(ggimage)\nlibrary(ggspatial)\n\nxy &lt;- cafes %&gt;%\n  st_coordinates() %&gt;% \n  as_tibble()\n\nggplot(wellington) +\n  geom_sf(fill = \"#cccccc\", linewidth = 0) +\n  geom_sf(data = roads, colour = \"white\") +\n  stat_density2d(data = xy, aes(x = X, y = Y)) +\n  geom_image(data = xy, aes(x = X, y = Y, image = icon_file),\n             size = 0.03) +\n  coord_sf(xlim = xlims, ylim = ylims, expand = FALSE) +\n  annotation_scale() +\n  labs(caption = maptiles::get_credit(\"OpenStreetMap\")) +\n  theme_void() +\n  theme(panel.background = element_rect(fill = \"#66ccff\"),\n        panel.border = element_rect(fill = NA, colour = \"black\"))"
   },
   {
     "objectID": "maps/16-oceania.html",
@@ -371,32 +273,158 @@
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },
   {
-    "objectID": "maps/15-osm.html",
-    "href": "maps/15-osm.html",
-    "title": "15 OpenStreetMap",
+    "objectID": "maps/02-lines.html",
+    "href": "maps/02-lines.html",
+    "title": "02 Lines",
     "section": "",
-    "text": "The greatest of the datasets. Remember to give credit.\nSome have claimed that Wellington has more cafés per capita than any other city. I can’t speak to that, but it certainly has a few as borne out by the OpenStreetMap data.\nI thought I’d see how it was adding custom symbols to a map. In short, it’s not as easy as I’d like."
+    "text": "A map with lines."
   },
   {
-    "objectID": "maps/15-osm.html#libraries",
-    "href": "maps/15-osm.html#libraries",
-    "title": "15 OpenStreetMap",
+    "objectID": "maps/02-lines.html#libraries",
+    "href": "maps/02-lines.html#libraries",
+    "title": "02 Lines",
     "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(ggplot2)\nlibrary(dplyr)\nlibrary(sf)\nlibrary(tmap)"
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
   },
   {
-    "objectID": "maps/15-osm.html#data-wrangling",
-    "href": "maps/15-osm.html#data-wrangling",
-    "title": "15 OpenStreetMap",
+    "objectID": "maps/02-lines.html#data-wrangling",
+    "href": "maps/02-lines.html#data-wrangling",
+    "title": "02 Lines",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nxlims &lt;- c(1.746e6, 1.751e6)\nylims &lt;- c(5.426e6, 5.431e6)\n\nbb &lt;- tmaptools::bb(xlim = xlims, ylim = ylims) %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = 2193)\n\nwellington &lt;- st_read(\"data/wellington-ta.gpkg\")\n\ncafes &lt;- st_read(\"data/cafes-in-nz.gpkg\") %&gt;%\n  st_filter(bb) %&gt;%\n  select(geom)\n\nroads &lt;- st_read(\"data/welly-rds.gpkg\")\n\nicon_file &lt;- \"data/coffee.png\"\n\ncafes$icon &lt;- icon_file"
+    "text": "Data wrangling\n\n\nCode\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  st_cast(\"MULTILINESTRING\") %&gt;%\n  mutate(What = \"Shore\",\n         What = as.factor(What))"
   },
   {
-    "objectID": "maps/15-osm.html#the-maps",
-    "href": "maps/15-osm.html#the-maps",
-    "title": "15 OpenStreetMap",
+    "objectID": "maps/02-lines.html#the-maps",
+    "href": "maps/02-lines.html#the-maps",
+    "title": "02 Lines",
     "section": "The maps",
-    "text": "The maps\n\ntmap\nTo use a PNG image as a symbol, you have to first pass it to the tmap_icons function. It took me a while to figure this out because in its current in-process state the documentation of this feature is not all that clear. The lwd = 0 setting is to suppress a box that appears unasked for around the symbols.\n\ncoffee_cup &lt;- tmap_icons(icon_file)\n\ntm_shape(wellington, bbox = bb) +\n  tm_fill(fill = \"#cccccc\") +\n  tm_shape(roads) +\n  tm_lines(col = \"white\") +\n  tm_shape(cafes) + \n  tm_symbols(shape = coffee_cup, size = 1.5, lwd = 0) +\n  tm_layout(legend.show = FALSE, bg.color = \"#66ccff\",\n            inner.margins = rep(0, 4)) + \n  tm_scalebar() +\n  tm_credits(maptiles::get_credit(\"OpenStreetMap\"),\n    position = tm_pos_out(cell.h = \"center\", cell.v = \"bottom\",\n                          pos.h = \"right\", pos.v = \"top\"))\n\n\n\n\n\n\n\n\n\n\nggplot2\nIt’s kind of fun to use ggplot2’s geom_density2d just to emphasise the bizarrely large number of cafés. To use images as a symbol we need the ggimage package.\n\nlibrary(ggimage)\nlibrary(ggspatial)\n\nxy &lt;- cafes %&gt;%\n  st_coordinates() %&gt;% \n  as_tibble()\n\nggplot(wellington) +\n  geom_sf(fill = \"#cccccc\", linewidth = 0) +\n  geom_sf(data = roads, colour = \"white\") +\n  stat_density2d(data = xy, aes(x = X, y = Y)) +\n  geom_image(data = xy, aes(x = X, y = Y, image = icon_file),\n             size = 0.03) +\n  coord_sf(xlim = xlims, ylim = ylims, expand = FALSE) +\n  annotation_scale() +\n  labs(caption = maptiles::get_credit(\"OpenStreetMap\")) +\n  theme_void() +\n  theme(panel.background = element_rect(fill = \"#66ccff\"),\n        panel.border = element_rect(fill = NA, colour = \"black\"))"
+    "text": "The maps\nBut first… a rabbithole.\nSomething this map got me looking at a bit more closely than ever before was exactly what is going on with the linewidth setting in ggplot2, which, like a lot of things you’ve learned by osmosis, rather than systematically, doesn’t seem that important until it does.\nThe obvious fact is that lwd = 0.5 in tmap and linewidth = 0.5 in ggplot2 do not yield the same result. Turns out… it’s complicated. tmap uses 0.75 points, and ggplot2 uses ~0.75 millimetres.\nWait, wut? 0.75 pts and approximately 0.75 mm?! Yes, you read that correctly.\nTo be fair to tmap, it’s using the R graphics standard, which is that lwd is specified in pixels, which is notionally 1/96 inch, as laid down by CSS. This is ‘device dependent’ and when it comes to getting plots out of R and into image file formats can lead to all kinds of headaches, but that’s another story. A point is 1/72 inch (ever since Adobe made it so), so lwd = 1 gives you nominal line widths of 0.75 points in tmap.\nMeanwhile, according to the ggplot2 documentation (RTFM, eh?)\n\nDue to a historical error, the unit of linewidth is roughly 0.75 mm. Making it exactly 1 mm would change a very large number of existing plots, so we’re stuck with this mistake.\n\nThey say nothing more on the matter. Presumably, it’s something to do with that 1/72 vs 1/96 thing just noted, and perhaps the approximately is due to TeX’s use of a point being 1/72.27 inches, which is apparently more historically accurate, and was the approximation settled upon, because it is palindromic! OK… welll maybe not really that last bit.\nAnyway, the magic number 72.27 is buried in the ggplot2 code, where the conversion factor 72.27 / 25.4 is baked in. I was led to this information by this stackoverflow post.\nThe upshot of all this? To get the same line widths in ggplot2 as in tmap multiply by 25.4 / 72.27. Simple really!\n\ntmap\n\ntm_shape(nz) + \n  tm_lines(\n    col = \"What\",\n    col.scale = tm_scale_categorical(\n      values = c(\"blue\")),\n    lwd = 0.5) + \n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)\n\n\n\n\n\n\n\n\n\n\nggplot2\n\nggplot(nz) +\n  geom_sf(aes(colour = What), linewidth = 0.5 * 25.4 / 72.27) +\n  scale_colour_manual(values = c(\"blue\")) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/04-bad-map.html",
+    "href": "maps/04-bad-map.html",
+    "title": "04 Bad Map",
+    "section": "",
+    "text": "Let’s get this over with."
+  },
+  {
+    "objectID": "maps/04-bad-map.html#libraries",
+    "href": "maps/04-bad-map.html#libraries",
+    "title": "04 Bad Map",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/04-bad-map.html#data-wrangling",
+    "href": "maps/04-bad-map.html#data-wrangling",
+    "title": "04 Bad Map",
+    "section": "Data wrangling",
+    "text": "Data wrangling\n\n\nCode\nsh1 &lt;- st_read(\"data/sh1.gpkg\") %&gt;%\n  st_transform(4326) %&gt;%\n  select(geom) %&gt;%\n  mutate(Mode = \"Road\")\ninterislander &lt;- st_read(\"data/interislander.gpkg\") %&gt;%\n  st_transform(4326) %&gt;%\n  select(geom) %&gt;%\n  mutate(Mode = \"Boat\")\ncombined &lt;- sh1 %&gt;%\n  bind_rows(interislander) %&gt;%\n  mutate(Mode = as.factor(Mode))"
+  },
+  {
+    "objectID": "maps/04-bad-map.html#the-maps",
+    "href": "maps/04-bad-map.html#the-maps",
+    "title": "04 Bad Map",
+    "section": "The maps",
+    "text": "The maps\nNew Zealand’s mighty State Highway 1 (one of the world’s better road trips). I wouldn’t start from here.\n\ntmap\nIn this example, I wanted to get a better handle on how the legend options work in tmap v4. The tm_legend_combine function is a nice feature, which combines the two symbolisations of colour and line style.\n\ntm_shape(combined) +\n  tm_lines(\n    col = \"Mode\",\n    col.scale = tm_scale_categorical(\n      values = c(\"blue\", \"red\")),\n    lty = \"Mode\",\n    lty.scale = tm_scale_categorical(\n      values = c(\"dashed\", \"solid\")),\n    lty.legend = tm_legend_combine(\"col\"),\n    lwd = 0.5) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE) +\n  tm_compass()"
+  },
+  {
+    "objectID": "maps/04-bad-map.html#ggplot2",
+    "href": "maps/04-bad-map.html#ggplot2",
+    "title": "04 Bad Map",
+    "section": "ggplot2",
+    "text": "ggplot2\nHere we need an additional package for the entirely useless north arrow.\nggspatial can do it and seems preferable to the not-very-configurable ggsn. The configurability of ggspatial is a bit over the top for a simple map like this one. On the other hand its default north arrow is very on brand for the theme “Bad Map”!\n\nlibrary(ggspatial)\n\nggplot(combined) +\n  geom_sf(aes(colour = Mode, linetype = Mode), \n              linewidth = 0.5 * 25.4 / 72.27) +\n  scale_colour_manual(values = c(\"blue\", \"red\")) +\n  scale_linetype_manual(values = c(\"dashed\", \"solid\")) +\n  annotation_north_arrow(location = \"br\") + \n  theme_void()"
+  },
+  {
+    "objectID": "maps/01-points.html",
+    "href": "maps/01-points.html",
+    "title": "01 Points",
+    "section": "",
+    "text": "A map with points.\nThe first three themes (points, lines, areas) all work with the same data. I’m making a meta-point about the somewhat arbitrary nature of geometries in spatial data (a polygon is after all conceputalised as a point set)."
+  },
+  {
+    "objectID": "maps/01-points.html#libraries",
+    "href": "maps/01-points.html#libraries",
+    "title": "01 Points",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(tidyr)\nlibrary(dplyr)\nlibrary(ggplot2)"
+  },
+  {
+    "objectID": "maps/01-points.html#data-wrangling",
+    "href": "maps/01-points.html#data-wrangling",
+    "title": "01 Points",
+    "section": "Data wrangling",
+    "text": "Data wrangling\nIronically, of the three, the points maps was the fiddliest to make from the data wrangling perspective, because of course, the source data is a polygon dataset.\n\n\nCode\nw &lt;- 500\n\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  mutate(Land = TRUE)\n\nbb &lt;- nz %&gt;% \n  st_bbox() %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_buffer(w, nQuadSegs = 1) \n\nshore &lt;- nz %&gt;% \n  st_cast(\"MULTILINESTRING\") %&gt;%\n  st_cast(\"LINESTRING\") %&gt;%\n  st_buffer(w) %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  mutate(Shore = TRUE)\n\nland &lt;- nz %&gt;%\n  st_union() %&gt;%\n  st_buffer(w)\n\nwater &lt;- bb %&gt;%\n  st_difference(land) %&gt;%\n  mutate(Water = TRUE)\n\npts &lt;- bb %&gt;%\n  st_sample(250000) %&gt;%\n  st_sf() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_join(water) %&gt;%\n  st_join(nz) %&gt;%\n  st_join(shore) %&gt;%\n  mutate(Water = replace_na(Water, FALSE),\n         Land  = replace_na(Land, FALSE),\n         Shore = replace_na(Shore, FALSE),\n         What = NA) %&gt;%\n  slice(sample(1:n()))\n\npts[pts$Water, \"What\"] &lt;- \"Water\"\npts[pts$Land, \"What\"] &lt;- \"Land\"\npts[pts$Shore, \"What\"] &lt;- \"Shore\"\n\npts &lt;- pts %&gt;%\n  mutate(What = as.factor(What)) %&gt;%\n  filter(!is.na(What))"
+  },
+  {
+    "objectID": "maps/01-points.html#the-maps",
+    "href": "maps/01-points.html#the-maps",
+    "title": "01 Points",
+    "section": "The maps",
+    "text": "The maps\n\ntmap\ntmap v4’s slightly verbose format is apparent here. There is no obvious way to make legend elements larger hence more readable.\n\ntm_shape(pts) + \n  tm_dots(\n    fill = \"What\",\n    fill.scale = tm_scale_categorical(\n      values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\"),\n      levels = c(\"Land\", \"Shore\", \"Water\")), \n    size = 0.05) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
+  },
+  {
+    "objectID": "maps/01-points.html#ggplot2",
+    "href": "maps/01-points.html#ggplot2",
+    "title": "01 Points",
+    "section": "ggplot2",
+    "text": "ggplot2\nIn ggplot2 you can override the default symbol size in the colour legend, although it’s not exactly an obvious snippet of code! The default legend position in ggplot2 is not my preference, but I can’t be bothered to move it.\n\nggplot(pts) +\n  geom_sf(aes(colour = What), size = 0.025) +\n  scale_colour_manual(values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\")) + \n  guides(colour = guide_legend(override.aes = list(size = 5))) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/10-north-america.html",
+    "href": "maps/10-north-america.html",
+    "title": "10 North America",
+    "section": "",
+    "text": "Northern part of the American continent."
+  },
+  {
+    "objectID": "maps/10-north-america.html#libraries",
+    "href": "maps/10-north-america.html#libraries",
+    "title": "10 North America",
+    "section": "Libraries",
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\nfocus &lt;- \"North America\"\nlon0 &lt;- -95\nlat0 &lt;- 45\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld &lt;- st_read(\"data/ne_110m_admin_0_map_units.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT)\n\nworld_o &lt;- world %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)"
+  },
+  {
+    "objectID": "maps/10-north-america.html#the-maps",
+    "href": "maps/10-north-america.html#the-maps",
+    "title": "10 North America",
+    "section": "The maps",
+    "text": "The maps\n\ntmap\n\ntm_shape(world_o) +\n  tm_fill() + \n  tm_shape(continent) +\n  tm_fill(fill = \"red\") +\n  tm_layout(frame = FALSE)"
+  },
+  {
+    "objectID": "maps/10-north-america.html#ggplot2",
+    "href": "maps/10-north-america.html#ggplot2",
+    "title": "10 North America",
+    "section": "ggplot2",
+    "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/18-atmosphere.html",
+    "href": "maps/18-atmosphere.html",
+    "title": "18 Atmosphere",
+    "section": "",
+    "text": "Conditions of the atmosphere can be either weather or climate.\nAnother departure from the tmap vs ggplot2 face-off, given the specialised nature of weather data, and presentations.\nIf you live in Wellington as I do, then wind is the most salient aspect of the weather. Weather data in Aotearoa New Zealand of any kind (wind or otherwise) are regrettably not easy to get hold of.\nAfter some fruitless searching I stumbled upon the rWind package (of course there’s a package about wind in R called rWind, because… it’s R). I imagine my erstwhile colleagues in climate science at could have told me this right away, if I’d known to ask.\nrWind allows relatively easy download of GFS (Global Forecast System) data. In combination with the rasterVis package I managed to cobble together something interesting to look at, if not up to the level of the amazing visualisation of earth.nullschool.net!\nThat it is indeed windy around Wellington is confirmed—a lot to do with the Cook Strait funneling the ‘Roaring Forties’ our way."
+  },
+  {
+    "objectID": "maps/18-atmosphere.html#libraries",
+    "href": "maps/18-atmosphere.html#libraries",
+    "title": "18 Atmosphere",
+    "section": "Libraries",
+    "text": "Libraries\nSome different packages this time around. There’s a lot of older formats involved in this particular toolchain hence some of the unfamiliar packages.\n\n\nCode\nlibrary(raster)       # note: not terra!\nlibrary(sf)\nlibrary(sp)           # older spatial features type\nlibrary(rWind)        # wind data downloads\nlibrary(rasterVis)    # visualisation of vector fields\nlibrary(RColorBrewer) # familiar colour palettes\nlibrary(maptools)     # some spatial conversions\nlibrary(latticeExtra) # a whole other graphics system"
+  },
+  {
+    "objectID": "maps/18-atmosphere.html#basic-data-collection",
+    "href": "maps/18-atmosphere.html#basic-data-collection",
+    "title": "18 Atmosphere",
+    "section": "Basic data collection",
+    "text": "Basic data collection\n\n\nCode\nnz &lt;- st_read(\"data/nz-small.gpkg\") %&gt;%\n  st_transform(4326) %&gt;%\n  as(\"Spatial\")\n\nw &lt;- wind.dl(2023, 10, 25, 18, # year, month, day, hour\n             169, 177,        # longitude range\n             -44, -38)        # latitude range\n\nwind &lt;- wind2raster(w)  # a raster stack with direction and speed"
+  },
+  {
+    "objectID": "maps/18-atmosphere.html#the-maps",
+    "href": "maps/18-atmosphere.html#the-maps",
+    "title": "18 Atmosphere",
+    "section": "The maps",
+    "text": "The maps\nUsing rasterVis vector and stream flow plots.\nvectorplot shows only directions but not speeds in its ‘default’ form. To get arrows that reflect wind speed, we have to supply ‘dXY’ format data.\nI also densify the data a bit to get something a bit more ‘complete’ seeming.\n\n# get vector components\nnorth &lt;- -cos(pi * wind$direction / 180) * wind$speed\neast &lt;- -sin(pi * wind$direction / 180) * wind$speed\nwind_vec &lt;- stack(north, east) %&gt;%\n  disaggregate(2, method = \"bilinear\")\nnames(wind_vec) &lt;- c(\"N\", \"E\")\n\nvectorplot(wind_vec, isField = \"dXY\", region = TRUE,\n           lwd.arrows = 1, col.arrows = \"blue\",\n           uLayers = 1, vLayers = 2, par.settings = YlOrRdTheme) +\n  layer(sp.polygons(nz, lwd = 2))\n\n\n\n\n\n\n\n\nstreamplot traces the paths that ‘droplets’ would follow on the surface, so it wants the data in speed, direction format. This is almost the format supplied by rWind::wind2Raster except the order needs reversing! However, since we’ve gone to the trouble of densifying the data into the vector component form, I recombine them here to give a denser interpolated speed-direction pair than we started with.\nI don’t entirely know, nor do I have time to get to the bottom of how to drive this function! I’m sure that with a bit more experimentation it could be made to produce a much cooler looking output.\n\nwind_field &lt;- stack(sqrt(wind_vec$N ^ 2 + wind_vec$E ^ 2),\n                    raster::atan2(wind_vec$N, wind_vec$E))\n\nstreamplot(wind_field, isField = TRUE,\n    streamlet = list(L = 8), droplet = list(pc = 100),\n    par.settings = streamTheme(symbol = brewer.pal(n = 9, 'YlOrRd'))) +\n  layer(sp.polygons(nz, col = \"lightblue2\", lwd = 2))"
   },
   {
     "objectID": "maps/05-analog-map.html",

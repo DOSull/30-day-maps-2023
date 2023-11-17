@@ -18,14 +18,14 @@ Another departure from the `tmap` vs `ggplot2` face-off, given the specialised n
 
 If you live in Wellington as I do, then wind is the most salient aspect of the weather. Weather data in Aotearoa New Zealand of any kind (wind or otherwise) are regrettably not easy to get hold of.
 
-The starting point for me was the amazing visualisation of [earth.nullschool.net](https://earth.nullschool.net/#2023/10/26/0000Z/wind/surface/level/orthographic=-191.58,-45.04,2116).
+After some fruitless searching I stumbled upon the [`rWind` package](https://github.com/jabiologo/rWind) (_of course_ there's a package about wind in _R_ called `rWind`, because... it's _R_). I imagine my erstwhile colleagues in climate science at could have told me this right away, if I'd known to ask.
 
-Instead, I stumbled upon the [`rWind` package](https://github.com/jabiologo/rWind), which allows relatively easy download of [GFS (Global Forecast System)](https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast) data. In combination with the [`rasterVis` package](https://oscarperpinan.github.io/rastervis/) I managed to cobble together something interesting to look at.
+`rWind` allows relatively easy download of [GFS (Global Forecast System)](https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast) data. In combination with the [`rasterVis` package](https://oscarperpinan.github.io/rastervis/) I managed to cobble together something interesting to look at, if not up to the level of the amazing visualisation of [earth.nullschool.net](https://earth.nullschool.net/#2023/10/26/0000Z/wind/surface/level/orthographic=-191.58,-45.04,2116)!
 
 That it is indeed windy around Wellington is confirmed&mdash;a lot to do with the Cook Strait funneling the 'Roaring Forties' our way.
 
 ## Libraries
-Some unfamiliar characters this time around. There's a lot of older formats involved in this particular toolchain hence some of the packages.
+Some different packages this time around. There's a lot of older formats involved in this particular toolchain hence some of the unfamiliar packages.
 
 ```{r}
 #| code-fold: true
@@ -79,7 +79,7 @@ vectorplot(wind_vec, isField = "dXY", region = TRUE,
 
 `streamplot` traces the paths that 'droplets' would follow on the surface, so it wants the data in speed, direction format. This is almost the format supplied by `rWind::wind2Raster` except the order needs reversing! However, since we've gone to the trouble of densifying the data into the vector component form, I recombine them here to give a denser interpolated speed-direction pair than we started with.
 
-I don't entirely know, nor do I have time to get to the bottom of how to drive this function!
+I don't entirely know, nor do I have time to get to the bottom of how to drive this function! I'm sure that with a bit more experimentation it could be made to produce a much cooler looking output.
 
 ```{r fig.width=10, fig.height=10}
 wind_field <- stack(sqrt(wind_vec$N ^ 2 + wind_vec$E ^ 2),
