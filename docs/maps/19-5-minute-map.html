@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>30 Day Map Challenge 2023 - 18 Atmosphere</title>
+<title>30 Day Map Challenge 2023 - 19 5 Minute Map</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../maps/19-5-minute-map.html" rel="next">
-<link href="../maps/17-flow.html" rel="prev">
+<link href="../maps/25-antarctica.html" rel="next">
+<link href="../maps/18-atmosphere.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -111,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../maps/01-points.html">Maps</a></li><li class="breadcrumb-item"><a href="../maps/18-atmosphere.html">18 Atmosphere</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../maps/01-points.html">Maps</a></li><li class="breadcrumb-item"><a href="../maps/19-5-minute-map.html">19 5 Minute Map</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -255,13 +255,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../maps/18-atmosphere.html" class="sidebar-item-text sidebar-link active">
+  <a href="../maps/18-atmosphere.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">18 Atmosphere</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../maps/19-5-minute-map.html" class="sidebar-item-text sidebar-link">
+  <a href="../maps/19-5-minute-map.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">19 5 Minute Map</span></a>
   </div>
 </li>
@@ -279,22 +279,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#libraries" id="toc-libraries" class="nav-link active" data-scroll-target="#libraries">Libraries</a></li>
-  <li><a href="#basic-data-collection" id="toc-basic-data-collection" class="nav-link" data-scroll-target="#basic-data-collection">Basic data collection</a></li>
-  <li><a href="#the-maps" id="toc-the-maps" class="nav-link" data-scroll-target="#the-maps">The maps</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">18 Atmosphere</h1>
+<h1 class="title">19 5 Minute Map</h1>
 </div>
 
 
@@ -309,92 +301,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>Conditions of the atmosphere can be either weather or climate.</p>
-<p>Another departure from the <code>tmap</code> vs <code>ggplot2</code> face-off, given the specialised nature of weather data, and presentations.</p>
-<p>If you live in Wellington as I do, then wind is the most salient aspect of the weather. Weather data in Aotearoa New Zealand of any kind (wind or otherwise) are regrettably not easy to get hold of.</p>
-<p>After some fruitless searching I stumbled upon the <a href="https://github.com/jabiologo/rWind"><code>rWind</code> package</a> (<em>of course</em> there’s a package about wind in <em>R</em> called <code>rWind</code>, because… it’s <em>R</em>). I imagine my erstwhile colleagues in climate science at could have told me this right away, if I’d known to ask.</p>
-<p><code>rWind</code> allows relatively easy download of <a href="https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast">GFS (Global Forecast System)</a> data. In combination with the <a href="https://oscarperpinan.github.io/rastervis/"><code>rasterVis</code> package</a> I managed to cobble together something interesting to look at, if not up to the level of the amazing visualisation of <a href="https://earth.nullschool.net/#2023/10/26/0000Z/wind/surface/level/orthographic=-191.58,-45.04,2116">earth.nullschool.net</a>!</p>
-<p>That it is indeed windy around Wellington is confirmed—a lot to do with the Cook Strait funneling the ‘Roaring Forties’ our way.</p>
-<section id="libraries" class="level2">
-<h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
-<p>Some different packages this time around. There’s a lot of older formats involved in this particular toolchain hence some of the unfamiliar packages.</p>
-<div class="cell" data-hash="18-atmosphere_cache/html/unnamed-chunk-1_6d829b05f01a9f6ea5013a812a08504f">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)       <span class="co"># note: not terra!</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)           <span class="co"># older spatial features type</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rWind)        <span class="co"># wind data downloads</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rasterVis)    <span class="co"># visualisation of vector fields</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer) <span class="co"># familiar colour palettes</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maptools)     <span class="co"># some spatial conversions</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(latticeExtra) <span class="co"># a whole other graphics system</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</section>
-<section id="basic-data-collection" class="level2">
-<h2 class="anchored" data-anchor-id="basic-data-collection">Basic data collection</h2>
-<div class="cell" data-hash="18-atmosphere_cache/html/unnamed-chunk-2_c1e5b85f7b2f3eded0245ee21e376b90">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nz <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/nz-small.gpkg"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="dv">4326</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as</span>(<span class="st">"Spatial"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">wind.dl</span>(<span class="dv">2023</span>, <span class="dv">10</span>, <span class="dv">25</span>, <span class="dv">18</span>, <span class="co"># year, month, day, hour</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>             <span class="dv">169</span>, <span class="dv">177</span>,        <span class="co"># longitude range</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>             <span class="sc">-</span><span class="dv">44</span>, <span class="sc">-</span><span class="dv">38</span>)        <span class="co"># latitude range</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>wind <span class="ot">&lt;-</span> <span class="fu">wind2raster</span>(w)  <span class="co"># a raster stack with direction and speed</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-</section>
-<section id="the-maps" class="level2">
-<h2 class="anchored" data-anchor-id="the-maps">The maps</h2>
-<p>Using <code>rasterVis</code> vector and stream flow plots.</p>
-<p><code>vectorplot</code> shows only directions but not speeds in its ‘default’ form. To get arrows that reflect wind speed, we have to supply ‘dXY’ format data.</p>
-<p>I also densify the data a bit to get something a bit more ‘complete’ seeming.</p>
-<div class="cell" data-hash="18-atmosphere_cache/html/unnamed-chunk-3_9803192c3dea6ecbcedf68f192f25595">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get vector components</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>north <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">cos</span>(pi <span class="sc">*</span> wind<span class="sc">$</span>direction <span class="sc">/</span> <span class="dv">180</span>) <span class="sc">*</span> wind<span class="sc">$</span>speed</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>east <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">sin</span>(pi <span class="sc">*</span> wind<span class="sc">$</span>direction <span class="sc">/</span> <span class="dv">180</span>) <span class="sc">*</span> wind<span class="sc">$</span>speed</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>wind_vec <span class="ot">&lt;-</span> <span class="fu">stack</span>(north, east) <span class="sc">%&gt;%</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">disaggregate</span>(<span class="dv">2</span>, <span class="at">method =</span> <span class="st">"bilinear"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(wind_vec) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"N"</span>, <span class="st">"E"</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">vectorplot</span>(wind_vec, <span class="at">isField =</span> <span class="st">"dXY"</span>, <span class="at">region =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">lwd.arrows =</span> <span class="dv">1</span>, <span class="at">col.arrows =</span> <span class="st">"blue"</span>,</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">uLayers =</span> <span class="dv">1</span>, <span class="at">vLayers =</span> <span class="dv">2</span>, <span class="at">par.settings =</span> YlOrRdTheme) <span class="sc">+</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layer</span>(<span class="fu">sp.polygons</span>(nz, <span class="at">lwd =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
+<p>Spend no more than 5 minutes to prepare this map.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="18-atmosphere_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="18-atmosphere_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="960"></a></p>
+<p><a href="19-5-minute-map.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="19-5-minute-map.jpg" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
-</div>
-</div>
-<p><code>streamplot</code> traces the paths that ‘droplets’ would follow on the surface, so it wants the data in speed, direction format. This is almost the format supplied by <code>rWind::wind2Raster</code> except the order needs reversing! However, since we’ve gone to the trouble of densifying the data into the vector component form, I recombine them here to give a denser interpolated speed-direction pair than we started with.</p>
-<p>I don’t entirely know, nor do I have time to get to the bottom of how to drive this function! I’m sure that with a bit more experimentation it could be made to produce a much cooler looking output.</p>
-<div class="cell" data-hash="18-atmosphere_cache/html/unnamed-chunk-4_ed715e9fb98bb7a018ee9e87e210a250">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>wind_field <span class="ot">&lt;-</span> <span class="fu">stack</span>(<span class="fu">sqrt</span>(wind_vec<span class="sc">$</span>N <span class="sc">^</span> <span class="dv">2</span> <span class="sc">+</span> wind_vec<span class="sc">$</span>E <span class="sc">^</span> <span class="dv">2</span>),</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                    raster<span class="sc">::</span><span class="fu">atan2</span>(wind_vec<span class="sc">$</span>N, wind_vec<span class="sc">$</span>E))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">streamplot</span>(wind_field, <span class="at">isField =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">streamlet =</span> <span class="fu">list</span>(<span class="at">L =</span> <span class="dv">8</span>), <span class="at">droplet =</span> <span class="fu">list</span>(<span class="at">pc =</span> <span class="dv">100</span>),</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">par.settings =</span> <span class="fu">streamTheme</span>(<span class="at">symbol =</span> <span class="fu">brewer.pal</span>(<span class="at">n =</span> <span class="dv">9</span>, <span class="st">'YlOrRd'</span>))) <span class="sc">+</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layer</span>(<span class="fu">sp.polygons</span>(nz, <span class="at">col =</span> <span class="st">"lightblue2"</span>, <span class="at">lwd =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Sketch map of Wellington. In my defence… I’ve only lived here 5 years and Wellington’s street plan is <em>bonkers</em>.</p>
+<p>Even allowing that, this is pretty bad. Somehow or other Wellington’s road network has never lodged itself properly in my head. I can find my way around, but I struggle to point in the right direction to places when asked.</p>
+<div class="cell" data-hash="19-5-minute-map_cache/html/unnamed-chunk-1_d05af387cdb9533a16c8e292595b4be2">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>scope <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">1.746e6</span>, <span class="fl">1.75e6</span>, <span class="fl">1.75e6</span>, <span class="fl">1.746e6</span>, <span class="fl">1.746e6</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                       <span class="fl">5.424e6</span>, <span class="fl">5.428e6</span>, <span class="fl">5.428e6</span>, <span class="fl">5.424e6</span>, <span class="fl">5.424e6</span>), </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">nc =</span> <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_polygon</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sfc</span>(<span class="at">crs =</span> <span class="dv">2193</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sf</span>()</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(scope) <span class="sc">+</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">fill_alpha =</span> <span class="dv">0</span>) <span class="sc">+</span> </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_basemap</span>() <span class="sc">+</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">inner.margins =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">4</span>), <span class="at">frame =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="18-atmosphere_files/figure-html/unnamed-chunk-4-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="18-atmosphere_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="960"></a></p>
+<p><a href="19-5-minute-map_files/figure-html/unnamed-chunk-1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="19-5-minute-map_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="768"></a></p>
 </figure>
 </div>
 </div>
 </div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -632,18 +574,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../maps/17-flow.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">17 Flow</span>
+      <a href="../maps/18-atmosphere.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">18 Atmosphere</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../maps/19-5-minute-map.html" class="pagination-link">
-        <span class="nav-page-text">19 5 Minute Map</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../maps/25-antarctica.html" class="pagination-link">
+        <span class="nav-page-text">25 Antarctica</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","openEffect":"zoom","loop":true,"closeEffect":"zoom","selector":".lightbox"});</script>
+<script>var lightboxQuarto = GLightbox({"loop":true,"closeEffect":"zoom","descPosition":"bottom","openEffect":"zoom","selector":".lightbox"});</script>
 
 
 

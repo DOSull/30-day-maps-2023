@@ -1,5 +1,5 @@
 ---
-title: 19 5 minute map
+title: 19 5 Minute Map
 execute: 
   cache: true
   freeze: auto
@@ -16,7 +16,9 @@ Spend no more than 5 minutes to prepare this map.
 
 ![](19-5-minute-map.jpg)
 
-Sketch map of Wellington. In my defence... Wellington's street plan is all over the show.
+Sketch map of Wellington. In my defence... I've only lived here 5 years and Wellington's street plan is _bonkers_. 
+
+Even allowing that, this is pretty bad. Somehow or other Wellington's road network has never lodged itself properly in my head. I can find my way around, but I struggle to point in the right direction to places when asked.
 
 ```{r fig.width=8, fig.height=10}
 #| code-fold: true
