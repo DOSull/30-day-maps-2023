@@ -1,0 +1,27 @@
+[
+  {
+    "listing": "/index.html",
+    "items": [
+      "/maps/01-points.html",
+      "/maps/02-lines.html",
+      "/maps/03-polygons.html",
+      "/maps/04-bad-map.html",
+      "/maps/05-analog-map.html",
+      "/maps/06-asia.html",
+      "/maps/07-navigation.html",
+      "/maps/08-africa.html",
+      "/maps/09-hexes.html",
+      "/maps/10-north-america.html",
+      "/maps/11-retro.html",
+      "/maps/12-south-america.html",
+      "/maps/13-choropleth.html",
+      "/maps/14-europe.html",
+      "/maps/15-osm.html",
+      "/maps/16-oceania.html",
+      "/maps/17-flow.html",
+      "/maps/18-atmosphere.html",
+      "/maps/19-5-minute-map.html",
+      "/maps/25-antarctica.html"
+    ]
+  }
+]

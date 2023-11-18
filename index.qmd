@@ -1,11 +1,12 @@
 ---
 title: "So what's this all about then?"
+listing:
+  contents: "maps/"
+  type: grid
+  grid-columns: 3
+  page-size: 30
 ---
 
-I decided to give the [30 Day Map Challenge](https://30daymapchallenge.com/) a go as a learning exercise. My efforts are certainly not an exercise in flashy or impressive cartographic design.
+I decided to give the [30 Day Map Challenge](https://30daymapchallenge.com/) a go this year. My efforts are certainly not an exercise in flashy or impressive cartographic design. I've been teaching with `tmap` for a few years. Version 4.0 is due soon and includes major changes, which at first glance make it more similar in many ways to `ggplot2`, which I have often considered instead. So... I thought I'd make some simple maps using both platforms to get a feel for the pros and cons of each.
 
-I've been teaching with `tmap` for a few years. Version 4.0 is in the offing and introduces some major changes, which at first glance make it trickier to teach, and closer in many ways to `ggplot2`, which I have often considered instead. 
-
-So... I thought I'd make a bunch of maps using both platforms to get a feel for the pros and cons of each.
-
-As the month wore on, I tried a few other things, there being only so many things to explore in comparing tools primarily focused on relatively simple thematic mapping.
+As the month wore on, I tried some other things, there being only so many things to explore using tools focused on relatively simple thematic mapping.
