@@ -16,7 +16,9 @@ Map of mountains, trails, or something completely different.
 
 As [previously noted](18-atmosphere.qmd) much of the outdoors in Wellington is dominated by wind. 
 
-That's why I've used  a pale blue for all of the space outside the buildings in these maps. The visual inspiration is machine space
+That's why I've used  a pale blue for all of the space outside the buildings in these maps. If it was a warmer time of year, that blue might be a bit less watery and cold.
+
+The visual inspiration is _machine space_
 
 > Horvath RJ. [Machine space](https://www.csun.edu/~rdavids/350fall08/350readings/Horvath%20Machine%20space.pdf). Geographical Review **64**(2) 167-188.
 
@@ -49,11 +51,11 @@ coast <- st_read("data/welly-outdoors-coast.gpkg")
 ### `tmap`
 ```{r fig.width=10, fig.height=10}
 tm_shape(outdoors) +
-  tm_fill(fill = "#88ccee") +
+  tm_fill(fill = "#aaddff") +
   tm_shape(tracks) +
-  tm_lines(col = "#337799", lwd = 0.2) +
+  tm_lines(col = "#66aacc", lwd = 0.2) +
   tm_shape(coast) +
-  tm_lines(col = "#88ccee", lwd = 0.5) +
+  tm_lines(col = "#aaddff", lwd = 0.5) +
   tm_scalebar() +
   tm_title("Te Whanganui-a-Tara outdoors",
     position = tm_pos_out(
@@ -67,10 +69,10 @@ tm_shape(outdoors) +
 library(ggspatial)
 
 ggplot() +
-  geom_sf(data = outdoors, fill = "#88ccee", linewidth = 0) +
-  geom_sf(data = tracks, colour = "#337799", 
+  geom_sf(data = outdoors, fill = "#aaddff", linewidth = 0) +
+  geom_sf(data = tracks, colour = "#66aacc", 
           linewidth = 0.2 * 25.4 / 72.27) +
-  geom_sf(data = coast, colour = "#88ccee",
+  geom_sf(data = coast, colour = "#aaddff",
           linewidth = 0.5 * 25.4 / 72.27) +
   coord_sf(xlim = st_bbox(outdoors)[c(1, 3)],
            ylim = st_bbox(outdoors)[c(2, 4)],

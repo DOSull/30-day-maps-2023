@@ -321,7 +321,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Map of mountains, trails, or something completely different.</p>
 <p>As <a href="../maps/18-atmosphere.html">previously noted</a> much of the outdoors in Wellington is dominated by wind.</p>
-<p>That’s why I’ve used a pale blue for all of the space outside the buildings in these maps. The visual inspiration is machine space</p>
+<p>That’s why I’ve used a pale blue for all of the space outside the buildings in these maps. If it was a warmer time of year, that blue might be a bit less watery and cold.</p>
+<p>The visual inspiration is <em>machine space</em></p>
 <blockquote class="blockquote">
 <p>Horvath RJ. <a href="https://www.csun.edu/~rdavids/350fall08/350readings/Horvath%20Machine%20space.pdf">Machine space</a>. Geographical Review <strong>64</strong>(2) 167-188.</p>
 </blockquote>
@@ -354,13 +355,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="the-maps">The maps</h2>
 <section id="tmap" class="level3">
 <h3 class="anchored" data-anchor-id="tmap"><code>tmap</code></h3>
-<div class="cell" data-hash="20-outdoors_cache/html/unnamed-chunk-3_6368d6fd63b2d96e06888272ce248c02">
+<div class="cell" data-hash="20-outdoors_cache/html/unnamed-chunk-3_8e6613a5ffabd021dd91388975ef95b0">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(outdoors) <span class="sc">+</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">fill =</span> <span class="st">"#88ccee"</span>) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">fill =</span> <span class="st">"#aaddff"</span>) <span class="sc">+</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(tracks) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_lines</span>(<span class="at">col =</span> <span class="st">"#337799"</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_lines</span>(<span class="at">col =</span> <span class="st">"#66aacc"</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(coast) <span class="sc">+</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_lines</span>(<span class="at">col =</span> <span class="st">"#88ccee"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_lines</span>(<span class="at">col =</span> <span class="st">"#aaddff"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_scalebar</span>() <span class="sc">+</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title</span>(<span class="st">"Te Whanganui-a-Tara outdoors"</span>,</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">tm_pos_out</span>(</span>
@@ -379,14 +380,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ggplot2" class="level2">
 <h2 class="anchored" data-anchor-id="ggplot2"><code>ggplot2</code></h2>
-<div class="cell" data-hash="20-outdoors_cache/html/unnamed-chunk-4_1a5daeeba390829149944c2725d8f943">
+<div class="cell" data-hash="20-outdoors_cache/html/unnamed-chunk-4_913531659d3b7d78414057cd7dff09b3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggspatial)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> outdoors, <span class="at">fill =</span> <span class="st">"#88ccee"</span>, <span class="at">linewidth =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> tracks, <span class="at">colour =</span> <span class="st">"#337799"</span>, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> outdoors, <span class="at">fill =</span> <span class="st">"#aaddff"</span>, <span class="at">linewidth =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> tracks, <span class="at">colour =</span> <span class="st">"#66aacc"</span>, </span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">linewidth =</span> <span class="fl">0.2</span> <span class="sc">*</span> <span class="fl">25.4</span> <span class="sc">/</span> <span class="fl">72.27</span>) <span class="sc">+</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> coast, <span class="at">colour =</span> <span class="st">"#88ccee"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> coast, <span class="at">colour =</span> <span class="st">"#aaddff"</span>,</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">linewidth =</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fl">25.4</span> <span class="sc">/</span> <span class="fl">72.27</span>) <span class="sc">+</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">st_bbox</span>(outdoors)[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)],</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">ylim =</span> <span class="fu">st_bbox</span>(outdoors)[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>)],</span>
@@ -653,7 +654,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"loop":true,"closeEffect":"zoom","descPosition":"bottom","openEffect":"zoom","selector":".lightbox"});</script>
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","closeEffect":"zoom","loop":true,"descPosition":"bottom"});</script>
 
 
 
