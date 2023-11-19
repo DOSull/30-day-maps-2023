@@ -24,9 +24,9 @@ The visual inspiration is _machine space_
 
 but inverted. Of course, a lot of the 'open' space here is also machine space (given over to cars), but still, it's fun to look a the built environment in this way.
 
-The buildings are from [Te Toitū Whenua - Land Information New Zealand](https://data.linz.govt.nz/layer/101290-nz-building-outlines/). Tracks are [from Wellington City Council](https://catalogue.data.govt.nz/dataset/wcc-tracks4).
+The buildings are from [Te Toitū Whenua - Land Information New Zealand](https://data.linz.govt.nz/layer/101290-nz-building-outlines/).
 
-But the point is, that the buildings aren't the spatial dataset here: `outdoors.gpkg` is a rectangle of the extent of the map with holes where the buildings (the 'indoors') are. So it's a 'outdoors' polygon. You can't really tell that from the map, but the white areas are the background colour showing through the holes.
+But the buildings aren't the spatial dataset here: `outdoors.gpkg` is a rectangle of the extent of the map with holes punched out where the buildings (the 'indoors') are. So it's a 'outdoors' polygon. You can't really tell that from the map, but the white areas are the background colour showing through the holes.
 
 ## Libraries
 ```{r}
@@ -43,7 +43,6 @@ library(ggplot2)
 #| code-fold: true
 
 outdoors <- st_read("data/outdoors.gpkg")
-tracks <- st_read("data/WCC_Tracks.geojson")
 coast <- st_read("data/welly-outdoors-coast.gpkg")
 ```
 
@@ -51,11 +50,9 @@ coast <- st_read("data/welly-outdoors-coast.gpkg")
 ### `tmap`
 ```{r fig.width=10, fig.height=10}
 tm_shape(outdoors) +
-  tm_fill(fill = "#aaddff") +
-  tm_shape(tracks) +
-  tm_lines(col = "#66aacc", lwd = 0.2) +
+  tm_fill(fill = "#aae7ff") +
   tm_shape(coast) +
-  tm_lines(col = "#aaddff", lwd = 0.5) +
+  tm_lines(col = "#cceeff") +
   tm_scalebar() +
   tm_title("Te Whanganui-a-Tara outdoors",
     position = tm_pos_out(
@@ -69,11 +66,9 @@ tm_shape(outdoors) +
 library(ggspatial)
 
 ggplot() +
-  geom_sf(data = outdoors, fill = "#aaddff", linewidth = 0) +
-  geom_sf(data = tracks, colour = "#66aacc", 
-          linewidth = 0.2 * 25.4 / 72.27) +
-  geom_sf(data = coast, colour = "#aaddff",
-          linewidth = 0.5 * 25.4 / 72.27) +
+  geom_sf(data = outdoors, fill = "#aae7ff", linewidth = 0) +
+  geom_sf(data = coast, colour = "#cceeff",
+          linewidth = 25.4 / 72.27) +
   coord_sf(xlim = st_bbox(outdoors)[c(1, 3)],
            ylim = st_bbox(outdoors)[c(2, 4)],
            expand = FALSE) +
