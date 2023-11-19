@@ -431,14 +431,14 @@
     "href": "maps/20-outdoors.html#the-maps",
     "title": "20 Outdoors",
     "section": "The maps",
-    "text": "The maps\n\ntmap\n\ntm_shape(outdoors) +\n  tm_fill(fill = \"#aae7ff\") +\n  tm_shape(coast) +\n  tm_lines(col = \"#cceeff\") +\n  tm_scalebar() +\n  tm_title(\"Te Whanganui-a-Tara outdoors\",\n    position = tm_pos_out(\n      cell.h = \"center\", cell.v = \"top\",\n      pos.h = \"left\", pos.v = \"top\")) +\n  tm_layout(frame = FALSE, inner.margins = rep(0, 4))"
+    "text": "The maps\n\ntmap\n\ntm_shape(outdoors) +\n  tm_fill(fill = \"#aae7ff\") +\n  tm_shape(coast) +\n  tm_lines(col = \"#cceeff\") +\n  tm_title(\"Te Whanganui-a-Tara outdoors\",\n    position = tm_pos_out(\n      cell.h = \"center\", cell.v = \"top\",\n      pos.h = \"left\", pos.v = \"top\")) +\n  tm_layout(frame = FALSE, inner.margins = rep(0, 4))"
   },
   {
     "objectID": "maps/20-outdoors.html#ggplot2",
     "href": "maps/20-outdoors.html#ggplot2",
     "title": "20 Outdoors",
     "section": "ggplot2",
-    "text": "ggplot2\n\nlibrary(ggspatial)\n\nggplot() +\n  geom_sf(data = outdoors, fill = \"#aae7ff\", linewidth = 0) +\n  geom_sf(data = coast, colour = \"#cceeff\",\n          linewidth = 25.4 / 72.27) +\n  coord_sf(xlim = st_bbox(outdoors)[c(1, 3)],\n           ylim = st_bbox(outdoors)[c(2, 4)],\n           expand = FALSE) +\n  annotation_scale() +\n  ggtitle(\"Te Whanganui-a-Tara outdoors\") +\n  theme_void()"
+    "text": "ggplot2\n\nlibrary(ggspatial)\n\nggplot() +\n  geom_sf(data = outdoors, fill = \"#aae7ff\", linewidth = 0) +\n  geom_sf(data = coast, colour = \"#cceeff\",\n          linewidth = 25.4 / 72.27) +\n  coord_sf(xlim = st_bbox(outdoors)[c(1, 3)],\n           ylim = st_bbox(outdoors)[c(2, 4)],\n           expand = FALSE) +\n  ggtitle(\"Te Whanganui-a-Tara outdoors\") +\n  theme_void()"
   },
   {
     "objectID": "maps/18-atmosphere.html",

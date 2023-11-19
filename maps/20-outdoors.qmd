@@ -53,7 +53,6 @@ tm_shape(outdoors) +
   tm_fill(fill = "#aae7ff") +
   tm_shape(coast) +
   tm_lines(col = "#cceeff") +
-  tm_scalebar() +
   tm_title("Te Whanganui-a-Tara outdoors",
     position = tm_pos_out(
       cell.h = "center", cell.v = "top",
@@ -72,7 +71,6 @@ ggplot() +
   coord_sf(xlim = st_bbox(outdoors)[c(1, 3)],
            ylim = st_bbox(outdoors)[c(2, 4)],
            expand = FALSE) +
-  annotation_scale() +
   ggtitle("Te Whanganui-a-Tara outdoors") +
   theme_void()
 ```
