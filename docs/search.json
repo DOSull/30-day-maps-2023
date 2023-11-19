@@ -410,7 +410,7 @@
     "href": "maps/20-outdoors.html",
     "title": "20 Outdoors",
     "section": "",
-    "text": "Map of mountains, trails, or something completely different.\nAs previously noted much of the outdoors in Wellington is dominated by wind.\nThat’s why I’ve used blue for all of the space outside the buildings in these maps. The visual inspiration is machine space\nbut inverted. Of course, a lot of the ‘open’ space here is also machine space (given over to cars), but still, it’s fun to look a the built environment in this way.\nThe buildings are from Te Toitū Whenua - Land Information New Zealand. Tracks are from Wellington City Council."
+    "text": "Map of mountains, trails, or something completely different.\nAs previously noted much of the outdoors in Wellington is dominated by wind.\nThat’s why I’ve used a pale blue for all of the space outside the buildings in these maps. The visual inspiration is machine space\nbut inverted. Of course, a lot of the ‘open’ space here is also machine space (given over to cars), but still, it’s fun to look a the built environment in this way.\nThe buildings are from Te Toitū Whenua - Land Information New Zealand. Tracks are from Wellington City Council.\nBut the point is, that the buildings aren’t the spatial dataset here: outdoors.gpkg is a rectangle of the extent of the map with holes where the buildings (the ‘indoors’) are. So it’s a ‘outdoors’ polygon. You can’t really tell that from the map, but the white areas are the background colour showing through the holes."
   },
   {
     "objectID": "maps/20-outdoors.html#libraries",
@@ -431,14 +431,14 @@
     "href": "maps/20-outdoors.html#the-maps",
     "title": "20 Outdoors",
     "section": "The maps",
-    "text": "The maps\n\ntmap\n\ntm_shape(outdoors) +\n  tm_fill(fill = \"#99ddff\", fill_alpha = 0.5) +\n  tm_shape(tracks) +\n  tm_lines(col = \"#337799\", lwd = 0.2) +\n  tm_shape(coast) +\n  tm_lines(col = \"#99ddff\", lwd = 0.5) +\n  tm_scalebar() +\n  tm_title(\"Te Whanganui-a-Tara outdoors\",\n    position = tm_pos_out(\n      cell.h = \"center\", cell.v = \"top\",\n      pos.h = \"left\", pos.v = \"top\")) +\n  tm_layout(frame = FALSE, inner.margins = rep(0, 4))"
+    "text": "The maps\n\ntmap\n\ntm_shape(outdoors) +\n  tm_fill(fill = \"#88ccee\") +\n  tm_shape(tracks) +\n  tm_lines(col = \"#337799\", lwd = 0.2) +\n  tm_shape(coast) +\n  tm_lines(col = \"#88ccee\", lwd = 0.5) +\n  tm_scalebar() +\n  tm_title(\"Te Whanganui-a-Tara outdoors\",\n    position = tm_pos_out(\n      cell.h = \"center\", cell.v = \"top\",\n      pos.h = \"left\", pos.v = \"top\")) +\n  tm_layout(frame = FALSE, inner.margins = rep(0, 4))"
   },
   {
     "objectID": "maps/20-outdoors.html#ggplot2",
     "href": "maps/20-outdoors.html#ggplot2",
     "title": "20 Outdoors",
     "section": "ggplot2",
-    "text": "ggplot2\n\nlibrary(ggspatial)\n\nggplot() +\n  geom_sf(data = outdoors, fill = \"#99ddff\", \n          alpha = 0.5, linewidth = 0) +\n  geom_sf(data = tracks, colour = \"#337799\", \n          linewidth = 0.2 * 25.4 / 72.27) +\n  geom_sf(data = coast, colour = \"#99ddff\",\n          linewidth = 0.5 * 25.4 / 72.27) +\n  coord_sf(xlim = st_bbox(outdoors)[c(1, 3)],\n           ylim = st_bbox(outdoors)[c(2, 4)],\n           expand = FALSE) +\n  annotation_scale() +\n  ggtitle(\"Te Whanganui-a-Tara outdoors\") +\n  theme_void()"
+    "text": "ggplot2\n\nlibrary(ggspatial)\n\nggplot() +\n  geom_sf(data = outdoors, fill = \"#88ccee\", linewidth = 0) +\n  geom_sf(data = tracks, colour = \"#337799\", \n          linewidth = 0.2 * 25.4 / 72.27) +\n  geom_sf(data = coast, colour = \"#88ccee\",\n          linewidth = 0.5 * 25.4 / 72.27) +\n  coord_sf(xlim = st_bbox(outdoors)[c(1, 3)],\n           ylim = st_bbox(outdoors)[c(2, 4)],\n           expand = FALSE) +\n  annotation_scale() +\n  ggtitle(\"Te Whanganui-a-Tara outdoors\") +\n  theme_void()"
   },
   {
     "objectID": "maps/18-atmosphere.html",
