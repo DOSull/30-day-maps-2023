@@ -1,5 +1,5 @@
 ---
-title: "28 Is this a chart or a map?"
+title: "28 Is This a Chart or a Map?"
 execute: 
   cache: true
   freeze: auto

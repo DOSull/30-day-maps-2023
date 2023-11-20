@@ -20,7 +20,7 @@ What is a pixel anyway? A snare and a delusion is what. See:
 
 So these aren't pixels, but 200 metre squares, made using the [`weavingspace` tools](https://github.com/DOSull/weaving-space) I've been working on.
 
-![](21-raster-map-plain.svg)
+![](21-raster-map-plain.png)
 
 There was far too much data preparation here to spend time on in this page, but briefly, the data were derived by determining the share of the party vote of the four leading parties in the 2017 New Zealand general election, by polling place, based on the [data available here](https://www.electionresults.govt.nz/electionresults_2017/), albeit as cleaned up and [available here](https://dosull.github.io/Geog315/labs/mini-project/anz-elections/). Why 2017? Well 2023 data are not quite available at the moment, and the 2020 result was kind of uninteresting (a Labour landslide).
 
