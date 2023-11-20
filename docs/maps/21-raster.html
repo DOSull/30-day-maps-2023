@@ -294,7 +294,13 @@ ul.task-list li input[type="checkbox"] {
 <p>Polling places are at point locations, so I Voronoi-ed those and that gave me area data. Of course people are free to vote anywhere, and many votes cast in urban areas will be near places of work, not where people live, but it’s the best quick approximation we can do.</p>
 <p>So that gives %share of the vote for the National, Labour, Green and NZ First parties (the four largest parties in that election), roughly mapped.</p>
 <p>I then tiled it with a basic weave pattern, and separately symbolised the four distinct elements in the tiling in the ‘traditional’ colours of each party.</p>
-<p>There’s a lot more could be said about what I mean by a basic weave pattern, and I could have broken with the ‘raster’ prompt and made <a href="https://github.com/DOSull/weaving-space/blob/main/all-the-tiles.ipynb">all kinds of other patterns using the <code>weavingspace</code> API</a>. But in this case, given the fairly distinctive colour ramps for each party, and also the fact that if one party did well in an area, others did worse, the ability to distinguish variables in this map is contingent on the data, more so than it might usually be, and so I can respect the ‘raster’ prompt and show proper ‘pixels’ (even if they are strictly vector squares).</p>
+<p>There’s a lot more could be said about what I mean by a basic weave pattern, and I could have broken with the ‘raster’ prompt and made <a href="https://github.com/DOSull/weaving-space/blob/main/all-the-tiles.ipynb">all kinds of other patterns using the <code>weavingspace</code> API</a>, as shown below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="21-raster-map-plain-weave.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="21-raster-map-plain-weave.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<p>But in this case, given the fairly distinctive colour ramps for each party, and also the fact that if one party did well in an area, others did worse, the ability to distinguish variables in this map is contingent on the data, more so than it might usually be, and so I can respect the ‘raster’ prompt and show proper ‘pixels’ (even if they are strictly vector squares).</p>
 <p>I did put Labour and National, and also the Greens and NZ First in diagonal opposition to one another, as these votes tend to be mutually exclusive, while there are places where Labour-Green votes and National-NZ First, or even Labour-NZ First voting aligns (National-Green alignment is rare). There are also ‘checkerboard’ Labour-National places, where neither of the two smaller parties did particularly well.</p>
 <p>The effect we are hoping for with these tiled/woven maps is the deliberate design of texture/pattern that allows distinctive clustering in multivariate data to be visualized in a single map view.</p>
 
@@ -547,7 +553,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":true,"descPosition":"bottom","closeEffect":"zoom","openEffect":"zoom"});</script>
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":true,"closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom"});</script>
 
 
 
