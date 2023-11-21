@@ -14,6 +14,8 @@ lightbox: auto
 
 &uarr;
 
+I have nothing to add to this one.
+
 ## Libraries
 ```{r}
 #| results: false
