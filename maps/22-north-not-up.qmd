@@ -1,5 +1,5 @@
 ---
-title: 22 North is Not Up
+title: 22 North Is Not Up
 execute: 
   cache: true
   freeze: auto

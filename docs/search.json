@@ -4,40 +4,40 @@
     "href": "index.html",
     "title": "So what’s this all about then?",
     "section": "",
-    "text": "I decided to give the 30 Day Map Challenge a go this year. My efforts are certainly not an exercise in flashy or impressive cartographic design. I’ve been teaching with tmap for a few years. Version 4.0 is due soon and includes major changes, which at first glance make it more similar in many ways to ggplot2, which I have often considered instead. So… I thought I’d make some simple maps using both platforms to get a feel for the pros and cons of each.\nAs the month wore on, I tried some other things, there being only so many things to explore using tools focused on relatively simple thematic mapping.\n\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n05 Analog Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n09 Hexagons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n11 Retro\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n13 Choropleth\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n15 OpenStreetMap\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n16 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n17 Flow\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n18 Atmosphere\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n19 5 Minute Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n20 Outdoors\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n21 Raster\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n22 North is Not Up\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "I decided to give the 30 Day Map Challenge a go this year. My efforts are certainly not an exercise in flashy or impressive cartographic design. I’ve been teaching with tmap for a few years. Version 4.0 is due soon and includes major changes, which at first glance make it more similar in many ways to ggplot2, which I have often considered instead. So… I thought I’d make some simple maps using both platforms to get a feel for the pros and cons of each.\nAs the month wore on, I tried some other things, there being only so many things to explore using tools focused on relatively simple thematic mapping.\n\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n05 Analog Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n09 Hexagons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n11 Retro\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n13 Choropleth\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n15 OpenStreetMap\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n16 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n17 Flow\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n18 Atmosphere\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n19 5 Minute Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n20 Outdoors\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n21 Raster\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n22 North Is Not Up\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "maps/22-north-not-up.html",
     "href": "maps/22-north-not-up.html",
-    "title": "22 North is Not Up",
+    "title": "22 North Is Not Up",
     "section": "",
     "text": "↑\nI have nothing to add to this one."
   },
   {
     "objectID": "maps/22-north-not-up.html#libraries",
     "href": "maps/22-north-not-up.html#libraries",
-    "title": "22 North is Not Up",
+    "title": "22 North Is Not Up",
     "section": "Libraries",
     "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(stringr)\nlibrary(ggplot2)\n\nsource(\"~/Documents/code/30-day-maps-2023/maps/utils.R\")"
   },
   {
     "objectID": "maps/22-north-not-up.html#data-wrangling",
     "href": "maps/22-north-not-up.html#data-wrangling",
-    "title": "22 North is Not Up",
+    "title": "22 North Is Not Up",
     "section": "Data wrangling",
     "text": "Data wrangling\n\n\nCode\nfocus &lt;- \"Antarctica\"\nlon0 &lt;- 0\nlat0 &lt;- -90\nproj &lt;- str_glue(\"+proj=ortho lon_0={lon0} lat_0={lat0}\")\n\n\n\n\nCode\nworld &lt;- st_read(\"data/ne_110m_admin_0_map_units.gpkg\") %&gt;%\n  st_make_valid() %&gt;%\n  select(CONTINENT) %&gt;%\n  st_transform(proj) %&gt;%\n  st_make_valid() %&gt;%\n  filter(!st_is_empty(.)) %&gt;%\n  group_by(CONTINENT) %&gt;%\n  summarise() \n\ncontinent &lt;- world %&gt;%\n  filter(CONTINENT == focus)\n\ngraticule &lt;- get_graticule(spacing = 15)"
   },
   {
     "objectID": "maps/22-north-not-up.html#the-maps",
     "href": "maps/22-north-not-up.html#the-maps",
-    "title": "22 North is Not Up",
+    "title": "22 North Is Not Up",
     "section": "The maps",
     "text": "The maps\n\ntmap\n\ntm_shape(world) +\n  tm_fill() + \n  tm_shape(graticule) +\n  tm_lines(col = \"lightgrey\", lwd = 0.5) +\n  tm_compass(cardinal.directions = c(\"UP\", \"S\", \"E\", \"W\")) +\n  tm_layout(frame = FALSE)"
   },
   {
     "objectID": "maps/22-north-not-up.html#ggplot2",
     "href": "maps/22-north-not-up.html#ggplot2",
-    "title": "22 North is Not Up",
+    "title": "22 North Is Not Up",
     "section": "ggplot2",
     "text": "ggplot2\nWe need ggspatial for a north arrow here.\nBut even then, to customize it I have to make my own function.\n\n\nCode\nup_arrow &lt;- function(label = \"UP\") {\n  text_label = label\n  text_adj = c(0.5, 0.5)\n\n  grid::gList(\n    grid::polygonGrob(\n      x = c(0.625, 0.5, 0.5),\n      y = c(0.3, 0.85, 0.4),\n      default.units = \"npc\",\n      gp = grid::gpar(\n        lwd = 1,\n        col = \"black\",\n        fill = \"black\"\n      )\n    ),\n    grid::polygonGrob(\n      x = c(0.375, 0.5, 0.5),\n      y = c(0.3, 0.85, 0.4),\n      default.units = \"npc\",\n      gp = grid::gpar(\n        lwd = 0.5,\n        col = \"black\",\n        fill = NULL\n      )\n    ),\n    grid::textGrob(\n      label = text_label,\n      x = 0.5,\n      y = 1,\n      hjust = 0.5,\n      vjust = 0.5,\n      rot = 0,\n      gp = grid::gpar(fontsize = 9)\n    )\n  )\n}\n\n\nOn the other hand, since I’ve done the work, I might as well make the most of it.\n\nlibrary(ggspatial)\n\nggplot(world) +\n  geom_sf(linewidth = 0) +\n  geom_sf(data = graticule, col = \"lightgrey\", linewidth = 0.25) +\n  annotation_north_arrow(location = \"br\", style = up_arrow) + \n  annotation_north_arrow(location = \"tr\", style = up_arrow(\"LEFT\"), rotation = 90) + \n  annotation_north_arrow(location = \"tl\", style = up_arrow(\"DOWN\"), rotation = 180) + \n  annotation_north_arrow(location = \"bl\", style = up_arrow(\"RIGHT\"), rotation = 270) + \n  theme_void()"
   },
