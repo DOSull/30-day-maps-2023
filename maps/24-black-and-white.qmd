@@ -14,13 +14,13 @@ lightbox: auto
 
 Only two colors allowed.
 
-I already did this with [11 Retro](11-retro.qmd) and kind of again with [20 Outdoors](_20-outdoors.qmd) so once more back to searching for suitable data in Aotearoa New Zealand. In deference to the greatest ever black and white maps&mdash;Horvath's machine space&mdash;see
+I already did this with [11 Retro](11-retro.qmd) and kind of again with [20 Outdoors](20-outdoors.qmd) so once more back to searching for suitable data in Aotearoa New Zealand. In deference to the greatest ever black and white maps&mdash;Horvath's machine space&mdash;see
 
 > Horvath RJ. [Machine space](https://www.csun.edu/~rdavids/350fall08/350readings/Horvath%20Machine%20space.pdf). Geographical Review **64**(2) 167-188.
 
-already reference in in map 20, I tried to track down an impervious cover layer for a New Zealand city, any New Zealand city, but without success. You'd maybe think given all the trouble New Zealand has been having with flooding lately that this would be more of a thing... apparently not.
+already referenced in map 20, I tried to track down an impervious cover layer for a New Zealand city, any New Zealand city, but without success. You'd maybe think given [all the trouble New Zealand has been having with flooding lately](https://en.wikipedia.org/wiki/2023_Auckland_Anniversary_Weekend_floods) that this would be more of a thing... apparently not, although I note that [Auckland City have been working with Lynker Analytics on this topic](https://www.lynker-analytics.com/ourwork/2022/9/1/impervious-surface-and-land-cover-mapping-auckland).
 
-Anyway, quite by chance, while on the hunt for impervious cover, [New Zealand rabbit proneness](https://koordinates.com/from/lris.scinfo.org.nz/layer/105591-new-zealand-rabbit-proneness/) came to my attention, and not being one to resist a uh... _rabbit hole_ I fell for it, and here we all are.
+Anyway, quite by chance, while on the hunt for impervious cover, [New Zealand rabbit proneness](https://koordinates.com/from/lris.scinfo.org.nz/layer/105591-new-zealand-rabbit-proneness/) came to my attention, and not being one to resist a uh... _rabbit hole_ I fell for it, and here we all are: Rabbit Space.
 
 ## Libraries
 ```{r}
@@ -57,7 +57,7 @@ tm_shape(dang_rabbits) +
     fill.scale = tm_scale_categorical(
       levels = c(FALSE, TRUE),
       values = c("white", "black")),
-    fill.legend = tm_legend(title = "Rabbit prone"),
+    fill.legend = tm_legend(title = "Rabbit Space"),
     lwd = 0.1) +
   tm_layout(frame = FALSE, legend.frame = FALSE)
 ```
@@ -67,6 +67,6 @@ tm_shape(dang_rabbits) +
 ggplot(dang_rabbits) +
   geom_sf(aes(fill = rabbit_prone), linewidth = 0.1 * 25.4 / 72.27) +
   scale_fill_manual(values = c("white", "black"), 
-                    name = "Rabbit prone") +
+                    name = "Rabbit Space") +
   theme_void()
 ```
