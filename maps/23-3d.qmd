@@ -36,6 +36,7 @@ hexes <- st_read("data/23-3d-hex-12.gpkg")
 I've used `ggplot2` here because it's easier to just set the bounds on the map if you don't happen to have a spatial data layer available that bounds things nicely. `ggplot2` is very pernickety about proper use of the Brewer palettes, and _Spectral_ maxes out at 11 colours (properly speaking) but I have 12 pie slices to fill. The `cols4all` package comes to the rescue here because it has no qualms about interpolating additional colours (note that `tmap` does this by default with the Brewer palettes).
 
 ```{r fig.width=10, fig.height=6.67}
+#| classes: preview-image
 ggplot(hexes) +
   geom_sf(aes(fill = element_id), linewidth = 0, alpha = 0.5) +
   scale_fill_discrete_c4a_div("spectral") +

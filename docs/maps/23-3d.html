@@ -352,7 +352,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-map" class="level2">
 <h2 class="anchored" data-anchor-id="the-map">The map</h2>
 <p>I’ve used <code>ggplot2</code> here because it’s easier to just set the bounds on the map if you don’t happen to have a spatial data layer available that bounds things nicely. <code>ggplot2</code> is very pernickety about proper use of the Brewer palettes, and <em>Spectral</em> maxes out at 11 colours (properly speaking) but I have 12 pie slices to fill. The <code>cols4all</code> package comes to the rescue here because it has no qualms about interpolating additional colours (note that <code>tmap</code> does this by default with the Brewer palettes).</p>
-<div class="cell" data-hash="23-3d_cache/html/unnamed-chunk-2_96fbbf8fa8c9faef6c2234ecf93ca30a">
+<div class="cell preview-image" data-hash="23-3d_cache/html/unnamed-chunk-2_7a9c3918949b85a363fa98e49496ec74">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hexes) <span class="sc">+</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> element_id), <span class="at">linewidth =</span> <span class="dv">0</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete_c4a_div</span>(<span class="st">"spectral"</span>) <span class="sc">+</span></span>
@@ -635,7 +635,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":true,"descPosition":"bottom","closeEffect":"zoom","selector":".lightbox"});</script>
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":true,"descPosition":"bottom","openEffect":"zoom","closeEffect":"zoom"});</script>
 
 
 
