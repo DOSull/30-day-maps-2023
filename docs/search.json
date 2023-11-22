@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "So what’s this all about then?",
     "section": "",
-    "text": "I decided to give the 30 Day Map Challenge a go this year. My efforts are certainly not an exercise in flashy or impressive cartographic design. I’ve been teaching with tmap for a few years. Version 4.0 is due soon and includes major changes, which at first glance make it more similar in many ways to ggplot2, which I have often considered instead. So… I thought I’d make some simple maps using both platforms to get a feel for the pros and cons of each.\nAs the month wore on, I tried some other things, there being only so many things to explore using tools focused on relatively simple thematic mapping.\n\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n05 Analog Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n09 Hexagons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n11 Retro\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n13 Choropleth\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n15 OpenStreetMap\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n16 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n17 Flow\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n18 Atmosphere\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n19 5 Minute Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n20 Outdoors\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n21 Raster\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n22 North Is Not Up\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "I decided to give the 30 Day Map Challenge a go this year. My efforts are certainly not an exercise in flashy or impressive cartographic design. I’ve been teaching with tmap for a few years. Version 4.0 is due soon and includes major changes, which at first glance make it more similar in many ways to ggplot2, which I have often considered instead. So… I thought I’d make some simple maps using both platforms to get a feel for the pros and cons of each.\nAs the month wore on, I tried some other things, there being only so many things to explore using tools focused on relatively simple thematic mapping.\n\n\n\n\n\n\n\n\n\n\n\n\n01 Points\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n02 Lines\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n03 Polygons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n04 Bad Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n05 Analog Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n06 Asia\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n07 Navigation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n08 Africa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n09 Hexagons\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n10 North America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n11 Retro\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n12 South America\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n13 Choropleth\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14 Europe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n15 OpenStreetMap\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n16 Oceania\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n17 Flow\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n18 Atmosphere\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n19 5 Minute Map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n20 Outdoors\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n21 Raster\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n22 North Is Not Up\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n23 3D\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n25 Antarctica\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "maps/22-north-not-up.html",
@@ -280,32 +280,39 @@
     "text": "ggplot2\n\nggplot(world_o) +\n  geom_sf(linewidth = 0) +\n  geom_sf(\n    data = continent, \n    fill = \"red\", \n    linewidth = 0) +\n  theme_void()"
   },
   {
-    "objectID": "maps/02-lines.html",
-    "href": "maps/02-lines.html",
-    "title": "02 Lines",
+    "objectID": "maps/01-points.html",
+    "href": "maps/01-points.html",
+    "title": "01 Points",
     "section": "",
-    "text": "A map with lines."
+    "text": "A map with points.\nThe first three themes (points, lines, areas) all work with the same data. I’m making a meta-point about the somewhat arbitrary nature of geometries in spatial data (a polygon is after all conceputalised as a point set)."
   },
   {
-    "objectID": "maps/02-lines.html#libraries",
-    "href": "maps/02-lines.html#libraries",
-    "title": "02 Lines",
+    "objectID": "maps/01-points.html#libraries",
+    "href": "maps/01-points.html#libraries",
+    "title": "01 Points",
     "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(tidyr)\nlibrary(dplyr)\nlibrary(ggplot2)"
   },
   {
-    "objectID": "maps/02-lines.html#data-wrangling",
-    "href": "maps/02-lines.html#data-wrangling",
-    "title": "02 Lines",
+    "objectID": "maps/01-points.html#data-wrangling",
+    "href": "maps/01-points.html#data-wrangling",
+    "title": "01 Points",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  st_cast(\"MULTILINESTRING\") %&gt;%\n  mutate(What = \"Shore\",\n         What = as.factor(What))"
+    "text": "Data wrangling\nIronically, of the three, the points maps was the fiddliest to make from the data wrangling perspective, because of course, the source data is a polygon dataset.\n\n\nCode\nw &lt;- 500\n\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  mutate(Land = TRUE)\n\nbb &lt;- nz %&gt;% \n  st_bbox() %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_buffer(w, nQuadSegs = 1) \n\nshore &lt;- nz %&gt;% \n  st_cast(\"MULTILINESTRING\") %&gt;%\n  st_cast(\"LINESTRING\") %&gt;%\n  st_buffer(w) %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  mutate(Shore = TRUE)\n\nland &lt;- nz %&gt;%\n  st_union() %&gt;%\n  st_buffer(w)\n\nwater &lt;- bb %&gt;%\n  st_difference(land) %&gt;%\n  mutate(Water = TRUE)\n\npts &lt;- bb %&gt;%\n  st_sample(250000) %&gt;%\n  st_sf() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_join(water) %&gt;%\n  st_join(nz) %&gt;%\n  st_join(shore) %&gt;%\n  mutate(Water = replace_na(Water, FALSE),\n         Land  = replace_na(Land, FALSE),\n         Shore = replace_na(Shore, FALSE),\n         What = NA) %&gt;%\n  slice(sample(1:n()))\n\npts[pts$Water, \"What\"] &lt;- \"Water\"\npts[pts$Land, \"What\"] &lt;- \"Land\"\npts[pts$Shore, \"What\"] &lt;- \"Shore\"\n\npts &lt;- pts %&gt;%\n  mutate(What = as.factor(What)) %&gt;%\n  filter(!is.na(What))"
   },
   {
-    "objectID": "maps/02-lines.html#the-maps",
-    "href": "maps/02-lines.html#the-maps",
-    "title": "02 Lines",
+    "objectID": "maps/01-points.html#the-maps",
+    "href": "maps/01-points.html#the-maps",
+    "title": "01 Points",
     "section": "The maps",
-    "text": "The maps\nBut first… a rabbithole.\nSomething this map got me looking at a bit more closely than ever before was exactly what is going on with the linewidth setting in ggplot2, which, like a lot of things you’ve learned by osmosis, rather than systematically, doesn’t seem that important until it does.\nThe obvious fact is that lwd = 0.5 in tmap and linewidth = 0.5 in ggplot2 do not yield the same result. Turns out… it’s complicated. tmap uses 0.75 points, and ggplot2 uses ~0.75 millimetres.\nWait, wut? 0.75 pts and approximately 0.75 mm?! Yes, you read that correctly.\nTo be fair to tmap, it’s using the R graphics standard, which is that lwd is specified in pixels, which is notionally 1/96 inch, as laid down by CSS. This is ‘device dependent’ and when it comes to getting plots out of R and into image file formats can lead to all kinds of headaches, but that’s another story. A point is 1/72 inch (ever since Adobe made it so), so lwd = 1 gives you nominal line widths of 0.75 points in tmap.\nMeanwhile, according to the ggplot2 documentation (RTFM, eh?)\n\nDue to a historical error, the unit of linewidth is roughly 0.75 mm. Making it exactly 1 mm would change a very large number of existing plots, so we’re stuck with this mistake.\n\nThey say nothing more on the matter. Presumably, it’s something to do with that 1/72 vs 1/96 thing just noted, and perhaps the approximately is due to TeX’s use of a point being 1/72.27 inches, which is apparently more historically accurate, and was the approximation settled upon, because it is palindromic! OK… welll maybe not really that last bit.\nAnyway, the magic number 72.27 is buried in the ggplot2 code, where the conversion factor 72.27 / 25.4 is baked in. I was led to this information by this stackoverflow post.\nThe upshot of all this? To get the same line widths in ggplot2 as in tmap multiply by 25.4 / 72.27. Simple really!\n\ntmap\n\ntm_shape(nz) + \n  tm_lines(\n    col = \"What\",\n    col.scale = tm_scale_categorical(\n      values = c(\"blue\")),\n    lwd = 0.5) + \n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)\n\n\n\n\n\n\n\n\n\n\nggplot2\n\nggplot(nz) +\n  geom_sf(aes(colour = What), linewidth = 0.5 * 25.4 / 72.27) +\n  scale_colour_manual(values = c(\"blue\")) +\n  theme_void()"
+    "text": "The maps\n\ntmap\ntmap v4’s slightly verbose format is apparent here. There is no obvious way to make legend elements larger hence more readable.\n\ntm_shape(pts) + \n  tm_dots(\n    fill = \"What\",\n    fill.scale = tm_scale_categorical(\n      values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\"),\n      levels = c(\"Land\", \"Shore\", \"Water\")), \n    size = 0.05) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
+  },
+  {
+    "objectID": "maps/01-points.html#ggplot2",
+    "href": "maps/01-points.html#ggplot2",
+    "title": "01 Points",
+    "section": "ggplot2",
+    "text": "ggplot2\nIn ggplot2 you can override the default symbol size in the colour legend, although it’s not exactly an obvious snippet of code! The default legend position in ggplot2 is not my preference, but I can’t be bothered to move it.\n\nggplot(pts) +\n  geom_sf(aes(colour = What), size = 0.025) +\n  scale_colour_manual(values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\")) + \n  guides(colour = guide_legend(override.aes = list(size = 5))) +\n  theme_void()"
   },
   {
     "objectID": "maps/04-bad-map.html",
@@ -343,39 +350,53 @@
     "text": "ggplot2\nHere we need an additional package for the entirely useless north arrow.\nggspatial can do it and seems preferable to the not-very-configurable ggsn. The configurability of ggspatial is a bit over the top for a simple map like this one. On the other hand its default north arrow is very on brand for the theme “Bad Map”!\n\nlibrary(ggspatial)\n\nggplot(combined) +\n  geom_sf(aes(colour = Mode, linetype = Mode), \n              linewidth = 0.5 * 25.4 / 72.27) +\n  scale_colour_manual(values = c(\"blue\", \"red\")) +\n  scale_linetype_manual(values = c(\"dashed\", \"solid\")) +\n  annotation_north_arrow(location = \"br\") + \n  theme_void()"
   },
   {
-    "objectID": "maps/01-points.html",
-    "href": "maps/01-points.html",
-    "title": "01 Points",
+    "objectID": "maps/02-lines.html",
+    "href": "maps/02-lines.html",
+    "title": "02 Lines",
     "section": "",
-    "text": "A map with points.\nThe first three themes (points, lines, areas) all work with the same data. I’m making a meta-point about the somewhat arbitrary nature of geometries in spatial data (a polygon is after all conceputalised as a point set)."
+    "text": "A map with lines."
   },
   {
-    "objectID": "maps/01-points.html#libraries",
-    "href": "maps/01-points.html#libraries",
-    "title": "01 Points",
+    "objectID": "maps/02-lines.html#libraries",
+    "href": "maps/02-lines.html#libraries",
+    "title": "02 Lines",
     "section": "Libraries",
-    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(tidyr)\nlibrary(dplyr)\nlibrary(ggplot2)"
+    "text": "Libraries\n\n\nCode\nlibrary(sf)\nlibrary(tmap)\nlibrary(dplyr)\nlibrary(ggplot2)"
   },
   {
-    "objectID": "maps/01-points.html#data-wrangling",
-    "href": "maps/01-points.html#data-wrangling",
-    "title": "01 Points",
+    "objectID": "maps/02-lines.html#data-wrangling",
+    "href": "maps/02-lines.html#data-wrangling",
+    "title": "02 Lines",
     "section": "Data wrangling",
-    "text": "Data wrangling\nIronically, of the three, the points maps was the fiddliest to make from the data wrangling perspective, because of course, the source data is a polygon dataset.\n\n\nCode\nw &lt;- 500\n\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  mutate(Land = TRUE)\n\nbb &lt;- nz %&gt;% \n  st_bbox() %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_buffer(w, nQuadSegs = 1) \n\nshore &lt;- nz %&gt;% \n  st_cast(\"MULTILINESTRING\") %&gt;%\n  st_cast(\"LINESTRING\") %&gt;%\n  st_buffer(w) %&gt;%\n  st_as_sfc() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  mutate(Shore = TRUE)\n\nland &lt;- nz %&gt;%\n  st_union() %&gt;%\n  st_buffer(w)\n\nwater &lt;- bb %&gt;%\n  st_difference(land) %&gt;%\n  mutate(Water = TRUE)\n\npts &lt;- bb %&gt;%\n  st_sample(250000) %&gt;%\n  st_sf() %&gt;%\n  st_as_sf(crs = st_crs(nz)) %&gt;%\n  st_join(water) %&gt;%\n  st_join(nz) %&gt;%\n  st_join(shore) %&gt;%\n  mutate(Water = replace_na(Water, FALSE),\n         Land  = replace_na(Land, FALSE),\n         Shore = replace_na(Shore, FALSE),\n         What = NA) %&gt;%\n  slice(sample(1:n()))\n\npts[pts$Water, \"What\"] &lt;- \"Water\"\npts[pts$Land, \"What\"] &lt;- \"Land\"\npts[pts$Shore, \"What\"] &lt;- \"Shore\"\n\npts &lt;- pts %&gt;%\n  mutate(What = as.factor(What)) %&gt;%\n  filter(!is.na(What))"
+    "text": "Data wrangling\n\n\nCode\nnz &lt;- st_read(\"data/nz.gpkg\") %&gt;%\n  st_cast(\"MULTILINESTRING\") %&gt;%\n  mutate(What = \"Shore\",\n         What = as.factor(What))"
   },
   {
-    "objectID": "maps/01-points.html#the-maps",
-    "href": "maps/01-points.html#the-maps",
-    "title": "01 Points",
+    "objectID": "maps/02-lines.html#the-maps",
+    "href": "maps/02-lines.html#the-maps",
+    "title": "02 Lines",
     "section": "The maps",
-    "text": "The maps\n\ntmap\ntmap v4’s slightly verbose format is apparent here. There is no obvious way to make legend elements larger hence more readable.\n\ntm_shape(pts) + \n  tm_dots(\n    fill = \"What\",\n    fill.scale = tm_scale_categorical(\n      values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\"),\n      levels = c(\"Land\", \"Shore\", \"Water\")), \n    size = 0.05) +\n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)"
+    "text": "The maps\nBut first… a rabbithole.\nSomething this map got me looking at a bit more closely than ever before was exactly what is going on with the linewidth setting in ggplot2, which, like a lot of things you’ve learned by osmosis, rather than systematically, doesn’t seem that important until it does.\nThe obvious fact is that lwd = 0.5 in tmap and linewidth = 0.5 in ggplot2 do not yield the same result. Turns out… it’s complicated. tmap uses 0.75 points, and ggplot2 uses ~0.75 millimetres.\nWait, wut? 0.75 pts and approximately 0.75 mm?! Yes, you read that correctly.\nTo be fair to tmap, it’s using the R graphics standard, which is that lwd is specified in pixels, which is notionally 1/96 inch, as laid down by CSS. This is ‘device dependent’ and when it comes to getting plots out of R and into image file formats can lead to all kinds of headaches, but that’s another story. A point is 1/72 inch (ever since Adobe made it so), so lwd = 1 gives you nominal line widths of 0.75 points in tmap.\nMeanwhile, according to the ggplot2 documentation (RTFM, eh?)\n\nDue to a historical error, the unit of linewidth is roughly 0.75 mm. Making it exactly 1 mm would change a very large number of existing plots, so we’re stuck with this mistake.\n\nThey say nothing more on the matter. Presumably, it’s something to do with that 1/72 vs 1/96 thing just noted, and perhaps the approximately is due to TeX’s use of a point being 1/72.27 inches, which is apparently more historically accurate, and was the approximation settled upon, because it is palindromic! OK… welll maybe not really that last bit.\nAnyway, the magic number 72.27 is buried in the ggplot2 code, where the conversion factor 72.27 / 25.4 is baked in. I was led to this information by this stackoverflow post.\nThe upshot of all this? To get the same line widths in ggplot2 as in tmap multiply by 25.4 / 72.27. Simple really!\n\ntmap\n\ntm_shape(nz) + \n  tm_lines(\n    col = \"What\",\n    col.scale = tm_scale_categorical(\n      values = c(\"blue\")),\n    lwd = 0.5) + \n  tm_layout(\n    frame = FALSE,\n    legend.frame = FALSE,\n    legend.outside = TRUE)\n\n\n\n\n\n\n\n\n\n\nggplot2\n\nggplot(nz) +\n  geom_sf(aes(colour = What), linewidth = 0.5 * 25.4 / 72.27) +\n  scale_colour_manual(values = c(\"blue\")) +\n  theme_void()"
   },
   {
-    "objectID": "maps/01-points.html#ggplot2",
-    "href": "maps/01-points.html#ggplot2",
-    "title": "01 Points",
-    "section": "ggplot2",
-    "text": "ggplot2\nIn ggplot2 you can override the default symbol size in the colour legend, although it’s not exactly an obvious snippet of code! The default legend position in ggplot2 is not my preference, but I can’t be bothered to move it.\n\nggplot(pts) +\n  geom_sf(aes(colour = What), size = 0.025) +\n  scale_colour_manual(values = c(\"#33aa6660\", \"#0000ff60\", \"#bbddff60\")) + \n  guides(colour = guide_legend(override.aes = list(size = 5))) +\n  theme_void()"
+    "objectID": "maps/23-3d.html",
+    "href": "maps/23-3d.html",
+    "title": "23 3D",
+    "section": "",
+    "text": "The third dimension.\nOr the illusion thereof.\nA little bit of whimsy for this one. I wanted to do another tiled map (see 21 Raster), and I have always loved the use of colour-wheel based spectral schemes for symbolising ‘aspect’ in hill terrain model contexts, so here we are.\nThe dataset was made using the hex-dissection tiling method, mentioned in passing in this presentation."
+  },
+  {
+    "objectID": "maps/23-3d.html#libraries-and-data",
+    "href": "maps/23-3d.html#libraries-and-data",
+    "title": "23 3D",
+    "section": "Libraries and data",
+    "text": "Libraries and data\n\n\nCode\nlibrary(sf)\nlibrary(ggplot2)\nlibrary(cols4all)\n\nhexes &lt;- st_read(\"data/23-3d-hex-12.gpkg\")"
+  },
+  {
+    "objectID": "maps/23-3d.html#the-map",
+    "href": "maps/23-3d.html#the-map",
+    "title": "23 3D",
+    "section": "The map",
+    "text": "The map\nI’ve used ggplot2 here because it’s easier to just set the bounds on the map if you don’t happen to have a spatial data layer available that bounds things nicely. ggplot2 is very pernickety about proper use of the Brewer palettes, and Spectral maxes out at 11 colours (properly speaking) but I have 12 pie slices to fill. The cols4all package comes to the rescue here because it has no qualms about interpolating additional colours (note that tmap does this by default with the Brewer palettes).\n\nggplot(hexes) +\n  geom_sf(aes(fill = element_id), linewidth = 0, alpha = 0.5) +\n  scale_fill_discrete_c4a_div(\"spectral\") +\n  guides(fill = \"none\") +\n  coord_sf(xlim = c(1.753e6, 1.768e6), \n           ylim = c(5.914e6, 5.924e6), expand = FALSE) +\n  theme_void()\n\n\n\n\n\n\n\n\nThe modified spectral ‘colour wheel’ symbolisation of aspect is genius, first proposed in\n\nMoellering H and AJ Kimerling,1990, A new digital slope-aspect display process. Cartography and Geographic Information Systems 17(2) 151-159.\n\nand later detailed by\n\nBrewer CA and KA Marlow. 1993. Color representation of aspect and slope simultaneously pages 328-337 in RB McMaster and MP Armstrong (eds.) Auto-Carto 11 Proceedings of the International Symposium On Computer-Assisted Cartography.\n\nWhen I came across this on the cover of [Visualization in Modern Cartography] (confusingly not a topic covered in that book), it was one of those aha! moments.\n\n\n\n\n\nIn the papers cited above (but not, confusingly in any chapter of that book) they discuss more saturated spectral schemes than that used here. An instance where maybe it’s OK for cartographers to use a rainbow palette.\nNote that a more precisely defined colour palette would be required for the best possible results, but the Spectral palette comes close without requiring too much manual work."
   },
   {
     "objectID": "maps/10-north-america.html",

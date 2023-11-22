@@ -1,0 +1,62 @@
+---
+title: 23 3D
+execute: 
+  cache: true
+  freeze: auto
+knitr:
+  opts_chunk: 
+    warning: false
+    message: false
+filters:
+  - lightbox
+lightbox: auto
+---
+
+The third dimension.
+
+Or the illusion thereof.
+
+A little bit of whimsy for this one. I wanted to do another tiled map (see [21 Raster](21-raster.qmd)), and I have always loved the use of colour-wheel based spectral schemes for symbolising 'aspect' in hill terrain model contexts, so here we are.
+
+The dataset was made using the `hex-dissection` tiling method, mentioned in passing in [this presentation](https://dosull.github.io/weaving-space/NZCS-Aug-2022/slides/#/hexagon-dissections-and-colourings). 
+
+## Libraries and data
+
+```{r}
+#| results: false
+#| code-fold: true
+library(sf)
+library(ggplot2)
+library(cols4all)
+
+hexes <- st_read("data/23-3d-hex-12.gpkg")
+```
+
+## The map
+I've used `ggplot2` here because it's easier to just set the bounds on the map if you don't happen to have a spatial data layer available that bounds things nicely. `ggplot2` is very pernickety about proper use of the Brewer palettes, and _Spectral_ maxes out at 11 colours (properly speaking) but I have 12 pie slices to fill. The `cols4all` package comes to the rescue here because it has no qualms about interpolating additional colours (note that `tmap` does this by default with the Brewer palettes).
+
+```{r fig.width=10, fig.height=6.67}
+ggplot(hexes) +
+  geom_sf(aes(fill = element_id), linewidth = 0, alpha = 0.5) +
+  scale_fill_discrete_c4a_div("spectral") +
+  guides(fill = "none") +
+  coord_sf(xlim = c(1.753e6, 1.768e6), 
+           ylim = c(5.914e6, 5.924e6), expand = FALSE) +
+  theme_void()
+```
+
+The modified spectral 'colour wheel' symbolisation of aspect is genius, first proposed in
+
+> Moellering H and AJ Kimerling,1990, A new digital slope-aspect display process. _Cartography and Geographic Information Systems_ **17**(2) 151-159.
+
+and later detailed by
+
+> Brewer CA and KA Marlow. 1993. [Color representation of aspect and slope simultaneously](https://cartogis.org/docs/proceedings/archive/auto-carto-11/pdf/color-representation-of-aspect-and-slope-simultaneously.pdf) pages 328-337 in RB McMaster and MP Armstrong (eds.) _Auto-Carto 11 Proceedings of the International Symposium On Computer-Assisted Cartography_.
+
+When I came across this on the cover of [_Visualization in Modern Cartography_] (confusingly not a topic covered in that book), it was one of those aha! moments.
+
+![](visualization-in-modern-cartography-cover.png)
+
+In the papers cited above (but not, confusingly in any chapter of that book) they discuss more saturated spectral schemes than that used here. An instance where maybe it's OK for cartographers to use a rainbow palette.
+
+Note that a more precisely defined colour palette would be required for the best possible results, but the _Spectral_ palette comes close without requiring too much manual work.
