@@ -334,7 +334,13 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link active" data-scroll-target="#final-thoughts">Final thoughts</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -356,11 +362,17 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>I decided to give the <a href="https://30daymapchallenge.com/">30 Day Map Challenge</a> a go this year. My efforts are certainly not an exercise in flashy or impressive cartographic design. I’ve been teaching with <code>tmap</code> for a few years. Version 4.0 is due soon and includes major changes, which at first glance make it more similar in many ways to <code>ggplot2</code>, which I have often considered instead. So… I thought I’d make some simple maps using both platforms to get a feel for the pros and cons of each.</p>
-<p>As the month wore on, I tried some other things, there being only so many things to explore using tools focused on relatively simple thematic mapping.</p>
+<p>I decided to give the <a href="https://30daymapchallenge.com/">30 Day Map Challenge</a> a go this year.</p>
+<p>My efforts are <em>not</em> an exercise in flashy cartographic design. I’ve been using <code>tmap</code> for a few years. Version 4.0 is due soon and includes major changes, which at first glance make it more similar in many ways to <code>ggplot2</code>, which I have often dabbled with. So… I thought I’d make some simple maps using both platforms to get a feel for the pros and cons of each.</p>
+<p>As the month wore on, I tried some other things, there being only so many things you can do using tools optimised for relatively simple thematic mapping.</p>
+<section id="final-thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="final-thoughts">Final thoughts</h2>
+<p>I don’t know that I arrived at any specific conclusions concerning the relative merits of <code>tmap</code> and <code>ggplot2</code>. It’s often easier to use <code>ggplot2</code> if you need tools from the wider <em>R</em> ecosystem (e.g.&nbsp;see <a href="./maps/29-population.html">29 Population</a>). But if you want to play fast and loose with colour palettes, <code>tmap</code> is more forgiving than <code>ggplot2</code>, and crucially it is OK with letting you apply the same aesthetic (e.g.&nbsp;colour) to more than one dataset. In mapping applications that is a pretty commonly encountered requirement. <code>tmap</code> also has more traditional ‘map junk’ (scale bars, north arrows, web basemaps) baked in, so you don’t have to call on other packages like <code>ggspatial</code>. For what it’s worth, if you are doing additional work on a graphic in Inkscape or Illustrator, I have generally found the SVGs exported by <code>tmap</code> to be more easily managed (the layering is better, for example).</p>
+<p>A cop out, probably, but they are both great packages!</p>
 
 
 
+</section>
 
 <div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
 <div class="list grid quarto-listing-cols-3">
