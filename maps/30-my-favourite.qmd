@@ -41,7 +41,7 @@ The dataset I used is the `tmap` built in `World` dataset, cast to simple polygo
 
 Making a bounding box layer using `sf` is fiddly, because `st_bbox` applies to the whole layer, not to each individual polygon. For that, I need to use `lapply`. Then, because bounding boxes are not spatial objects but a vector `c(xmin, ymin, xmax, ymax)` I have to do some more processing steps to make them back into polygons, and rejoin the source data. The `unlist(recursive = FALSE)` step is key here for unpacking the list of polygons so they can be collected back into a simple feature collection. Also important for the reprojection is densifying the bounding boxes so we follow parallels and meridians. I do this using `smoothr::densify`. The last group by step (in spatial terms a 'dissolve') removes some oddities like offshore island bounding boxes entirely bounded by the 'parent' geometry bounding box.
 
-I've also made a 'disc' polygon to show the 'globe'. This is not as simple to do as you might imagine, and has been complicated recently by the advent of the S2 spherical geometry stuff in _R_. Generally a good thing, S2 knows that that 'disc' has zero area (think about it...) and so I instead have to approach the whole process sideways on and make an ellipse of the extent of the projection I intend to use.
+I've also made a 'disc' polygon to show the 'globe'. This is not as simple to do as you might imagine, and has been complicated recently by the advent of the S2 spherical geometry stuff in _R_. Generally a good thing, S2 knows that that 'disc' has zero area (think about it...) and so to force it to trace out the disc, I have to densify the edges of a simple rectangle with the world 'extent'.
 
 ```{r}
 #| results: false
@@ -63,12 +63,17 @@ world_bboxs <- World$geometry %>%
   group_by(name) %>%
   summarise()
 
-disc <- st_point(c(0, 0)) %>%
-  st_buffer(1, nQuadSegs = 90)
-disc <- disc * matrix(c(18040096, 0, 0, 9020048), 2, 2)
-disc <- disc %>%
-  st_sfc() %>%
-  st_sf(crs = "+proj=hammer")
+disc <- list(matrix(c(-2, -1, 
+                       2, -1, 
+                       2,  1, 
+                      -2,  1, 
+                      -2, -1) * 90, 
+                    ncol = 2, byrow = TRUE)) %>%
+  st_polygon() %>%
+  densify(max_distance = 1) %>%
+  st_sfc(crs = 4326) %>%
+  st_sf() %>%
+  st_transform("+proj=hammer")
 ```
 
 ## The maps
