@@ -393,7 +393,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="data-wrangling">Data wrangling</h2>
 <p>The dataset I used is the <code>tmap</code> built in <code>World</code> dataset, cast to simple polygons.</p>
 <p>Making a bounding box layer using <code>sf</code> is fiddly, because <code>st_bbox</code> applies to the whole layer, not to each individual polygon. For that, I need to use <code>lapply</code>. Then, because bounding boxes are not spatial objects but a vector <code>c(xmin, ymin, xmax, ymax)</code> I have to do some more processing steps to make them back into polygons, and rejoin the source data. The <code>unlist(recursive = FALSE)</code> step is key here for unpacking the list of polygons so they can be collected back into a simple feature collection. Also important for the reprojection is densifying the bounding boxes so we follow parallels and meridians. I do this using <code>smoothr::densify</code>. The last group by step (in spatial terms a ‘dissolve’) removes some oddities like offshore island bounding boxes entirely bounded by the ‘parent’ geometry bounding box.</p>
-<div class="cell" data-hash="30-my-favourite_cache/html/unnamed-chunk-2_04c2fdd8bb71ad96eb5a5313bdb036dd">
+<p>I’ve also made a ‘disc’ polygon to show the ‘globe’. This is not as simple to do as you might imagine, and has been complicated recently by the advent of the S2 spherical geometry stuff in <em>R</em>. Generally a good thing, S2 knows that that ‘disc’ has zero area (think about it…) and so I instead have to approach the whole process sideways on and make an ellipse of the extent of the projection I intend to use.</p>
+<div class="cell" data-hash="30-my-favourite_cache/html/unnamed-chunk-2_f0881d51c34737ba4475a4bffcd08b7f">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"World"</span>)</span>
@@ -408,24 +409,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sfc</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sf</span>(<span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">densify</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="st">"+proj=hammer"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="st">"+proj=cea"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(World <span class="sc">%&gt;%</span> <span class="fu">st_drop_geometry</span>()) <span class="sc">%&gt;%</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(name) <span class="sc">%&gt;%</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>()</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>disc <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_buffer</span>(<span class="dv">1</span>, <span class="at">nQuadSegs =</span> <span class="dv">90</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>disc <span class="ot">&lt;-</span> disc <span class="sc">*</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">18040096</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">9020048</span>), <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>disc <span class="ot">&lt;-</span> disc <span class="sc">%&gt;%</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sfc</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sf</span>(<span class="at">crs =</span> <span class="st">"+proj=hammer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="the-maps" class="level2">
 <h2 class="anchored" data-anchor-id="the-maps">The maps</h2>
 <p>The map itself is simple. I decided to colour by country, not by continent.</p>
-<div class="cell" data-hash="30-my-favourite_cache/html/unnamed-chunk-3_2563308574f83faedfe54babea05c695">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(world_bboxs) <span class="sc">+</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"name"</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_categorical</span>(<span class="at">values =</span> <span class="st">"dark24"</span>),</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.legend =</span> <span class="fu">tm_legend_hide</span>(),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="fl">0.35</span>) <span class="sc">+</span> </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">frame =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="30-my-favourite_cache/html/unnamed-chunk-3_74bfe37087c961a62445c7ef5ecd7a38">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(disc) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">fill =</span> <span class="st">"powderblue"</span>, <span class="at">fill_alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(world_bboxs) <span class="sc">+</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"name"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.scale =</span> <span class="fu">tm_scale_categorical</span>(<span class="at">values =</span> <span class="st">"dark24"</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill.legend =</span> <span class="fu">tm_legend_hide</span>(),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_alpha =</span> <span class="fl">0.35</span>) <span class="sc">+</span> </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">frame =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -440,7 +450,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Convex hulls are easier, because the <code>st_convex_hull</code> function applies to each polygon, not the whole collection. For balance, I’ll map this using <code>ggplot2</code>.</p>
 <p>Here, we encounter one of the minor annoyances of <code>ggplot2</code>. There are 177 distinct country names in the data. If you try to map these with a discrete colour palette <code>ggplot2</code> is strict about that mapping: if the palette only has 24 colours defined (as in this case) and you have 177 things to map, it won’t allow it. To get around this, I make a unique integer label for each country name, and apply the colour palette in continuous fashion.</p>
 <p>Just one of those wrinkles of working with an ‘opinionated’ package like <code>ggplot2</code>. A more generous adjective would be ‘principled’ and when it comes to visualisation, <code>ggplot2</code> is definitely more principled than I am…</p>
-<div class="cell" data-hash="30-my-favourite_cache/html/unnamed-chunk-4_a5c6fe914c177cee3363170665fbe59c">
+<div class="cell" data-hash="30-my-favourite_cache/html/unnamed-chunk-4_d910081ced65a4d9bd45b03ba100d7b0">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>name_id <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">name =</span> <span class="fu">unique</span>(World<span class="sc">$</span>name)) <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">row_number</span>())</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -452,11 +462,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(name_id)</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(world_hulls) <span class="sc">+</span> </span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> id), <span class="at">linewidth =</span> <span class="dv">0</span>, <span class="at">alpha =</span> <span class="fl">0.35</span>) <span class="sc">+</span> </span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous_c4a_seq</span>(<span class="st">"dark24"</span>) <span class="sc">+</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span> </span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(disc) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"powderblue"</span>, <span class="at">linewidth =</span> <span class="dv">0</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> world_hulls, </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>          <span class="fu">aes</span>(<span class="at">fill =</span> id), <span class="at">linewidth =</span> <span class="dv">0</span>, <span class="at">alpha =</span> <span class="fl">0.35</span>) <span class="sc">+</span> </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous_c4a_seq</span>(<span class="st">"dark24"</span>) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -713,7 +725,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":true,"selector":".lightbox","descPosition":"bottom","closeEffect":"zoom"});</script>
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","descPosition":"bottom","closeEffect":"zoom","openEffect":"zoom","loop":true});</script>
 
 
 

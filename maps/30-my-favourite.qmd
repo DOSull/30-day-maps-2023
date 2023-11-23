@@ -41,6 +41,8 @@ The dataset I used is the `tmap` built in `World` dataset, cast to simple polygo
 
 Making a bounding box layer using `sf` is fiddly, because `st_bbox` applies to the whole layer, not to each individual polygon. For that, I need to use `lapply`. Then, because bounding boxes are not spatial objects but a vector `c(xmin, ymin, xmax, ymax)` I have to do some more processing steps to make them back into polygons, and rejoin the source data. The `unlist(recursive = FALSE)` step is key here for unpacking the list of polygons so they can be collected back into a simple feature collection. Also important for the reprojection is densifying the bounding boxes so we follow parallels and meridians. I do this using `smoothr::densify`. The last group by step (in spatial terms a 'dissolve') removes some oddities like offshore island bounding boxes entirely bounded by the 'parent' geometry bounding box.
 
+I've also made a 'disc' polygon to show the 'globe'. This is not as simple to do as you might imagine, and has been complicated recently by the advent of the S2 spherical geometry stuff in _R_. Generally a good thing, S2 knows that that 'disc' has zero area (think about it...) and so I instead have to approach the whole process sideways on and make an ellipse of the extent of the projection I intend to use.
+
 ```{r}
 #| results: false
 #| code-fold: true
@@ -56,17 +58,26 @@ world_bboxs <- World$geometry %>%
   st_sfc() %>%
   st_sf(crs = 4326) %>%
   densify() %>%
-  st_transform("+proj=hammer") %>%
+  st_transform("+proj=cea") %>%
   bind_cols(World %>% st_drop_geometry()) %>%
   group_by(name) %>%
   summarise()
+
+disc <- st_point(c(0, 0)) %>%
+  st_buffer(1, nQuadSegs = 90)
+disc <- disc * matrix(c(18040096, 0, 0, 9020048), 2, 2)
+disc <- disc %>%
+  st_sfc() %>%
+  st_sf(crs = "+proj=hammer")
 ```
 
 ## The maps
 The map itself is simple. I decided to colour by country, not by continent.
 
-```{r fig.width=10, fig.height=5}
-tm_shape(world_bboxs) + 
+```{r fig.width=10, fig.height=5.2}
+tm_shape(disc) +
+  tm_fill(fill = "powderblue", fill_alpha = 0.15) +
+  tm_shape(world_bboxs) + 
   tm_fill(
     fill = "name",
     fill.scale = tm_scale_categorical(values = "dark24"),
@@ -82,7 +93,7 @@ Here, we encounter one of the minor annoyances of `ggplot2`. There are 177 disti
 
 Just one of those wrinkles of working with an 'opinionated' package like `ggplot2`. A more generous adjective would be 'principled' and when it comes to visualisation, `ggplot2` is definitely more principled than I am...
 
-```{r fig.width=10, fig.height=5}
+```{r fig.width=10, fig.height=5.2}
 name_id <- data.frame(name = unique(World$name)) %>%
   mutate(id = row_number())
 
@@ -94,9 +105,11 @@ world_hulls <- World %>%
   summarise() %>%
   left_join(name_id)
 
-ggplot(world_hulls) + 
-  geom_sf(aes(fill = id), linewidth = 0, alpha = 0.35) + 
+ggplot(disc) +
+  geom_sf(fill = "powderblue", linewidth = 0, alpha = 0.15) +
+  geom_sf(data = world_hulls, 
+          aes(fill = id), linewidth = 0, alpha = 0.35) + 
   scale_fill_continuous_c4a_seq("dark24") +
-  guides(fill = "none") + 
+  guides(fill = "none") +
   theme_void()
 ```
