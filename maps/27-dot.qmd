@@ -163,6 +163,7 @@ m +
 And finally, also 'dots only', but this time with big dots for the summary index. I think this one is the prettiest.
 
 ```{r fig.width=10, fig.height=7}
+#| classes: preview-image
 m <- tm_shape(layers[[1]]) +
   tm_bubbles(
     fill = "Rank_IMD18", 

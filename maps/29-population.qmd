@@ -14,7 +14,7 @@ lightbox: auto
 
 A classic theme for a map.
 
-Given the recent [release of approved population grids data by Statistics New Zealand](https://datafinder.stats.govt.nz/data/?q=gridded+population), it seems an apt moment for the by-now classic [Joy Division _Unknown Pleasures_ 'ridge lines' map of population](https://jcheshire.com/featured-maps/population-lines-how-and-why-i-created-it/). No use trying this in `tmap`, but there is a [package `ggridges`](https://wilkelab.org/ggridges/index.html) that handles it nicely. The population grids are much to high resolution for this to work for the whole country, so I convert them to rasters to enable simple reaggregation, and then remake them as points which is what `ggridges` wants.
+Given the recent [release of approved population grids data by Statistics New Zealand](https://datafinder.stats.govt.nz/data/?q=gridded+population), it seems an apt moment for the by-now classic [Joy Division _Unknown Pleasures_ 'ridge lines' map of population](https://jcheshire.com/featured-maps/population-lines-how-and-why-i-created-it/). No use trying this in `tmap`, but there is a [package `ggridges`](https://wilkelab.org/ggridges/index.html) that handles it nicely. The population grids are much too high resolution for this to work for the whole country, so I convert them to rasters to enable simple reaggregation, and then remake them as points which is what `ggridges` wants.
 
 After some experimentation I found a 10km resolution was about right, and that this required me to downscale the population by 10% to keep Auckland from exceeding the northern extent of the map area.
 
@@ -62,6 +62,8 @@ pop_pts <- pts %>%
 
 ## The map
 After some messing around on my own with `geom_line` and `geom_ribbon`, it's clear that there is some fiddliness involved in rendering the lines in the right order (from top to bottom, back to front) and also in positioning the 'filled area' in the correct place relative to the line atop it. It was then that I threw in the towel on my own implementation (shoulders of giants and all that) and downloaded `ggridges`.
+
+As you can see, to a first order approximation, nobody lives in New Zealand, or at any rate, they all live in Auckland.
 
 ```{r fig.width=8, fig.height=10.9}
 ggplot(pop_pts, aes(x = X, y = Y, group = Y, height = Population)) +

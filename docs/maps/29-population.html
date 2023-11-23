@@ -370,7 +370,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>A classic theme for a map.</p>
-<p>Given the recent <a href="https://datafinder.stats.govt.nz/data/?q=gridded+population">release of approved population grids data by Statistics New Zealand</a>, it seems an apt moment for the by-now classic <a href="https://jcheshire.com/featured-maps/population-lines-how-and-why-i-created-it/">Joy Division <em>Unknown Pleasures</em> ‘ridge lines’ map of population</a>. No use trying this in <code>tmap</code>, but there is a <a href="https://wilkelab.org/ggridges/index.html">package <code>ggridges</code></a> that handles it nicely. The population grids are much to high resolution for this to work for the whole country, so I convert them to rasters to enable simple reaggregation, and then remake them as points which is what <code>ggridges</code> wants.</p>
+<p>Given the recent <a href="https://datafinder.stats.govt.nz/data/?q=gridded+population">release of approved population grids data by Statistics New Zealand</a>, it seems an apt moment for the by-now classic <a href="https://jcheshire.com/featured-maps/population-lines-how-and-why-i-created-it/">Joy Division <em>Unknown Pleasures</em> ‘ridge lines’ map of population</a>. No use trying this in <code>tmap</code>, but there is a <a href="https://wilkelab.org/ggridges/index.html">package <code>ggridges</code></a> that handles it nicely. The population grids are much too high resolution for this to work for the whole country, so I convert them to rasters to enable simple reaggregation, and then remake them as points which is what <code>ggridges</code> wants.</p>
 <p>After some experimentation I found a 10km resolution was about right, and that this required me to downscale the population by 10% to keep Auckland from exceeding the northern extent of the map area.</p>
 <section id="libraries" class="level2">
 <h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
@@ -421,6 +421,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-map" class="level2">
 <h2 class="anchored" data-anchor-id="the-map">The map</h2>
 <p>After some messing around on my own with <code>geom_line</code> and <code>geom_ribbon</code>, it’s clear that there is some fiddliness involved in rendering the lines in the right order (from top to bottom, back to front) and also in positioning the ‘filled area’ in the correct place relative to the line atop it. It was then that I threw in the towel on my own implementation (shoulders of giants and all that) and downloaded <code>ggridges</code>.</p>
+<p>As you can see, to a first order approximation, nobody lives in New Zealand, or at any rate, they all live in Auckland.</p>
 <div class="cell" data-hash="29-population_cache/html/unnamed-chunk-3_a5e6f539c37ae9affda825b4ea156a5d">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pop_pts, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">group =</span> Y, <span class="at">height =</span> Population)) <span class="sc">+</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ridgeline</span>(<span class="at">fill =</span> <span class="st">"black"</span>, <span class="at">colour =</span> <span class="st">"white"</span>, </span>
@@ -688,7 +689,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":true,"openEffect":"zoom","selector":".lightbox"});</script>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","openEffect":"zoom","loop":true,"descPosition":"bottom"});</script>
 
 
 

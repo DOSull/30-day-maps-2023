@@ -32,7 +32,7 @@ library(stringr)
 #| code-fold: true
 pop <- st_read("data/regional-population.gpkg")
 bb <- st_bbox(pop)
-hght <- (bb[4] - bb[2]) / dim(pop)[1]
+hght <- (bb[4] - bb[2]) / nrow(pop)
 
 pop_df <- pop %>% 
   st_centroid() %>%
@@ -46,12 +46,15 @@ pop_df <- pop %>%
 ```
 
 ## The map
-## `ggplot2`
+Since I've organised the data as a data table not a spatial dataset, it makes sense to use `ggplot2`. The `geom_tile` function can handle rectangles at given location with specified width and height.
+
 ```{r fig.width=8, fig.height=8}
 ggplot(pop_df) +
   geom_tile(aes(x = x, y = order, width = w, height = h), 
-            fill = "grey", colour = "black") +
-  geom_text(aes(x = x, y = order, label = name), hjust = 0.2) +
+            fill = "#aaffbb", linewidth = 0) +
+  geom_text(aes(x = x, y = order, label = name), hjust = 0.5) +
   coord_equal() +
-  theme_void()
+  labs(title = "Population of New Zealand regions") +
+  theme_void() +
+  theme(panel.background = element_rect(fill = "#bbccee", linewidth = 0))
 ```

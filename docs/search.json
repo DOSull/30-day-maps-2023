@@ -165,28 +165,21 @@
     "href": "maps/28-is-this-a-chart-or-a-map.html#data-wrangling",
     "title": "28 Is This a Chart or a Map?",
     "section": "Data wrangling",
-    "text": "Data wrangling\n\n\nCode\npop &lt;- st_read(\"data/regional-population.gpkg\")\nbb &lt;- st_bbox(pop)\nhght &lt;- (bb[4] - bb[2]) / dim(pop)[1]\n\npop_df &lt;- pop %&gt;% \n  st_centroid() %&gt;%\n  st_coordinates() %&gt;%\n  as_tibble() %&gt;%\n  mutate(Population = pop$pop, Region = pop$region) %&gt;%\n  arrange(Y) %&gt;%\n  mutate(order = bb[2] + row_number() * hght - hght / 2,\n         y = Y, x = X, h = hght, w = Population / 20,\n         name = str_remove(Region, \" Region\"))"
+    "text": "Data wrangling\n\n\nCode\npop &lt;- st_read(\"data/regional-population.gpkg\")\nbb &lt;- st_bbox(pop)\nhght &lt;- (bb[4] - bb[2]) / nrow(pop)\n\npop_df &lt;- pop %&gt;% \n  st_centroid() %&gt;%\n  st_coordinates() %&gt;%\n  as_tibble() %&gt;%\n  mutate(Population = pop$pop, Region = pop$region) %&gt;%\n  arrange(Y) %&gt;%\n  mutate(order = bb[2] + row_number() * hght - hght / 2,\n         y = Y, x = X, h = hght, w = Population / 20,\n         name = str_remove(Region, \" Region\"))"
   },
   {
     "objectID": "maps/28-is-this-a-chart-or-a-map.html#the-map",
     "href": "maps/28-is-this-a-chart-or-a-map.html#the-map",
     "title": "28 Is This a Chart or a Map?",
     "section": "The map",
-    "text": "The map"
-  },
-  {
-    "objectID": "maps/28-is-this-a-chart-or-a-map.html#ggplot2",
-    "href": "maps/28-is-this-a-chart-or-a-map.html#ggplot2",
-    "title": "28 Is This a Chart or a Map?",
-    "section": "ggplot2",
-    "text": "ggplot2\n\nggplot(pop_df) +\n  geom_tile(aes(x = x, y = order, width = w, height = h), \n            fill = \"grey\", colour = \"black\") +\n  geom_text(aes(x = x, y = order, label = name), hjust = 0.2) +\n  coord_equal() +\n  theme_void()"
+    "text": "The map\nSince I’ve organised the data as a data table not a spatial dataset, it makes sense to use ggplot2. The geom_tile function can handle rectangles at given location with specified width and height.\n\nggplot(pop_df) +\n  geom_tile(aes(x = x, y = order, width = w, height = h), \n            fill = \"#aaffbb\", linewidth = 0) +\n  geom_text(aes(x = x, y = order, label = name), hjust = 0.5) +\n  coord_equal() +\n  labs(title = \"Population of New Zealand regions\") +\n  theme_void() +\n  theme(panel.background = element_rect(fill = \"#bbccee\", linewidth = 0))"
   },
   {
     "objectID": "maps/29-population.html",
     "href": "maps/29-population.html",
     "title": "29 Population",
     "section": "",
-    "text": "A classic theme for a map.\nGiven the recent release of approved population grids data by Statistics New Zealand, it seems an apt moment for the by-now classic Joy Division Unknown Pleasures ‘ridge lines’ map of population. No use trying this in tmap, but there is a package ggridges that handles it nicely. The population grids are much to high resolution for this to work for the whole country, so I convert them to rasters to enable simple reaggregation, and then remake them as points which is what ggridges wants.\nAfter some experimentation I found a 10km resolution was about right, and that this required me to downscale the population by 10% to keep Auckland from exceeding the northern extent of the map area."
+    "text": "A classic theme for a map.\nGiven the recent release of approved population grids data by Statistics New Zealand, it seems an apt moment for the by-now classic Joy Division Unknown Pleasures ‘ridge lines’ map of population. No use trying this in tmap, but there is a package ggridges that handles it nicely. The population grids are much too high resolution for this to work for the whole country, so I convert them to rasters to enable simple reaggregation, and then remake them as points which is what ggridges wants.\nAfter some experimentation I found a 10km resolution was about right, and that this required me to downscale the population by 10% to keep Auckland from exceeding the northern extent of the map area."
   },
   {
     "objectID": "maps/29-population.html#libraries",
@@ -207,7 +200,7 @@
     "href": "maps/29-population.html#the-map",
     "title": "29 Population",
     "section": "The map",
-    "text": "The map\nAfter some messing around on my own with geom_line and geom_ribbon, it’s clear that there is some fiddliness involved in rendering the lines in the right order (from top to bottom, back to front) and also in positioning the ‘filled area’ in the correct place relative to the line atop it. It was then that I threw in the towel on my own implementation (shoulders of giants and all that) and downloaded ggridges.\n\nggplot(pop_pts, aes(x = X, y = Y, group = Y, height = Population)) +\n  geom_ridgeline(fill = \"black\", colour = \"white\", \n                 size = 1.5 * 25.4 / 72.27) +\n  coord_equal(expand = FALSE) +\n  theme_void() +\n  theme(panel.background = element_rect(fill = \"black\"),\n        plot.background = element_rect(fill = \"black\"))"
+    "text": "The map\nAfter some messing around on my own with geom_line and geom_ribbon, it’s clear that there is some fiddliness involved in rendering the lines in the right order (from top to bottom, back to front) and also in positioning the ‘filled area’ in the correct place relative to the line atop it. It was then that I threw in the towel on my own implementation (shoulders of giants and all that) and downloaded ggridges.\nAs you can see, to a first order approximation, nobody lives in New Zealand, or at any rate, they all live in Auckland.\n\nggplot(pop_pts, aes(x = X, y = Y, group = Y, height = Population)) +\n  geom_ridgeline(fill = \"black\", colour = \"white\", \n                 size = 1.5 * 25.4 / 72.27) +\n  coord_equal(expand = FALSE) +\n  theme_void() +\n  theme(panel.background = element_rect(fill = \"black\"),\n        plot.background = element_rect(fill = \"black\"))"
   },
   {
     "objectID": "maps/09-hexes.html",
