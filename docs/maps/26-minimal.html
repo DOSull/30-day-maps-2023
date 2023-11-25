@@ -376,7 +376,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Less is more.</p>
 <p>Probably not really in keeping with the theme for this one, but I once claimed (in <a href="https://www.wiley.com/en-us/Geographic+Information+Analysis%2C+2nd+Edition-p-9780470288573"><em>Geographical Information Analysis</em></a>) that a recognisable map of Australia could be formed from only 9 points (sorry Tasmania…). For this theme, I thought I’d take a look at what a minimal New Zealand might look like. Funny thing is, I think you need more points for a recognisable New Zealand.</p>
 <p>The source is this <a href="https://datafinder.stats.govt.nz/layer/92210-statistical-area-1-2018-generalised/">Statistics NZ SA2 geographic boundaries dataset</a> selecting only the mainland and island areas, and dissolving them into a single multipolygon. This has around 880,000 vertices. There are a lot of small islands in this dataset (over 1700) and these are rapidly sacrificed by the generalisation process. It is worth noting that <em>R</em> hangs when trying to plot this layer.</p>
-<p>Anyway, to tackle this, I used the <a href="http://www.mapshaper.org/"><code>rmapshaper</code> package</a> which can do topological simplification of polygons. You specify a <code>keep</code> parameter for the fraction of vertices to retain in the simplified geometries. For reasons of binary division, I started from 5.12% (the <code>ms_simplify</code> function defaults to 5%) and progressed in steps of 50%, all the way down to retaining 0.0025%. At 1 vertex in 40,000 or so of the original geometry we get quite a nice 27 vertex ‘minimal’ New Zealand. After that things start to go a bit pear-shaped (almost literally) as I show at the end of this page.</p>
+<p>Anyway, to tackle this, I used the <a href="http://www.mapshaper.org/"><code>rmapshaper</code> package</a> which can do topological simplification of polygons. You specify a <code>keep</code> parameter for the fraction of vertices to retain in the simplified geometries. For reasons of binary division, I started from 5.12% (the <code>ms_simplify</code> function defaults to 5%) and progressed in steps of 50%, all the way down to retaining 0.0025%. At 1 vertex in 40,000 or so of the original geometry we get quite a nice 25 vertex ‘minimal’ New Zealand. After that things start to go a bit pear-shaped (almost literally) as I show at the end of this page.</p>
 <p>Stewart Island survives until 0.01% a step more than Lake Taupō, while the Chathams drop out a step before that.</p>
 <section id="libraries" class="level2">
 <h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
@@ -459,7 +459,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>So… here’s a pretty recognisable minimal map of New Zealand, with 27 points:</p>
+<p>So… here’s a pretty recognisable minimal map of New Zealand, with 25 points:</p>
 <div class="cell preview-image" data-hash="26-minimal_cache/html/unnamed-chunk-5_6beb334f2ce4fd991993f67bcd2483bc">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(geoms[<span class="dv">12</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -482,7 +482,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>One more gets us an unexpectedly recognisable 12 vertices:</p>
+<p>One more gets us an unexpectedly recognisable 10 vertices:</p>
 <div class="cell" data-hash="26-minimal_cache/html/unnamed-chunk-7_f6d96ebe5395a989c33abc5e9af6e862">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(geoms[<span class="dv">12</span>] <span class="sc">%&gt;%</span> </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">ms_simplify</span>(<span class="at">keep =</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span> </span>
@@ -761,7 +761,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":true,"descPosition":"bottom","closeEffect":"zoom","openEffect":"zoom"});</script>
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","loop":true,"closeEffect":"zoom","selector":".lightbox","openEffect":"zoom"});</script>
 
 
 

@@ -18,7 +18,7 @@ Probably not really in keeping with the theme for this one, but I once claimed (
 
 The source is this [Statistics NZ SA2 geographic boundaries dataset](https://datafinder.stats.govt.nz/layer/92210-statistical-area-1-2018-generalised/) selecting only the mainland and island areas, and dissolving them into a single multipolygon. This has around 880,000 vertices. There are a lot of small islands in this dataset (over 1700) and these are rapidly sacrificed by the generalisation process. It is worth noting that _R_ hangs when trying to plot this layer.
 
-Anyway, to tackle this, I used the [`rmapshaper` package](http://www.mapshaper.org/) which can do topological simplification of polygons. You specify a `keep` parameter for the fraction of vertices to retain in the simplified geometries. For reasons of binary division, I started from 5.12% (the `ms_simplify` function defaults to 5%) and progressed in steps of 50%, all the way down to retaining 0.0025%. At 1 vertex in 40,000 or so of the original geometry we get quite a nice 27 vertex 'minimal' New Zealand. After that things start to go a bit pear-shaped (almost literally) as I show at the end of this page.
+Anyway, to tackle this, I used the [`rmapshaper` package](http://www.mapshaper.org/) which can do topological simplification of polygons. You specify a `keep` parameter for the fraction of vertices to retain in the simplified geometries. For reasons of binary division, I started from 5.12% (the `ms_simplify` function defaults to 5%) and progressed in steps of 50%, all the way down to retaining 0.0025%. At 1 vertex in 40,000 or so of the original geometry we get quite a nice 25 vertex 'minimal' New Zealand. After that things start to go a bit pear-shaped (almost literally) as I show at the end of this page.
 
 Stewart Island survives until 0.01% a step more than Lake Taupō, while the Chathams drop out a step before that.
 
@@ -85,7 +85,7 @@ ggplot(nzs) +
   theme(panel.border = element_rect(fill = NA))
 ```
 
-So... here's a pretty recognisable minimal map of New Zealand, with 27 points:
+So... here's a pretty recognisable minimal map of New Zealand, with 25 points:
 
 ```{r}
 #| classes: preview-image
@@ -99,7 +99,7 @@ plot(geoms[12] %>%
        ms_simplify(keep = 0.5))
 ```
 
-One more gets us an unexpectedly recognisable 12 vertices:
+One more gets us an unexpectedly recognisable 10 vertices:
 
 ```{r}
 plot(geoms[12] %>% 
