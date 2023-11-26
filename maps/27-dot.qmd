@@ -85,7 +85,7 @@ vars <- names(hexes)[which(str_sub(names(hexes), 1, 4) == "Rank")][-1]
 ```
 
 ## The map
-`tmap` this time, as there is no point even trying with `ggplot2` this time since it won't allow multiple fill aesthetics to be specified.
+`tmap` only this time, because I've moved on from the `tmap` _vs_ `ggplot2` concept!
 
 First, a version with only 'dots' for the purists... click on the map for a closer look.
 
