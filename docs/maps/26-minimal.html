@@ -375,7 +375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Less is more.</p>
 <p>Probably not really in keeping with the theme for this one, but I once claimed (in <a href="https://www.wiley.com/en-us/Geographic+Information+Analysis%2C+2nd+Edition-p-9780470288573"><em>Geographical Information Analysis</em></a>) that a recognisable map of Australia could be formed from only 9 points (sorry Tasmania…). For this theme, I thought I’d take a look at what a minimal New Zealand might look like. Funny thing is, I think you need more points for a recognisable New Zealand.</p>
-<p>The source is this <a href="https://datafinder.stats.govt.nz/layer/92210-statistical-area-1-2018-generalised/">Statistics NZ SA2 geographic boundaries dataset</a> selecting only the mainland and island areas, and dissolving them into a single multipolygon. This has around 880,000 vertices. There are a lot of small islands in this dataset (over 1700) and these are rapidly sacrificed by the generalisation process. It is worth noting that <em>R</em> hangs when trying to plot this layer.</p>
+<p>The source is this <a href="https://datafinder.stats.govt.nz/layer/92210-statistical-area-1-2018-generalised/">Statistics NZ SA2 geographic boundaries dataset</a> selecting only the mainland and island areas, and dissolving them into a single multipolygon. This has around 880,000 vertices. There are a lot of small islands in this dataset (over 1700) and these are rapidly sacrificed by the generalisation process. It is worth noting that <em>R</em> hangs when trying to plot this layer ungeneralised, at least on my laptop (even with 64GB of RAM).</p>
 <p>Anyway, to tackle this, I used the <a href="http://www.mapshaper.org/"><code>rmapshaper</code> package</a> which can do topological simplification of polygons. You specify a <code>keep</code> parameter for the fraction of vertices to retain in the simplified geometries. For reasons of binary division, I started from 5.12% (the <code>ms_simplify</code> function defaults to 5%) and progressed in steps of 50%, all the way down to retaining 0.0025%. At 1 vertex in 40,000 or so of the original geometry we get quite a nice 25 vertex ‘minimal’ New Zealand. After that things start to go a bit pear-shaped (almost literally) as I show at the end of this page.</p>
 <p>Stewart Island survives until 0.01% a step more than Lake Taupō, while the Chathams drop out a step before that.</p>
 <section id="libraries" class="level2">
@@ -761,7 +761,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","loop":true,"descPosition":"bottom","openEffect":"zoom"});</script>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":true,"openEffect":"zoom"});</script>
 
 
 
