@@ -393,11 +393,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-wrangling" class="level2">
 <h2 class="anchored" data-anchor-id="data-wrangling">Data wrangling</h2>
-<p>The two main pain points here are:</p>
-<ul>
-<li>it is much faster to iteratively apply <code>keep = 0.5</code> to each step, than to start with the full map and keep 5.12%, then 2.56%, then 1.28% and so on; and</li>
-<li>getting the factor order right is fiddly. I wanted the facet plots to proceed from less generalised (higher % values) to more, and that requires care in setting up the factor order.</li>
-</ul>
+<p>The two main pain points here are, first, that it is much faster to iteratively apply <code>keep = 0.5</code> to each step, than to start with the full map and keep 5.12%, then 2.56%, then 1.28% and so on; and second, that getting the factor order right is fiddly. I wanted the facet plots to proceed from less generalised (higher % values) to more, and that requires care in setting up the factor.</p>
 <div class="cell" data-hash="26-minimal_cache/html/unnamed-chunk-2_f1a605de5a347cb0ab24cf6a9b60f38b">
 <details>
 <summary>Code</summary>
@@ -761,7 +757,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":true,"openEffect":"zoom"});</script>
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":true});</script>
 
 
 

@@ -34,10 +34,7 @@ library(dplyr)
 ```
 
 ## Data wrangling
-The two main pain points here are:
-
-+ it is much faster to iteratively apply `keep = 0.5` to each step, than to start with the full map and keep 5.12%, then 2.56%, then 1.28% and so on; and
-+ getting the factor order right is fiddly. I wanted the facet plots to proceed from less generalised (higher % values) to more, and that requires care in setting up the factor order.
+The two main pain points here are, first, that it is much faster to iteratively apply `keep = 0.5` to each step, than to start with the full map and keep 5.12%, then 2.56%, then 1.28% and so on; and second, that getting the factor order right is fiddly. I wanted the facet plots to proceed from less generalised (higher % values) to more, and that requires care in setting up the factor.
 
 ```{r}
 #| results: false
