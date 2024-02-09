@@ -18,7 +18,7 @@ Another departure from the `tmap` vs `ggplot2` face-off, given the specialised n
 
 If you live in Wellington as I do, then wind is the most salient aspect of the weather. Weather data in Aotearoa New Zealand of any kind (wind or otherwise) are regrettably not easy to get hold of.
 
-After some fruitless searching I stumbled upon the [`rWind` package](https://github.com/jabiologo/rWind) (_of course_ there's a package about wind in _R_ called `rWind`, because... it's _R_). I imagine my erstwhile colleagues in climate science at could have told me this right away, if I'd known to ask.
+After some fruitless searching I stumbled upon the [`rWind` package](https://github.com/jabiologo/rWind) (_of course_ there's a package about wind in _R_ called `rWind`, because... it's _R_). I imagine my erstwhile colleagues in climate science at VUW could have told me this right away, if I'd known to ask.
 
 `rWind` allows relatively easy download of [GFS (Global Forecast System)](https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast) data. In combination with the [`rasterVis` package](https://oscarperpinan.github.io/rastervis/) I managed to cobble together something interesting to look at, if not up to the level of the amazing visualisation of [earth.nullschool.net](https://earth.nullschool.net/#2023/10/26/0000Z/wind/surface/level/orthographic=-191.58,-45.04,2116)!
 

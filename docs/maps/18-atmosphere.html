@@ -372,7 +372,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Conditions of the atmosphere can be either weather or climate.</p>
 <p>Another departure from the <code>tmap</code> vs <code>ggplot2</code> face-off, given the specialised nature of weather data, and presentations.</p>
 <p>If you live in Wellington as I do, then wind is the most salient aspect of the weather. Weather data in Aotearoa New Zealand of any kind (wind or otherwise) are regrettably not easy to get hold of.</p>
-<p>After some fruitless searching I stumbled upon the <a href="https://github.com/jabiologo/rWind"><code>rWind</code> package</a> (<em>of course</em> there’s a package about wind in <em>R</em> called <code>rWind</code>, because… it’s <em>R</em>). I imagine my erstwhile colleagues in climate science at could have told me this right away, if I’d known to ask.</p>
+<p>After some fruitless searching I stumbled upon the <a href="https://github.com/jabiologo/rWind"><code>rWind</code> package</a> (<em>of course</em> there’s a package about wind in <em>R</em> called <code>rWind</code>, because… it’s <em>R</em>). I imagine my erstwhile colleagues in climate science at VUW could have told me this right away, if I’d known to ask.</p>
 <p><code>rWind</code> allows relatively easy download of <a href="https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast">GFS (Global Forecast System)</a> data. In combination with the <a href="https://oscarperpinan.github.io/rastervis/"><code>rasterVis</code> package</a> I managed to cobble together something interesting to look at, if not up to the level of the amazing visualisation of <a href="https://earth.nullschool.net/#2023/10/26/0000Z/wind/surface/level/orthographic=-191.58,-45.04,2116">earth.nullschool.net</a>!</p>
 <p>That it is indeed windy around Wellington is confirmed—a lot to do with the Cook Strait funneling the ‘Roaring Forties’ our way.</p>
 <section id="libraries" class="level2">
@@ -703,7 +703,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","openEffect":"zoom","loop":true,"descPosition":"bottom"});</script>
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":true,"selector":".lightbox","descPosition":"bottom","closeEffect":"zoom"});</script>
 
 
 

@@ -370,8 +370,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>A classic theme for a map.</p>
-<p>Given the recent <a href="https://datafinder.stats.govt.nz/data/?q=gridded+population">release of approved population grids data by Statistics New Zealand</a>, it seems an apt moment for the by-now classic <a href="https://jcheshire.com/featured-maps/population-lines-how-and-why-i-created-it/">Joy Division <em>Unknown Pleasures</em> ‘ridge lines’ map of population</a>. No use trying this in <code>tmap</code>, but there is a <a href="https://wilkelab.org/ggridges/index.html">package <code>ggridges</code></a> that handles it nicely. The population grids are much too high resolution for this to work for the whole country, so I convert them to rasters to enable simple reaggregation, and then remake them as points which is what <code>ggridges</code> wants.</p>
-<p>After some experimentation I found a 10km resolution was about right, and that this required me to downscale the population by 10% to keep Auckland from exceeding the northern extent of the map area.</p>
+<p>Given the recent <a href="https://datafinder.stats.govt.nz/data/?q=gridded+population">release of approved population grids data by Statistics New Zealand</a>, it seems an apt moment for the by-now classic <a href="https://jcheshire.com/featured-maps/population-lines-how-and-why-i-created-it/">Joy Division <em>Unknown Pleasures</em> ‘ridge lines’ map of population</a>. No use trying this in <code>tmap</code>, but there is a <a href="https://wilkelab.org/ggridges/index.html">package <code>ggridges</code></a> that handles it nicely.</p>
 <section id="libraries" class="level2">
 <h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
 <div class="cell" data-hash="29-population_cache/html/unnamed-chunk-1_8b8b8f60e7375c1ec0a6b831821cd522">
@@ -387,6 +386,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-wrangling" class="level2">
 <h2 class="anchored" data-anchor-id="data-wrangling">Data wrangling</h2>
+<p>The population grids are much too high resolution for this to work for the whole country, so I convert them to rasters to enable simple reaggregation, and then remake them as points which is what <code>ggridges</code> wants.</p>
+<p>After some experimentation I found a 10km resolution was about right, and that this required me to downscale the population by 10% to keep Auckland from exceeding the northern extent of the map area.</p>
 <div class="cell" data-hash="29-population_cache/html/unnamed-chunk-2_827861b6241698aa6d19c292e9220c13">
 <details>
 <summary>Code</summary>
@@ -689,7 +690,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","openEffect":"zoom","loop":true,"selector":".lightbox","closeEffect":"zoom"});</script>
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","loop":true,"descPosition":"bottom","openEffect":"zoom"});</script>
 
 
 

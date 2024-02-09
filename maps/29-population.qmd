@@ -14,9 +14,7 @@ lightbox: auto
 
 A classic theme for a map.
 
-Given the recent [release of approved population grids data by Statistics New Zealand](https://datafinder.stats.govt.nz/data/?q=gridded+population), it seems an apt moment for the by-now classic [Joy Division _Unknown Pleasures_ 'ridge lines' map of population](https://jcheshire.com/featured-maps/population-lines-how-and-why-i-created-it/). No use trying this in `tmap`, but there is a [package `ggridges`](https://wilkelab.org/ggridges/index.html) that handles it nicely. The population grids are much too high resolution for this to work for the whole country, so I convert them to rasters to enable simple reaggregation, and then remake them as points which is what `ggridges` wants.
-
-After some experimentation I found a 10km resolution was about right, and that this required me to downscale the population by 10% to keep Auckland from exceeding the northern extent of the map area.
+Given the recent [release of approved population grids data by Statistics New Zealand](https://datafinder.stats.govt.nz/data/?q=gridded+population), it seems an apt moment for the by-now classic [Joy Division _Unknown Pleasures_ 'ridge lines' map of population](https://jcheshire.com/featured-maps/population-lines-how-and-why-i-created-it/). No use trying this in `tmap`, but there is a [package `ggridges`](https://wilkelab.org/ggridges/index.html) that handles it nicely.
 
 ## Libraries
 ```{r}
@@ -30,6 +28,10 @@ library(terra)
 ```
 
 ## Data wrangling
+The population grids are much too high resolution for this to work for the whole country, so I convert them to rasters to enable simple reaggregation, and then remake them as points which is what `ggridges` wants.
+
+After some experimentation I found a 10km resolution was about right, and that this required me to downscale the population by 10% to keep Auckland from exceeding the northern extent of the map area.
+
 ```{r}
 #| results: false
 #| code-fold: true
