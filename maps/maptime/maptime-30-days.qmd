@@ -133,4 +133,6 @@ Don't do it for an audience
 
 ## For more
 [dosull.github.io](https://dosull.github.io)
+[github.com/DOSull/30-day-maps-2023](https://github.com/DOSull/30-day-maps-2023)
+[github.com/DOSull/weaving-space](https://github.com/DOSull/weaving-space)
 
