@@ -4,14 +4,20 @@
     "href": "index.html",
     "title": "So what’s this all about then?",
     "section": "",
-    "text": "I decided to give the 30 Day Map Challenge a go this year.\nMy efforts are not an exercise in flashy cartographic design. I’ve been using tmap for a few years. Version 4.0 is due soon and includes major changes, which at first glance make it more similar in many ways to ggplot2, which I have often dabbled with. So… I thought I’d make some simple maps using both platforms to get a feel for the pros and cons of each.\nAs the month wore on, I tried some other things, there being only so many things you can do using tools optimised for relatively simple thematic mapping."
+    "text": "I decided to give the 30 Day Map Challenge a go this year.\nMy efforts are not an exercise in flashy cartographic design. I’ve been using tmap for a few years. Version 4.0 is due soon and includes major changes, which at first glance make it more similar in many ways to ggplot2, which I have often dabbled with. So… I thought I’d make some simple maps using both platforms to get a feel for the pros and cons of each.\nAs the month wore on, I tried some other things, there being only so many things you can do using tools optimised for relatively simple thematic mapping.",
+    "crumbs": [
+      "So what's this all about then?"
+    ]
   },
   {
     "objectID": "index.html#final-thoughts",
     "href": "index.html#final-thoughts",
     "title": "So what’s this all about then?",
     "section": "Final thoughts",
-    "text": "Final thoughts\nI don’t know that I arrived at any specific conclusions concerning the relative merits of tmap and ggplot2. It’s often easier to use ggplot2 if you need tools from the wider R ecosystem (e.g. see 29 Population). But if you want to play fast and loose with colour palettes, tmap is more forgiving than ggplot2, and crucially it is OK with letting you apply the same aesthetic (e.g. colour) to more than one dataset. In mapping applications that is a pretty commonly encountered requirement. tmap also has more traditional ‘map junk’ (scale bars, north arrows, web basemaps) baked in, so you don’t have to call on other packages like ggspatial. For what it’s worth, if you are doing additional work on a graphic in Inkscape or Illustrator, I have generally found the SVGs exported by tmap to be more easily managed (the layering is better, for example).\nA cop out, probably, but they are both great packages!"
+    "text": "Final thoughts\nI don’t know that I arrived at any specific conclusions concerning the relative merits of tmap and ggplot2. It’s often easier to use ggplot2 if you need tools from the wider R ecosystem (e.g. see 29 Population). But if you want to play fast and loose with colour palettes, tmap is more forgiving than ggplot2, and crucially it is OK with letting you apply the same aesthetic (e.g. colour) to more than one dataset. In mapping applications that is a pretty commonly encountered requirement. tmap also has more traditional ‘map junk’ (scale bars, north arrows, web basemaps) baked in, so you don’t have to call on other packages like ggspatial. For what it’s worth, if you are doing additional work on a graphic in Inkscape or Illustrator, I have generally found the SVGs exported by tmap to be more easily managed (the layering is better, for example).\nA cop out, probably, but they are both great packages!",
+    "crumbs": [
+      "So what's this all about then?"
+    ]
   },
   {
     "objectID": "maps/22-north-not-up.html",
@@ -929,5 +935,91 @@
     "title": "03 Polygons",
     "section": "ggplot2",
     "text": "ggplot2\n\nggplot(nz_not_nz) +\n  geom_sf(aes(fill = What), linewidth = 0) +\n  scale_fill_manual(values = c(\"#33aa66\", \"#bbddff\")) +\n  theme_void()"
+  },
+  {
+    "objectID": "maps/maptime/maptime-30-days.html#section",
+    "href": "maps/maptime/maptime-30-days.html#section",
+    "title": "30 day map challenge, 2023",
+    "section": "",
+    "text": "Maptime! Wellington, 20 March 2024"
+  },
+  {
+    "objectID": "maps/maptime/maptime-30-days.html#given-my-situation-decided-to-give-it-a-go",
+    "href": "maps/maptime/maptime-30-days.html#given-my-situation-decided-to-give-it-a-go",
+    "title": "30 day map challenge, 2023",
+    "section": "Given my situation, decided to give it a go",
+    "text": "Given my situation, decided to give it a go"
+  },
+  {
+    "objectID": "maps/maptime/maptime-30-days.html#tmap",
+    "href": "maps/maptime/maptime-30-days.html#tmap",
+    "title": "30 Day Map Challenge 2023",
+    "section": "tmap",
+    "text": "tmap\nA ggplot-a-like tailored to thematic maps\nIn place of aes() to specify the data-visual variable relations, there are functions tm_polygons, tm_borders, tm_fill, tm_lines, and so on\nAlso provides tm_scalebar, tm_compass and other ‘map frills’",
+    "crumbs": [
+      "Maps",
+      "Maptime",
+      "30 Day Map Challenge 2023"
+    ]
+  },
+  {
+    "objectID": "maps/maptime/maptime-30-days.html#ggplot2",
+    "href": "maps/maptime/maptime-30-days.html#ggplot2",
+    "title": "30 Day Map Challenge 2023",
+    "section": "ggplot2",
+    "text": "ggplot2\nBased on The Grammar of Graphics\nAesthetic ‘mappings’ between variables in data and visual variables\nFocused on applying ‘geometries’—geom_point, geom_line, geom_bar, etc.—to data, e.g.\nggplot2(dataset) +\n  geom_point(aes(x = var1, y = var2))\nOne geometry option is geom_sf for making maps",
+    "crumbs": [
+      "Maps",
+      "Maptime",
+      "30 Day Map Challenge 2023"
+    ]
+  },
+  {
+    "objectID": "maps/maptime/maptime-30-days.html#tmap-output",
+    "href": "maps/maptime/maptime-30-days.html#tmap-output",
+    "title": "30 Day Map Challenge 2023",
+    "section": "tmap",
+    "text": "tmap",
+    "crumbs": [
+      "Maps",
+      "Maptime",
+      "30 Day Map Challenge 2023"
+    ]
+  },
+  {
+    "objectID": "maps/maptime/maptime-30-days.html#ggplot2-output",
+    "href": "maps/maptime/maptime-30-days.html#ggplot2-output",
+    "title": "30 Day Map Challenge 2023",
+    "section": "ggplot2",
+    "text": "ggplot2",
+    "crumbs": [
+      "Maps",
+      "Maptime",
+      "30 Day Map Challenge 2023"
+    ]
+  },
+  {
+    "objectID": "maps/maptime/maptime-30-days.html#maps",
+    "href": "maps/maptime/maptime-30-days.html#maps",
+    "title": "30 Day Map Challenge 2023",
+    "section": "Maps",
+    "text": "Maps",
+    "crumbs": [
+      "Maps",
+      "Maptime",
+      "30 Day Map Challenge 2023"
+    ]
+  },
+  {
+    "objectID": "maps/maptime/maptime-30-days.html#for-more",
+    "href": "maps/maptime/maptime-30-days.html#for-more",
+    "title": "30 Day Map Challenge 2023",
+    "section": "For more",
+    "text": "For more\ndosull.github.io\n\n\n\nMaptime! Wellington, 20 March 2024",
+    "crumbs": [
+      "Maps",
+      "Maptime",
+      "30 Day Map Challenge 2023"
+    ]
   }
 ]
