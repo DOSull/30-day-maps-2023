@@ -5,14 +5,16 @@ author: "David O'Sullivan"
 output-location: slide
 format: 
   revealjs:
-    theme: [sky, custom.scss]
+    theme: [black, custom.scss]
     navigation-mode: vertical
     fragment-in-url: true
     slide-number: c/t
     footer: "Maptime! Wellington, 20 March 2024"
     self-contained: true
     center: true
-execute:
+execute: 
+  cache: true
+  freeze: auto
   echo: true
   warning: false
   message: false
@@ -109,11 +111,11 @@ tmap_save(map2, "map2.png", width = 8, height = 5)
 
 :::: {.columns}
 ::: {.column width="50%"}
-![](map1.png)
+![`ggplot2`](map1.png)
 :::
 
 :::{.column width="50%"}
-![](map2.png)
+![`tmap`](map2.png)
 :::
 ::::
 
@@ -123,15 +125,20 @@ See it at [dosull.github.io/30-day-maps-2023](https://dosull.github.io/30-day-ma
 ## {background-iframe="https://dosull.github.io/30-day-maps-2023"  background-interactive=True}
 
 # Reflections {.smaller}
+
+---
+
+<h2>On the challenge</h2>
 You _don't_ need a theme
 
 _Cheat_ and _forgive_ yourself
 
 Don't do it for an audience
 
+<h2>On `tmap` _vs_ `ggplot2`</h2>
 `tmap` is likely still preferable to `ggplot2` for basic thematic maps
 
-_R_ is an option very much worth considering for routine mapping applications
+Either is very good and _R_ is an option very much worth considering for routine mapping applications
 
 ## For more
 [github.com/DOSull/30-day-maps-2023](https://github.com/DOSull/30-day-maps-2023)
@@ -140,4 +147,4 @@ _R_ is an option very much worth considering for routine mapping applications
 
 [dosull.github.io](https://dosull.github.io)
 
-Reach me on [LinkedIn]([https://](https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/))
+Reach me on [LinkedIn](https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/)
