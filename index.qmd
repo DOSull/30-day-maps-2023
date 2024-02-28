@@ -1,7 +1,7 @@
 ---
 title: "So what's this all about then?"
 listing:
-  contents: maps
+  contents: maps/[0-9]*.qmd
   type: grid
   grid-columns: 3
   page-size: 30
