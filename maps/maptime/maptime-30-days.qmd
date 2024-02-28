@@ -131,8 +131,13 @@ Don't do it for an audience
 
 `tmap` is likely still preferable to `ggplot2` for basic thematic maps
 
+_R_ is an option very much worth considering for routine mapping applications
+
 ## For more
-[dosull.github.io](https://dosull.github.io)
 [github.com/DOSull/30-day-maps-2023](https://github.com/DOSull/30-day-maps-2023)
+
 [github.com/DOSull/weaving-space](https://github.com/DOSull/weaving-space)
 
+[dosull.github.io](https://dosull.github.io)
+
+Reach me on [LinkedIn]([https://](https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/))
