@@ -54,7 +54,7 @@ and later detailed by
 
 > Brewer CA and KA Marlow. 1993. [Color representation of aspect and slope simultaneously](https://cartogis.org/docs/proceedings/archive/auto-carto-11/pdf/color-representation-of-aspect-and-slope-simultaneously.pdf) pages 328-337 in RB McMaster and MP Armstrong (eds.) _Auto-Carto 11 Proceedings of the International Symposium On Computer-Assisted Cartography_.
 
-When I came across this on the cover of [_Visualization in Modern Cartography_] (confusingly not a topic covered in that book), it was one of those aha! moments.
+When I came across this on the cover of [_Visualization in Modern Cartography_](https://www.sciencedirect.com/bookseries/modern-cartography-series/vol/2/suppl/C), it was one of those aha! moments.
 
 ![](visualization-in-modern-cartography-cover.png)
 

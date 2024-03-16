@@ -400,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The dataset was made using the <code>hex-dissection</code> tiling method, mentioned in passing in <a href="https://dosull.github.io/weaving-space/NZCS-Aug-2022/slides/#/hexagon-dissections-and-colourings">this presentation</a>.</p>
 <section id="libraries-and-data" class="level2">
 <h2 class="anchored" data-anchor-id="libraries-and-data">Libraries and data</h2>
-<div class="cell" data-hash="23-3d_cache/html/unnamed-chunk-1_5e604e91d6b14f2677a23a0c3781bcdf">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
@@ -414,7 +414,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-map" class="level2">
 <h2 class="anchored" data-anchor-id="the-map">The map</h2>
 <p>I’ve used <code>ggplot2</code> here because it’s easier to just set the bounds on the map if you don’t happen to have a spatial data layer available that bounds things nicely. <code>ggplot2</code> is very pernickety about proper use of the Brewer palettes, and <em>Spectral</em> maxes out at 11 colours (properly speaking) but I have 12 pie slices to fill. The <code>cols4all</code> package comes to the rescue here because it has no qualms about interpolating additional colours (note that <code>tmap</code> does this by default with the Brewer palettes).</p>
-<div class="cell preview-image" data-hash="23-3d_cache/html/unnamed-chunk-2_7a9c3918949b85a363fa98e49496ec74">
+<div class="cell preview-image">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hexes) <span class="sc">+</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> element_id), <span class="at">linewidth =</span> <span class="dv">0</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete_c4a_div</span>(<span class="st">"spectral"</span>) <span class="sc">+</span></span>
@@ -438,7 +438,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p>Brewer CA and KA Marlow. 1993. <a href="https://cartogis.org/docs/proceedings/archive/auto-carto-11/pdf/color-representation-of-aspect-and-slope-simultaneously.pdf">Color representation of aspect and slope simultaneously</a> pages 328-337 in RB McMaster and MP Armstrong (eds.) <em>Auto-Carto 11 Proceedings of the International Symposium On Computer-Assisted Cartography</em>.</p>
 </blockquote>
-<p>When I came across this on the cover of [<em>Visualization in Modern Cartography</em>] (confusingly not a topic covered in that book), it was one of those aha! moments.</p>
+<p>When I came across this on the cover of <a href="https://www.sciencedirect.com/bookseries/modern-cartography-series/vol/2/suppl/C"><em>Visualization in Modern Cartography</em></a>, it was one of those aha! moments.</p>
 <p><a href="visualization-in-modern-cartography-cover.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="visualization-in-modern-cartography-cover.png" class="img-fluid"></a></p>
 <p>In the papers cited above (but not, confusingly in any chapter of that book) they discuss more saturated spectral schemes than that used here. An instance where maybe it’s OK for cartographers to use a rainbow palette.</p>
 <p>Note that a more precisely defined colour palette would be required for the best possible results, but the <em>Spectral</em> palette comes close without requiring too much manual work.</p>
@@ -869,7 +869,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","selector":".lightbox","loop":false,"descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom","loop":false,"descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
