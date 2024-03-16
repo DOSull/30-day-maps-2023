@@ -30,7 +30,7 @@ library(terra)
 ## Data wrangling
 The population grids are much too high resolution for this to work for the whole country, so I convert them to rasters to enable simple reaggregation, and then remake them as points which is what `ggridges` wants.
 
-After some experimentation I found a 10km resolution was about right, and that this required me to downscale the population by 10% to keep Auckland from exceeding the northern extent of the map area.
+After some experimentation I found a 20km (80 x 250m) resolution was about right. I also rescaled the population numbers to get the vertical movement in the 'ridgelines' that I wanted.
 
 ```{r}
 #| results: false
