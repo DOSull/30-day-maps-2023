@@ -117,7 +117,7 @@ m +
   tm_fill(fill = "#eeeeee") +
   tm_shape(legend_elements %>% slice(-8)) +
   tm_dots(fill = "white", size = 2.1) + 
-  tm_text(text = "dimension", size = 0.8) +
+  tm_text(text = "dimension", size = 0.8, just = c(0.35, 0.5)) +
   tm_layout(frame = FALSE)
 ```
 
@@ -156,7 +156,7 @@ m +
   tm_fill(fill = "#eeeeee") +
   tm_shape(legend_elements %>% slice(-8)) +
   tm_dots(fill = "white", size = 2.1) + 
-  tm_text(text = "dimension", size = 0.8) +
+  tm_text(text = "dimension", size = 0.8, just = c(0.35, 0.5)) +
   tm_layout(frame = FALSE)
 ```
 
@@ -198,6 +198,6 @@ m +
   tm_bubbles(fill = "#dddddd", size = 8, lwd = 0) +
   tm_shape(legend_elements %>% slice(-8)) +
   tm_dots(fill = "white", size = 2.1) + 
-  tm_text(text = "dimension", size = 0.8) +
+  tm_text(text = "dimension", size = 0.8, just = c(0.35, 0.5)) +
   tm_layout(frame = FALSE)
 ```

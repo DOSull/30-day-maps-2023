@@ -330,6 +330,30 @@
     ]
   },
   {
+    "objectID": "maps/maptime/maptime-30-days.html#on-the-challenge",
+    "href": "maps/maptime/maptime-30-days.html#on-the-challenge",
+    "title": "30 Day Map Challenge 2023",
+    "section": "On the challenge",
+    "text": "On the challenge\nYou don’t need a theme\nCheat and forgive yourself\nDon’t do it for an audience",
+    "crumbs": [
+      "Maps",
+      "Maptime",
+      "30 Day Map Challenge 2023"
+    ]
+  },
+  {
+    "objectID": "maps/maptime/maptime-30-days.html#on-tmap-vs-ggplot2",
+    "href": "maps/maptime/maptime-30-days.html#on-tmap-vs-ggplot2",
+    "title": "30 Day Map Challenge 2023",
+    "section": "On tmap vs ggplot2",
+    "text": "On tmap vs ggplot2\ntmap is likely still preferable to ggplot2 for basic thematic maps\nEither is very good and R is an option very much worth considering for routine mapping applications",
+    "crumbs": [
+      "Maps",
+      "Maptime",
+      "30 Day Map Challenge 2023"
+    ]
+  },
+  {
     "objectID": "maps/maptime/maptime-30-days.html#for-more",
     "href": "maps/maptime/maptime-30-days.html#for-more",
     "title": "30 Day Map Challenge 2023",
@@ -610,7 +634,7 @@
     "href": "maps/27-dot.html#the-map",
     "title": "27 Dot",
     "section": "The map",
-    "text": "The map\ntmap only this time, because I’ve moved on from the tmap vs ggplot2 concept!\nFirst, a version with only ‘dots’ for the purists… click on the map for a closer look.\n\nm &lt;- tm_shape(base) +\n  tm_fill(fill = \"#eeeeee\")\nfor (i in 1:7) {\n  m &lt;- m + \n    tm_shape(layers[[i]]) + \n    tm_bubbles(\n      fill = vars[i], \n      fill.scale = tm_scale_continuous(\n        values = \"tol.sunset\"),\n      fill.legend = tm_legend(\n        limits = range(pull(layers[[i]], vars[i])),\n        variable = \"fill\",\n        title = \"Deprivation\",\n        labels = c(\"Low\", rep(\"\", 4), \"High\"),\n        orientation = \"landscape\",\n        width = 15,\n        position = tm_pos_in(pos.h = \"center\", pos.v = \"bottom\", just.h = 1),\n        frame = FALSE,\n        show = (i == 1)),\n      size = 0.35,\n      lwd = 0)\n}\nm + \n  tm_shape(legend_elements %&gt;% slice(8)) +\n  tm_fill(fill = \"#eeeeee\") +\n  tm_shape(legend_elements %&gt;% slice(-8)) +\n  tm_dots(fill = \"white\", size = 2.1) + \n  tm_text(text = \"dimension\", size = 0.8) +\n  tm_layout(frame = FALSE)\n\n\n\n\n\n\n\n\nNext, one with the background ‘rosettes’ coloured by the aggregate or summary index. This is interesting because it lets you see how specific aspects of deprivation relate to the overall aggregate index.\n\nm &lt;- tm_shape(base) +\n  tm_fill(\n    fill = \"Rank_IMD18\", \n    fill.scale = tm_scale_continuous(\n      values = \"tol.sunset\"),\n    fill.legend = tm_legend_hide(),\n    fill_alpha = 0.75)\nfor (i in 1:7) {\n  m &lt;- m + \n    tm_shape(layers[[i]]) + \n    tm_bubbles(\n      fill = vars[i], \n      fill.scale = tm_scale_continuous(\n        values = \"tol.sunset\"),\n      fill.legend = tm_legend(\n        limits = range(pull(layers[[i]], vars[i])),\n        variable = \"fill\",\n        title = \"Deprivation\",\n        labels = c(\"Low\", rep(\"\", 4), \"High\"),\n        orientation = \"landscape\",\n        width = 15,\n        position = tm_pos_in(pos.h = \"center\", pos.v = \"bottom\", just.h = 1),\n        frame = FALSE,\n        show = (i == 1)),\n      size = 0.35,\n      lwd = 0)\n}\nm + \n  tm_shape(legend_elements %&gt;% slice(8)) +\n  tm_fill(fill = \"#eeeeee\") +\n  tm_shape(legend_elements %&gt;% slice(-8)) +\n  tm_dots(fill = \"white\", size = 2.1) + \n  tm_text(text = \"dimension\", size = 0.8) +\n  tm_layout(frame = FALSE)\n\n\n\n\n\n\n\n\nAnd finally, also ‘dots only’, but this time with big dots for the summary index. I think this one is the prettiest.\n\nm &lt;- tm_shape(layers[[1]]) +\n  tm_bubbles(\n    fill = \"Rank_IMD18\", \n    fill.scale = tm_scale_continuous(\n      values = \"tol.sunset\"),\n    fill.legend = tm_legend_hide(),\n    size = 1.5,\n    fill_alpha = 0.75,\n    lwd = 0)\nfor (i in 1:7) {\n  m &lt;- m + \n    tm_shape(layers[[i]]) + \n    tm_bubbles(\n      fill = vars[i], \n      fill.scale = tm_scale_continuous(\n        values = \"tol.sunset\"),\n      fill.legend = tm_legend(\n        limits = range(pull(layers[[i]], vars[i])),\n        variable = \"fill\",\n        title = \"Deprivation\",\n        labels = c(\"Low\", rep(\"\", 4), \"High\"),\n        orientation = \"landscape\",\n        width = 15,\n        position = tm_pos_in(pos.h = \"center\", pos.v = \"bottom\", just.h = 1),\n        frame = FALSE,\n        show = (i == 1)),\n      size = 0.35,\n      lwd = 0)\n}\nm + \n  tm_shape(legend_elements %&gt;% slice(8)) +\n  tm_bubbles(fill = \"#dddddd\", size = 8, lwd = 0) +\n  tm_shape(legend_elements %&gt;% slice(-8)) +\n  tm_dots(fill = \"white\", size = 2.1) + \n  tm_text(text = \"dimension\", size = 0.8) +\n  tm_layout(frame = FALSE)",
+    "text": "The map\ntmap only this time, because I’ve moved on from the tmap vs ggplot2 concept!\nFirst, a version with only ‘dots’ for the purists… click on the map for a closer look.\n\nm &lt;- tm_shape(base) +\n  tm_fill(fill = \"#eeeeee\")\nfor (i in 1:7) {\n  m &lt;- m + \n    tm_shape(layers[[i]]) + \n    tm_bubbles(\n      fill = vars[i], \n      fill.scale = tm_scale_continuous(\n        values = \"tol.sunset\"),\n      fill.legend = tm_legend(\n        limits = range(pull(layers[[i]], vars[i])),\n        variable = \"fill\",\n        title = \"Deprivation\",\n        labels = c(\"Low\", rep(\"\", 4), \"High\"),\n        orientation = \"landscape\",\n        width = 15,\n        position = tm_pos_in(pos.h = \"center\", pos.v = \"bottom\", just.h = 1),\n        frame = FALSE,\n        show = (i == 1)),\n      size = 0.35,\n      lwd = 0)\n}\nm + \n  tm_shape(legend_elements %&gt;% slice(8)) +\n  tm_fill(fill = \"#eeeeee\") +\n  tm_shape(legend_elements %&gt;% slice(-8)) +\n  tm_dots(fill = \"white\", size = 2.1) + \n  tm_text(text = \"dimension\", size = 0.8, just = c(0.35, 0.5)) +\n  tm_layout(frame = FALSE)\n\n\n\n\n\n\n\n\nNext, one with the background ‘rosettes’ coloured by the aggregate or summary index. This is interesting because it lets you see how specific aspects of deprivation relate to the overall aggregate index.\n\nm &lt;- tm_shape(base) +\n  tm_fill(\n    fill = \"Rank_IMD18\", \n    fill.scale = tm_scale_continuous(\n      values = \"tol.sunset\"),\n    fill.legend = tm_legend_hide(),\n    fill_alpha = 0.75)\nfor (i in 1:7) {\n  m &lt;- m + \n    tm_shape(layers[[i]]) + \n    tm_bubbles(\n      fill = vars[i], \n      fill.scale = tm_scale_continuous(\n        values = \"tol.sunset\"),\n      fill.legend = tm_legend(\n        limits = range(pull(layers[[i]], vars[i])),\n        variable = \"fill\",\n        title = \"Deprivation\",\n        labels = c(\"Low\", rep(\"\", 4), \"High\"),\n        orientation = \"landscape\",\n        width = 15,\n        position = tm_pos_in(pos.h = \"center\", pos.v = \"bottom\", just.h = 1),\n        frame = FALSE,\n        show = (i == 1)),\n      size = 0.35,\n      lwd = 0)\n}\nm + \n  tm_shape(legend_elements %&gt;% slice(8)) +\n  tm_fill(fill = \"#eeeeee\") +\n  tm_shape(legend_elements %&gt;% slice(-8)) +\n  tm_dots(fill = \"white\", size = 2.1) + \n  tm_text(text = \"dimension\", size = 0.8, just = c(0.35, 0.5)) +\n  tm_layout(frame = FALSE)\n\n\n\n\n\n\n\n\nAnd finally, also ‘dots only’, but this time with big dots for the summary index. I think this one is the prettiest.\n\nm &lt;- tm_shape(layers[[1]]) +\n  tm_bubbles(\n    fill = \"Rank_IMD18\", \n    fill.scale = tm_scale_continuous(\n      values = \"tol.sunset\"),\n    fill.legend = tm_legend_hide(),\n    size = 1.5,\n    fill_alpha = 0.75,\n    lwd = 0)\nfor (i in 1:7) {\n  m &lt;- m + \n    tm_shape(layers[[i]]) + \n    tm_bubbles(\n      fill = vars[i], \n      fill.scale = tm_scale_continuous(\n        values = \"tol.sunset\"),\n      fill.legend = tm_legend(\n        limits = range(pull(layers[[i]], vars[i])),\n        variable = \"fill\",\n        title = \"Deprivation\",\n        labels = c(\"Low\", rep(\"\", 4), \"High\"),\n        orientation = \"landscape\",\n        width = 15,\n        position = tm_pos_in(pos.h = \"center\", pos.v = \"bottom\", just.h = 1),\n        frame = FALSE,\n        show = (i == 1)),\n      size = 0.35,\n      lwd = 0)\n}\nm + \n  tm_shape(legend_elements %&gt;% slice(8)) +\n  tm_bubbles(fill = \"#dddddd\", size = 8, lwd = 0) +\n  tm_shape(legend_elements %&gt;% slice(-8)) +\n  tm_dots(fill = \"white\", size = 2.1) + \n  tm_text(text = \"dimension\", size = 0.8, just = c(0.35, 0.5)) +\n  tm_layout(frame = FALSE)",
     "crumbs": [
       "Maps",
       "27 Dot"
@@ -1494,30 +1518,6 @@
     "crumbs": [
       "Maps",
       "13 Choropleth"
-    ]
-  },
-  {
-    "objectID": "maps/maptime/maptime-30-days.html#on-the-challenge",
-    "href": "maps/maptime/maptime-30-days.html#on-the-challenge",
-    "title": "30 Day Map Challenge 2023",
-    "section": "On the challenge",
-    "text": "On the challenge\nYou don’t need a theme\nCheat and forgive yourself\nDon’t do it for an audience",
-    "crumbs": [
-      "Maps",
-      "Maptime",
-      "30 Day Map Challenge 2023"
-    ]
-  },
-  {
-    "objectID": "maps/maptime/maptime-30-days.html#on-tmap-vs-ggplot2",
-    "href": "maps/maptime/maptime-30-days.html#on-tmap-vs-ggplot2",
-    "title": "30 Day Map Challenge 2023",
-    "section": "On tmap vs ggplot2",
-    "text": "On tmap vs ggplot2\ntmap is likely still preferable to ggplot2 for basic thematic maps\nEither is very good and R is an option very much worth considering for routine mapping applications",
-    "crumbs": [
-      "Maps",
-      "Maptime",
-      "30 Day Map Challenge 2023"
     ]
   }
 ]
