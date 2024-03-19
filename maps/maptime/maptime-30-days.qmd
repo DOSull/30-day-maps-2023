@@ -27,12 +27,11 @@ knitr:
 ---
 
 # Overview {.smaller}
+[`tmap` and `ggplot2`: some background](#tmap-and-ggplot2)
  
-Decided to give it a go
- 
-&lt;spoilers&gt; It was... interesting?!
- 
-Also: hard
+[A random walk through the maps](#the-challenge)
+
+[Reflections](#reflections)
 
 # `tmap` and `ggplot2` {.smaller}
 
