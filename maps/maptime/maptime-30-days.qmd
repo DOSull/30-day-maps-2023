@@ -5,7 +5,7 @@ author: "David O'Sullivan"
 output-location: slide
 format: 
   revealjs:
-    theme: [black, custom.scss]
+    theme: [serif, custom.scss]
     navigation-mode: vertical
     fragment-in-url: true
     slide-number: c/t
@@ -27,24 +27,20 @@ knitr:
 ---
 
 # Overview {.smaller}
+ 
 Decided to give it a go
-
+ 
 &lt;spoilers&gt; It was... interesting?!
-
+ 
 Also: hard
 
 # `tmap` and `ggplot2` {.smaller}
-Two great packages for thematic mapping in _R_
-
-Both lean into the so-called _grammar of graphics_
 
 ```{r}
 #| echo: false
 library(sf)
 library(tmap)
 library(ggplot2)
-library(cowplot)
-library(ggplotify)
 ```
 
 ## `ggplot2`
@@ -54,8 +50,8 @@ Aesthetic 'mappings' between variables in data and visual variables
 
 Focused on applying 'geometries'&mdash;`geom_point`, `geom_line`, `geom_bar`, etc.&mdash;to data, e.g.
 
-    ggplot2(dataset) +
-      geom_point(aes(x = var1, y = var2))
+      ggplot(dataset) +
+        geom_point(aes(x = var1, y = var2))
 
 One geometry option is `geom_sf` for making maps
 
@@ -71,8 +67,8 @@ bb <- st_bbox(ak)
 map1 <- ggplot(nz) + 
   geom_sf(lwd = 0) +
   geom_sf(data = ak, aes(fill = pop)) +
+  scale_fill_distiller(palette = "Reds", name = "Population") +
   coord_sf(xlim = c(bb[1], bb[3]), ylim = c(bb[2], bb[4])) +
-  guides(fill = guide_legend(title = "Population")) +
   theme(panel.background = element_rect(fill = "#bbeeff"))
 
 map1
@@ -84,10 +80,11 @@ ggsave("map1.png", width = 8, height = 5)
 ```
 
 ## `tmap`
-A `ggplot`-like tailored to thematic maps
-
+ 
+A `ggplot2`-like package tailored to thematic maps
+ 
 In place of `aes()` to specify the data-visual variable relations, there are functions `tm_polygons`, `tm_borders`, `tm_fill`, `tm_lines`, and so on
-
+ 
 Also provides `tm_scalebar`, `tm_compass` and other 'map frills'
 
 ---
@@ -96,15 +93,16 @@ Also provides `tm_scalebar`, `tm_compass` and other 'map frills'
 map2 <- tm_shape(nz, bbox = ak) +
   tm_fill() +
   tm_shape(ak) +
-  tm_polygons(fill = "pop", title = "Population") +
-  tm_layout(bg.color = "#bbeeff", legend.bg.color = "white")
+  tm_polygons(col = "pop", palette = "Reds", title = "Population") +
+  tm_layout(bg.color = "#bbeeff", legend.outside = TRUE)
 
 map2
 ```
 
 ```{r}
 #| echo: false
-tmap_save(map2, "map2.png", width = 8, height = 5)
+tmap_save(map2, "map2.png", width = 8, height = 5, 
+          outer.margins = c(-0.05, 0.02, -0.05, -0.125))
 ```
 
 ---
@@ -126,25 +124,26 @@ See it at [dosull.github.io/30-day-maps-2023](https://dosull.github.io/30-day-ma
 
 # Reflections {.smaller}
 
----
-
-<h2>On the challenge</h2>
+## On the challenge
+ 
 You _don't_ need a theme
-
+ 
 _Cheat_ and _forgive_ yourself
-
+ 
 Don't do it for an audience
 
-<h2>On `tmap` _vs_ `ggplot2`</h2>
+## On `tmap` _vs_ `ggplot2`
+ 
 `tmap` is likely still preferable to `ggplot2` for basic thematic maps
-
+ 
 Either is very good and _R_ is an option very much worth considering for routine mapping applications
 
 ## For more
+ 
 [github.com/DOSull/30-day-maps-2023](https://github.com/DOSull/30-day-maps-2023)
-
+ 
 [github.com/DOSull/weaving-space](https://github.com/DOSull/weaving-space)
-
+ 
 [dosull.github.io](https://dosull.github.io)
-
+ 
 Find me on [LinkedIn](https://www.linkedin.com/in/david-o-sullivan-1b8a901b7/)

@@ -310,7 +310,7 @@
     "href": "maps/maptime/maptime-30-days.html#ggplot2",
     "title": "30 Day Map Challenge 2023",
     "section": "ggplot2",
-    "text": "ggplot2\nBased on The Grammar of Graphics\nAesthetic ‘mappings’ between variables in data and visual variables\nFocused on applying ‘geometries’—geom_point, geom_line, geom_bar, etc.—to data, e.g.\nggplot2(dataset) +\n  geom_point(aes(x = var1, y = var2))\nOne geometry option is geom_sf for making maps",
+    "text": "ggplot2\nBased on The Grammar of Graphics\nAesthetic ‘mappings’ between variables in data and visual variables\nFocused on applying ‘geometries’—geom_point, geom_line, geom_bar, etc.—to data, e.g.\n  ggplot(dataset) +\n    geom_point(aes(x = var1, y = var2))\nOne geometry option is geom_sf for making maps",
     "crumbs": [
       "Maps",
       "Maptime",
@@ -322,7 +322,7 @@
     "href": "maps/maptime/maptime-30-days.html#tmap",
     "title": "30 Day Map Challenge 2023",
     "section": "tmap",
-    "text": "tmap\nA ggplot-like tailored to thematic maps\nIn place of aes() to specify the data-visual variable relations, there are functions tm_polygons, tm_borders, tm_fill, tm_lines, and so on\nAlso provides tm_scalebar, tm_compass and other ‘map frills’",
+    "text": "tmap\nA ggplot2-like package tailored to thematic maps\nIn place of aes() to specify the data-visual variable relations, there are functions tm_polygons, tm_borders, tm_fill, tm_lines, and so on\nAlso provides tm_scalebar, tm_compass and other ‘map frills’",
     "crumbs": [
       "Maps",
       "Maptime",
@@ -1494,6 +1494,30 @@
     "crumbs": [
       "Maps",
       "13 Choropleth"
+    ]
+  },
+  {
+    "objectID": "maps/maptime/maptime-30-days.html#on-the-challenge",
+    "href": "maps/maptime/maptime-30-days.html#on-the-challenge",
+    "title": "30 Day Map Challenge 2023",
+    "section": "On the challenge",
+    "text": "On the challenge\nYou don’t need a theme\nCheat and forgive yourself\nDon’t do it for an audience",
+    "crumbs": [
+      "Maps",
+      "Maptime",
+      "30 Day Map Challenge 2023"
+    ]
+  },
+  {
+    "objectID": "maps/maptime/maptime-30-days.html#on-tmap-vs-ggplot2",
+    "href": "maps/maptime/maptime-30-days.html#on-tmap-vs-ggplot2",
+    "title": "30 Day Map Challenge 2023",
+    "section": "On tmap vs ggplot2",
+    "text": "On tmap vs ggplot2\ntmap is likely still preferable to ggplot2 for basic thematic maps\nEither is very good and R is an option very much worth considering for routine mapping applications",
+    "crumbs": [
+      "Maps",
+      "Maptime",
+      "30 Day Map Challenge 2023"
     ]
   }
 ]
