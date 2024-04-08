@@ -46,6 +46,7 @@ po/*~
 rsconnect/
 
 _freeze/
+_extensions/
 */*cache*/
 maps/*files/
 maps/data/
