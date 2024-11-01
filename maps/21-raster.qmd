@@ -22,7 +22,7 @@ So these aren't pixels, but 200 metre squares, made using the [`weavingspace` to
 
 ![](21-raster-map-plain.png)
 
-There was far too much data preparation here to spend time on in this page, but briefly, the data were derived by determining the share of the party vote of the four leading parties in the 2017 New Zealand general election, by polling place, based on the [data available here](https://www.electionresults.govt.nz/electionresults_2017/), albeit as cleaned up and [available here](https://dosull.github.io/Geog315/labs/mini-project/anz-elections/). Why 2017? Well 2023 data are not quite available at the moment, and the 2020 result was kind of uninteresting (a Labour landslide).
+There was far too much data preparation here to spend time on in this page, but briefly, the data were derived by determining the share of the party vote of the four leading parties in the 2017 New Zealand general election, by polling place, based on the [data available here](https://www.electionresults.govt.nz/electionresults_2017/), albeit as cleaned up and [available here](https://github.com/DOSull/Spatial-Data-Science/tree/75058568cf9530c3c377973987f1b2f6bd820dfa/labs/mini-project/anz-elections). Why 2017? Well 2023 data are not quite available at the moment, and the 2020 result was kind of uninteresting (a Labour landslide).
 
 Polling places are at point locations, so I Voronoi-ed those and that gave me area data. Of course people are free to vote anywhere, and many votes cast in urban areas will be near places of work, not where people live, but it's the best quick approximation we can do.
 

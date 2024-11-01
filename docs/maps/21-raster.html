@@ -360,7 +360,7 @@ ul.task-list li input[type="checkbox"] {
 </blockquote>
 <p>So these aren’t pixels, but 200 metre squares, made using the <a href="https://github.com/DOSull/weaving-space"><code>weavingspace</code> tools</a> I’ve been working on.</p>
 <p><a href="21-raster-map-plain.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="21-raster-map-plain.png" class="img-fluid"></a></p>
-<p>There was far too much data preparation here to spend time on in this page, but briefly, the data were derived by determining the share of the party vote of the four leading parties in the 2017 New Zealand general election, by polling place, based on the <a href="https://www.electionresults.govt.nz/electionresults_2017/">data available here</a>, albeit as cleaned up and <a href="https://dosull.github.io/Geog315/labs/mini-project/anz-elections/">available here</a>. Why 2017? Well 2023 data are not quite available at the moment, and the 2020 result was kind of uninteresting (a Labour landslide).</p>
+<p>There was far too much data preparation here to spend time on in this page, but briefly, the data were derived by determining the share of the party vote of the four leading parties in the 2017 New Zealand general election, by polling place, based on the <a href="https://www.electionresults.govt.nz/electionresults_2017/">data available here</a>, albeit as cleaned up and <a href="https://github.com/DOSull/Spatial-Data-Science/tree/75058568cf9530c3c377973987f1b2f6bd820dfa/labs/mini-project/anz-elections">available here</a>. Why 2017? Well 2023 data are not quite available at the moment, and the 2020 result was kind of uninteresting (a Labour landslide).</p>
 <p>Polling places are at point locations, so I Voronoi-ed those and that gave me area data. Of course people are free to vote anywhere, and many votes cast in urban areas will be near places of work, not where people live, but it’s the best quick approximation we can do.</p>
 <p>So that gives %share of the vote for the National, Labour, Green and NZ First parties (the four largest parties in that election), roughly mapped.</p>
 <p>I then tiled it with a basic weave pattern, and separately symbolised the four distinct elements in the tiling in the ‘traditional’ colours of each party.</p>
@@ -795,7 +795,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"loop":false,"selector":".lightbox","closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","loop":false,"closeEffect":"zoom","descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
