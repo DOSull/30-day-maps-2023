@@ -208,12 +208,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../maps/09-hexes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">09 Hexagons</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../maps/10-north-america.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10 North America</span></a>
   </div>
@@ -404,7 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>So without further ado…</p>
 <section id="libraries" class="level2">
 <h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
-<div class="cell" data-hash="30-my-favourite_cache/html/unnamed-chunk-1_2b60fbf30fa08d390a8b2f1fb8bd9a3c">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
@@ -421,7 +415,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The dataset I used is the <code>tmap</code> built in <code>World</code> dataset, cast to simple polygons.</p>
 <p>Making a bounding box layer using <code>sf</code> is fiddly, because <code>st_bbox</code> applies to the whole layer, not to each individual polygon. For that, I need to use <code>lapply</code>. Then, because bounding boxes are not spatial objects but a vector <code>c(xmin, ymin, xmax, ymax)</code> I have to do some more processing steps to make them back into polygons, and rejoin the source data. The <code>unlist(recursive = FALSE)</code> step is key here for unpacking the list of polygons so they can be collected back into a simple feature collection. Also important for the reprojection is densifying the bounding boxes so we follow parallels and meridians. I do this using <code>smoothr::densify</code>. The last group by step (in spatial terms a ‘dissolve’) removes some oddities like offshore island bounding boxes entirely bounded by the ‘parent’ geometry bounding box.</p>
 <p>I’ve also made a ‘disc’ polygon to show the ‘globe’. This is not as simple to do as you might imagine, and has been complicated recently by the advent of the S2 spherical geometry stuff in <em>R</em>. Generally a good thing, S2 knows that that ‘disc’ has zero area (think about it…) and so to force it to trace out the disc, I have to densify the edges of a simple rectangle with the world ‘extent’.</p>
-<div class="cell" data-hash="30-my-favourite_cache/html/unnamed-chunk-2_fc301f17dd80a9de637c56fa790432da">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"World"</span>)</span>
@@ -436,7 +430,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sfc</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sf</span>(<span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">densify</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="st">"+proj=cea"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="st">"+proj=hammer"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(World <span class="sc">%&gt;%</span> <span class="fu">st_drop_geometry</span>()) <span class="sc">%&gt;%</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(name) <span class="sc">%&gt;%</span></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>()</span>
@@ -458,7 +452,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-maps" class="level2">
 <h2 class="anchored" data-anchor-id="the-maps">The maps</h2>
 <p>The map itself is simple. I decided to colour by country, not by continent.</p>
-<div class="cell" data-hash="30-my-favourite_cache/html/unnamed-chunk-3_74bfe37087c961a62445c7ef5ecd7a38">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(disc) <span class="sc">+</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">fill =</span> <span class="st">"powderblue"</span>, <span class="at">fill_alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(world_bboxs) <span class="sc">+</span> </span>
@@ -482,7 +476,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Convex hulls are easier, because the <code>st_convex_hull</code> function applies to each polygon, not the whole collection. For balance, I’ll map this using <code>ggplot2</code>.</p>
 <p>Here, we encounter one of the minor annoyances of <code>ggplot2</code>. There are 177 distinct country names in the data. If you try to map these with a discrete colour palette <code>ggplot2</code> is strict about that mapping: if the palette only has 24 colours defined (as in this case) and you have 177 things to map, it won’t allow it. To get around this, I make a unique integer label for each country name, and apply the colour palette in continuous fashion.</p>
 <p>Just one of those wrinkles of working with an ‘opinionated’ package like <code>ggplot2</code>. A more generous adjective would be ‘principled’ and when it comes to visualisation, <code>ggplot2</code> is definitely more principled than I am…</p>
-<div class="cell" data-hash="30-my-favourite_cache/html/unnamed-chunk-4_d910081ced65a4d9bd45b03ba100d7b0">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>name_id <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">name =</span> <span class="fu">unique</span>(World<span class="sc">$</span>name)) <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">id =</span> <span class="fu">row_number</span>())</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -936,7 +930,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","loop":false,"openEffect":"zoom","selector":".lightbox","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","closeEffect":"zoom","openEffect":"zoom","loop":false});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

@@ -208,12 +208,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../maps/09-hexes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">09 Hexagons</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../maps/10-north-america.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10 North America</span></a>
   </div>
@@ -402,7 +396,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Let’s get this over with.</p>
 <section id="libraries" class="level2">
 <h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
-<div class="cell" data-hash="04-bad-map_cache/html/unnamed-chunk-1_e82257131bdc158a219e37804adf8d8c">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
@@ -414,7 +408,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-wrangling" class="level2">
 <h2 class="anchored" data-anchor-id="data-wrangling">Data wrangling</h2>
-<div class="cell" data-hash="04-bad-map_cache/html/unnamed-chunk-2_cdd78647ef1444f19dd632300361cf5c">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sh1 <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/sh1.gpkg"</span>) <span class="sc">%&gt;%</span></span>
@@ -437,7 +431,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="tmap" class="level3">
 <h3 class="anchored" data-anchor-id="tmap"><code>tmap</code></h3>
 <p>In this example, I wanted to get a better handle on how the legend options work in <code>tmap</code> v4. The <code>tm_legend_combine</code> function is a nice feature, which combines the two symbolisations of colour and line style.</p>
-<div class="cell" data-hash="04-bad-map_cache/html/unnamed-chunk-3_986a2e9a59fd9400d2643bf4cec080f0">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(combined) <span class="sc">+</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_lines</span>(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">"Mode"</span>,</span>
@@ -467,7 +461,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="ggplot2"><code>ggplot2</code></h2>
 <p>Here we need an additional package for the entirely useless north arrow.</p>
 <p><a href="https://paleolimbot.github.io/ggspatial/"><code>ggspatial</code></a> can do it and seems preferable to the not-very-configurable <a href="http://oswaldosantos.github.io/ggsn/"><code>ggsn</code></a>. The configurability of <code>ggspatial</code> is a bit over the top for a simple map like this one. On the other hand its default north arrow is very on brand for the theme “Bad Map”!</p>
-<div class="cell" data-hash="04-bad-map_cache/html/unnamed-chunk-4_e6cdd10d2d8a9b16374c8e3439898495">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggspatial)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined) <span class="sc">+</span></span>
@@ -912,7 +906,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","closeEffect":"zoom","loop":false,"descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","closeEffect":"zoom","loop":false,"selector":".lightbox","descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

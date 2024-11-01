@@ -208,12 +208,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../maps/09-hexes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">09 Hexagons</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../maps/10-north-america.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10 North America</span></a>
   </div>
@@ -406,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>I think a lot of users would very much appreciate an addition to the <code>ggplot2</code>-verse that could handle classifying data according the various styles offered by <code>classInt</code> (in effect wrapping <code>classInt</code> as does <code>tmap</code>).</p>
 <section id="libraries" class="level2">
 <h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
-<div class="cell" data-hash="13-choropleth_cache/html/unnamed-chunk-1_ec92bfac0be838b221f390eb7c73b884">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
@@ -418,7 +412,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-wrangling" class="level2">
 <h2 class="anchored" data-anchor-id="data-wrangling">Data wrangling</h2>
-<div class="cell" data-hash="13-choropleth_cache/html/unnamed-chunk-2_ae631b7876b98051b4421942986aaca8">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ak <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/ak-demographics-2018.gpkg"</span>) <span class="sc">%&gt;%</span> </span>
@@ -434,7 +428,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="tmap"><code>tmap</code></h3>
 <p>The idea behind the <code>tmap</code> v4 semantics makes complete sense, but it is quite verbose. It is nice to have the additional control that the separate specification of the <code>.scale</code> and <code>.legend</code> parameters provide, but the downside is a lot of additional typing. On the other, hand, if you like typing, take a look at what’s involved in making a similar map using <code>ggplot2</code>.</p>
 <p>Some of the additional difficulty here is choosing to use a ‘non-standard’ legend, but this still seems like quite a lot of code.</p>
-<div class="cell" data-hash="13-choropleth_cache/html/unnamed-chunk-3_0ee7f1d0d0d78b27a04525cf73a834ef">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(nz, <span class="at">bbox =</span> ak) <span class="sc">+</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">fill =</span> <span class="st">"lightgray"</span>) <span class="sc">+</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(ak) <span class="sc">+</span> </span>
@@ -472,7 +466,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="ggplot2"><code>ggplot2</code></h3>
 <p>Here, we have to do all the classification work and use the <code>scale_fill_fermenter()</code> function to get the same effect. We use <code>classInt::classIntervals()</code> to make breaks. Even then we have to make up the legend labels manually if we want to show ranges, not just the break values. Much as I appreciate the uh… quirkiness of <em>R</em>’s <code>paste()</code> function, I don’t relish explaining this to an introductory class!</p>
 <p>An additional challenge caused by placing the legend below the map area is that we have to extend the plot area to accommodate it, using <code>coord_sf(...ylim=...)</code>, but that’s a distraction, it is the generation of breaks, and legend labels that is the real annoyance (at least to me).</p>
-<div class="cell" data-hash="13-choropleth_cache/html/unnamed-chunk-4_11a1e15f3bca7c56d6d1940789d01a47">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(classInt)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>class_breaks <span class="ot">&lt;-</span> <span class="fu">classIntervals</span>(ak<span class="sc">$</span>maori, <span class="dv">9</span>, <span class="st">"quantile"</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span>
@@ -519,7 +513,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The underlying issue here is that <code>ggplot2</code> really doesn’t want to make classed choropleths. The data are ‘continuous’ valued and <code>ggplot2</code>’s strong preference is to associate a continuous variable with a continuous visual variable. You can see this if you let it do its own thing:</p>
-<div class="cell" data-hash="13-choropleth_cache/html/unnamed-chunk-5_a11d69eeb018286ac640bb0d8dcbb40d">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nz <span class="sc">%&gt;%</span> <span class="fu">st_intersection</span>(clip)) <span class="sc">+</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"lightgray"</span>, <span class="at">linewidth =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> ak, <span class="fu">aes</span>(<span class="at">fill =</span> maori), <span class="at">colour =</span> <span class="st">"grey"</span>, </span>
@@ -542,7 +536,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>It also doesn’t help at all for other classification schemes. It also prioritises making buckets equal-sized over putting cases in the right bucket, so that areas with the same value might end up in different buckets if they happen to sit on a class interval boundary!</p>
 <p>So… not really a fix at all.</p>
 <p>I haven’t bothered with cleaning up the legend here, which also shows how this is only a very partial workaround. Worth knowing about, but perhaps not as useful at it first appears.</p>
-<div class="cell" data-hash="13-choropleth_cache/html/unnamed-chunk-6_a797da0b1cd23324587761c3e3700a5a">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ak <span class="ot">&lt;-</span> ak <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">maori_q =</span> <span class="fu">as.factor</span>(<span class="fu">ntile</span>(maori, <span class="dv">9</span>)))</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -988,7 +982,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","loop":false,"selector":".lightbox","descPosition":"bottom","openEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","loop":false,"descPosition":"bottom","openEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

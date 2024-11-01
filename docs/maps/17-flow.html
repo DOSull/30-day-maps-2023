@@ -208,12 +208,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../maps/09-hexes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">09 Hexagons</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../maps/10-north-america.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10 North America</span></a>
   </div>
@@ -405,7 +399,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Elevation data is a <a href="https://lris.scinfo.org.nz/layer/48131-nzdem-north-island-25-metre/">25m resolution DEM from Manaaki Whenua Landcare Research</a>, which I had kicking around on my laptop. Clearly getting a bit long in the tooth as it was for some reason in the old NZ Map Grid (EPSG 27200) projection and had to be reprojected to NZ Transverse Mercator (EPSG 2193).</p>
 <section id="libraries" class="level2">
 <h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
-<div class="cell" data-hash="17-flow_cache/html/unnamed-chunk-1_b1537f6dc381e302c6b477f6a18f5328">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
@@ -420,7 +414,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="data-wrangling">Data wrangling</h2>
 <p>I wanted to use a hillshaded DEM in this one. It was feasible in <code>tmap</code> to layer a hypsometric coloured DEM and a hillshade derived from it in <code>terra</code> easily enough. In <code>ggplot2</code> it proved a problem because having more than one map layer attempt to use the <code>fill</code> aesthetic is <em>verboten</em>. I am sure there is a way around this, but while 30 days is a long time, sometimes life is too short for hunting around on stackoverflow, so it was easier to jump out to the excellent (and free) <a href="http://terraincartography.com/PyramidShader/">PyramidShader</a> and do the work there to make a hillshaded and coloured DEM image. That still required a bit of fiddle to make it work in the two tools I’m using, but nothing too difficult.</p>
 <p>The successor to PyramidShader, <a href="https://eduard.earth/">Eduard</a> <a href="https://www.youtube.com/watch?v=Da6SY6XjRiA&amp;t=3s">looks excellent</a>, but not worth me buying for this project alone!</p>
-<div class="cell" data-hash="17-flow_cache/html/unnamed-chunk-2_9831f30d632fd5ff2e32544af5cb7ce4">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nz <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/nz.gpkg"</span>)</span>
@@ -456,9 +450,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In general however, <code>tmap</code> is the winner in this comparison because it can cope with multiple layers using the same aesthetics. For most people making maps, it’s entirely natural to assume you can style them independently of one another and layer them on top of each other. Just because one layer uses the fill colour aesthetic doesn’t mean that no other layer can also use it, which is what happens in <code>ggplot2</code>’s world.</p>
 <section id="tmap" class="level3">
 <h3 class="anchored" data-anchor-id="tmap"><code>tmap</code></h3>
-<div class="cell" data-hash="17-flow_cache/html/unnamed-chunk-3_e2f8d207fad41902697c272492d7b55d">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(hillshaded_dem, <span class="at">bbox =</span> bbox) <span class="sc">+</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_rgb</span>(<span class="fu">tm_mv</span>(<span class="st">"r"</span>, <span class="st">"g"</span>, <span class="st">"b"</span>)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_rgb</span>() <span class="sc">+</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(mask) <span class="sc">+</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">fill_alpha =</span> <span class="fl">0.35</span>) <span class="sc">+</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(flows) <span class="sc">+</span> </span>
@@ -489,7 +483,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="ggplot2"><code>ggplot2</code></h3>
 <p><code>ggplot2</code> is unwilling to handle two rasters layered on top of one another as both are trying to use the <code>fill</code> aesthetic, but that was resolved by generating the hillshade relief in an external tool. Even then, the <a href="https://dieghernan.github.io/tidyterra/index.html"><code>tidyterra</code> package</a> proved a much better bet for deploying a raster layer in <code>ggplot2</code> than anything native.</p>
 <p>I could add a scale bar and whatnot using <code>ggspatial</code> as I have in other maps, but honestly… I’ve had enough of this foray into more ‘topographic’ as opposed to ‘thematic’ mapping for now, so I’ll leave that as an exercise for the reader.</p>
-<div class="cell" data-hash="17-flow_cache/html/unnamed-chunk-4_5926405f317e5a24aaa9960475615a53">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyterra)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
@@ -943,7 +937,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom","descPosition":"bottom","loop":false});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":false,"openEffect":"zoom","descPosition":"bottom","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

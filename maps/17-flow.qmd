@@ -7,8 +7,6 @@ knitr:
   opts_chunk: 
     warning: false
     message: false
-filters:
-  - lightbox
 lightbox: auto
 ---
 
@@ -74,7 +72,7 @@ In general however, `tmap` is the winner in this comparison because it can cope 
 ### `tmap`
 ```{r fig.width=10, fig.height=8}
 tm_shape(hillshaded_dem, bbox = bbox) +
-  tm_rgb(tm_mv("r", "g", "b")) +
+  tm_rgb() +
   tm_shape(mask) +
   tm_fill(fill = "white", fill_alpha = 0.35) +
   tm_shape(flows) + 

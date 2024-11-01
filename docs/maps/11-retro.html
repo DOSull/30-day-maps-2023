@@ -208,12 +208,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../maps/09-hexes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">09 Hexagons</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../maps/10-north-america.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10 North America</span></a>
   </div>
@@ -407,7 +401,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Both hatching and legend key elements are spatial data added to the map (i.e.&nbsp;they aren’t patterns as such, they are linestrings).</p>
 <section id="libraries" class="level2">
 <h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
-<div class="cell" data-hash="11-retro_cache/html/unnamed-chunk-1_845c75c1a876dfaed0c85a9ecf7a7c81">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
@@ -419,7 +413,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-wrangling" class="level2">
 <h2 class="anchored" data-anchor-id="data-wrangling">Data wrangling</h2>
-<div class="cell" data-hash="11-retro_cache/html/unnamed-chunk-2_96822c1bde087767a30013b7b3a05842">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ak <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/ak-city-demographics-2018.gpkg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -429,7 +423,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-maps" class="level2">
 <h2 class="anchored" data-anchor-id="the-maps">The maps</h2>
 <p>So here is the best version, which uses base <em>R</em>. <a href="patterns.R"><code>patterns.R</code></a> contains code I modified from <a href="https://raw.githubusercontent.com/dieghernan/dieghernan.github.io/master/assets/functions/patternfun.R">here</a> to provide <code>patternLayer</code> and <code>legendPattern</code> functions.</p>
-<div class="cell" data-hash="11-retro_cache/html/unnamed-chunk-3_4caed802351049cd4a72aad4c1f05dc8">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(classInt)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"patterns.R"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -461,7 +455,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="tmap" class="level3">
 <h3 class="anchored" data-anchor-id="tmap"><code>tmap</code></h3>
 <p>I tried the <a href="https://statnmap.github.io/HatchedPolygons/"><code>HatchedPolygons</code></a> package, since I’d successfully used it in <a href="https://dosull.github.io/computing-geographically/chapters/chap5/fig5-10-san-fran-clusters.html">this figure</a>. It makes hatched shapes fine, but I couldn’t figure out how to make a useful legend.</p>
-<div class="cell" data-hash="11-retro_cache/html/unnamed-chunk-4_149c3775e1a2321c86a6abe6bcbd3184">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(HatchedPolygons)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>hatched_subset <span class="ot">&lt;-</span> <span class="cf">function</span>(data, var, range, density, angle) {</span>
@@ -498,7 +492,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="ggplot2"><code>ggplot2</code></h3>
 <p><a href="https://coolbutuseless.github.io/package/ggpattern/"><code>ggpattern</code></a> from the aptly named <a href="https://coolbutuseless.github.io/"><code>coolbutuseless</code></a> stable is a lot of fun.</p>
 <p>I played around with persuading it to make a ‘serious’ hatched choropleth—which to be clear, is possible—but in the end settled for this much more satisfying weird effect.</p>
-<div class="cell" data-hash="11-retro_cache/html/unnamed-chunk-5_a724826985a659e33e48b0e44d677d7b">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpattern)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ak) <span class="sc">+</span></span>
@@ -949,7 +943,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","descPosition":"bottom","loop":false,"selector":".lightbox","closeEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","loop":false,"descPosition":"bottom","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

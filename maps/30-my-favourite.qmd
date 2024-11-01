@@ -7,8 +7,6 @@ knitr:
   opts_chunk: 
     warning: false
     message: false
-filters:
-  - lightbox
 lightbox: auto
 ---
 
@@ -58,7 +56,7 @@ world_bboxs <- World$geometry %>%
   st_sfc() %>%
   st_sf(crs = 4326) %>%
   densify() %>%
-  st_transform("+proj=cea") %>%
+  st_transform("+proj=hammer") %>%
   bind_cols(World %>% st_drop_geometry()) %>%
   group_by(name) %>%
   summarise()

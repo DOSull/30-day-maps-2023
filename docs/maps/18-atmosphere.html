@@ -208,12 +208,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../maps/09-hexes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">09 Hexagons</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../maps/10-north-america.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">10 North America</span></a>
   </div>
@@ -404,7 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="libraries" class="level2">
 <h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
 <p>Some different packages this time around. There’s a lot of older formats involved in this particular toolchain hence some of the unfamiliar packages.</p>
-<div class="cell" data-hash="18-atmosphere_cache/html/unnamed-chunk-1_6d829b05f01a9f6ea5013a812a08504f">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)       <span class="co"># note: not terra!</span></span>
@@ -413,14 +407,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rWind)        <span class="co"># wind data downloads</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rasterVis)    <span class="co"># visualisation of vector fields</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer) <span class="co"># familiar colour palettes</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maptools)     <span class="co"># some spatial conversions</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(latticeExtra) <span class="co"># a whole other graphics system</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(latticeExtra) <span class="co"># a whole other graphics system</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="basic-data-collection" class="level2">
 <h2 class="anchored" data-anchor-id="basic-data-collection">Basic data collection</h2>
-<div class="cell" data-hash="18-atmosphere_cache/html/unnamed-chunk-2_c1e5b85f7b2f3eded0245ee21e376b90">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nz <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/nz-small.gpkg"</span>) <span class="sc">%&gt;%</span></span>
@@ -440,7 +433,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Using <code>rasterVis</code> vector and stream flow plots.</p>
 <p><code>vectorplot</code> shows only directions but not speeds in its ‘default’ form. To get arrows that reflect wind speed, we have to supply ‘dXY’ format data.</p>
 <p>I also densify the data a bit to get something a bit more ‘complete’ seeming.</p>
-<div class="cell" data-hash="18-atmosphere_cache/html/unnamed-chunk-3_9803192c3dea6ecbcedf68f192f25595">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get vector components</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>north <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">cos</span>(pi <span class="sc">*</span> wind<span class="sc">$</span>direction <span class="sc">/</span> <span class="dv">180</span>) <span class="sc">*</span> wind<span class="sc">$</span>speed</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>east <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">sin</span>(pi <span class="sc">*</span> wind<span class="sc">$</span>direction <span class="sc">/</span> <span class="dv">180</span>) <span class="sc">*</span> wind<span class="sc">$</span>speed</span>
@@ -462,7 +455,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p><code>streamplot</code> traces the paths that ‘droplets’ would follow on the surface, so it wants the data in speed, direction format. This is almost the format supplied by <code>rWind::wind2Raster</code> except the order needs reversing! However, since we’ve gone to the trouble of densifying the data into the vector component form, I recombine them here to give a denser interpolated speed-direction pair than we started with.</p>
 <p>I don’t entirely know, nor do I have time to get to the bottom of how to drive this function! I’m sure that with a bit more experimentation it could be made to produce a much cooler looking output.</p>
-<div class="cell" data-hash="18-atmosphere_cache/html/unnamed-chunk-4_ed715e9fb98bb7a018ee9e87e210a250">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>wind_field <span class="ot">&lt;-</span> <span class="fu">stack</span>(<span class="fu">sqrt</span>(wind_vec<span class="sc">$</span>N <span class="sc">^</span> <span class="dv">2</span> <span class="sc">+</span> wind_vec<span class="sc">$</span>E <span class="sc">^</span> <span class="dv">2</span>),</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                    raster<span class="sc">::</span><span class="fu">atan2</span>(wind_vec<span class="sc">$</span>N, wind_vec<span class="sc">$</span>E))</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -905,7 +898,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"loop":false,"closeEffect":"zoom","openEffect":"zoom","descPosition":"bottom","selector":".lightbox"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","openEffect":"zoom","loop":false,"closeEffect":"zoom","descPosition":"bottom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;

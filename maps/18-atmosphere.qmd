@@ -7,8 +7,6 @@ knitr:
   opts_chunk: 
     warning: false
     message: false
-filters:
-  - lightbox
 lightbox: auto
 ---
 
@@ -36,7 +34,6 @@ library(sp)           # older spatial features type
 library(rWind)        # wind data downloads
 library(rasterVis)    # visualisation of vector fields
 library(RColorBrewer) # familiar colour palettes
-library(maptools)     # some spatial conversions
 library(latticeExtra) # a whole other graphics system
 ```
 
