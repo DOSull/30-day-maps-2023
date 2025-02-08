@@ -28,7 +28,7 @@ So that gives %share of the vote for the National, Labour, Green and NZ First pa
 
 I then tiled it with a basic weave pattern, and separately symbolised the four distinct elements in the tiling in the 'traditional' colours of each party.
 
-There's a lot more could be said about what I mean by a basic weave pattern, and I could have broken with the 'raster' prompt and made [all kinds of other patterns using the `weavingspace` API](https://github.com/DOSull/weaving-space/blob/main/all-the-tiles.ipynb), as shown below. 
+There's a lot more could be said about what I mean by a basic weave pattern, and I could have broken with the 'raster' prompt and made [all kinds of other patterns using the `weavingspace` API](https://github.com/DOSull/weaving-space/examples/blob/main/all-the-tiles.ipynb), as shown below. 
 
 ![](21-raster-map-plain-weave.png)
 

@@ -16,7 +16,7 @@ Or the illusion thereof.
 
 A little bit of whimsy for this one. I wanted to do another tiled map (see [21 Raster](21-raster.qmd)), and I have always loved the use of colour-wheel based spectral schemes for symbolising 'aspect' in hill terrain model contexts, so here we are.
 
-The dataset was made using the `hex-dissection` tiling method, mentioned in passing in [this presentation](https://dosull.github.io/weaving-space/NZCS-Aug-2022/slides/#/hexagon-dissections-and-colourings). 
+The dataset was made using the `hex-dissection` tiling method, mentioned in passing in [this presentation](https://dosull.github.io/weaving-space/presentations/NZCS-Aug-2022/slides/#/hexagon-dissections-and-colourings). 
 
 ## Libraries and data
 
