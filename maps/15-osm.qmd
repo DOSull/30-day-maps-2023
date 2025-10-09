@@ -62,7 +62,7 @@ tm_shape(wellington, bbox = bb) +
   tm_shape(roads) +
   tm_lines(col = "white") +
   tm_shape(cafes) + 
-  tm_symbols(shape = coffee_cup, size = 1.5, lwd = 0) +
+  tm_symbols(shape = coffee_cup, size = 0.35, lwd = 0) +
   tm_layout(legend.show = FALSE, bg.color = "#66ccff",
             inner.margins = rep(0, 4)) + 
   tm_scalebar() +
