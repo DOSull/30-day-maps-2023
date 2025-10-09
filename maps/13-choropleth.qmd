@@ -16,7 +16,7 @@ This one is where `tmap` comes into its own, although v4 in increasing the avail
 
 `ggplot2` by contrast is allergic to making classic classified choropleth maps, so much so that it's quite hard to imagine using it in any kind of introductory teaching setting. Having to explicitly make the classification using the not-very-friendly `classInt` package is a layer of complexity which `tmap` shields the user from.
 
-I think a lot of users would very much appreciate an addition to the `ggplot2`-verse that could handle classifying data according the various styles offered by `classInt` (in effect wrapping `classInt` as does `tmap`).
+I think a lot of users would very much appreciate an addition to the `ggplot2`-verse that could handle classifying data according to the various styles offered by `classInt` (in effect wrapping `classInt` as does `tmap`).
 
 ## Libraries
 ```{r}
