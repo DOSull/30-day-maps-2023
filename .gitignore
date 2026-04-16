@@ -55,3 +55,5 @@ maps/data/
 __scratch__/
 
 .DS_Store
+
+**/*.quarto_ipynb
